@@ -1,0 +1,3 @@
+#!/bin/bash
+# Run `vagrant global-status` to list all vagrant box ids
+export KOHA_DEPLOY_TESTING_DEVBOX_ID="vagrant id goes here"

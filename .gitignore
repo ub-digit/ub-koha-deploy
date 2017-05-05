@@ -1,0 +1,15 @@
+# Ignore local setenv.sh
+setenv.sh
+
+.DS_Store
+
+# Ignore koha-deploy data dir
+/data
+
+# Ignore todo-files
+todo
+
+# Ignore temporary vim files
+*~
+*.swp
+*.swo

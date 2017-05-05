@@ -1,0 +1,6 @@
+<?php
+$conf['ubn_environment'] = '<%= fetch(:stage) %>';
+$conf['file_temporary_path'] = '/home/drupal-deploy/tmp/drupal7_ubn_' . $conf['ubn_environment'];
+<% host.properties.fetch(:ubn_conf).each do | setting, value| %>
+$conf['<%= setting.to_s %>'] = '<%= value %>';
+<% end %>
