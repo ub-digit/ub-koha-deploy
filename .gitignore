@@ -3,9 +3,6 @@ setenv.sh
 
 .DS_Store
 
-# Ignore koha-deploy data dir
-/data
-
 # Ignore todo-files
 todo
 
