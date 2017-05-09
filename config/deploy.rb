@@ -32,8 +32,9 @@ set :pty, false
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
-## DRUPAL DEPLOY ##
-# set :app_path, 'web'
+## KOHA DEPLOY ##
+set :koha_deploy_instance_settings_branch, 'koha-deploy'
+set :koha_deploy_instance_migrations_branch, 'koha-deploy'
 
 ## NPM ##
 # set :npm_roles, :app
@@ -46,6 +47,21 @@ namespace :deploy do
     # Koha shell??
     #SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
   end
+
+  before :starting, :setup_local_koha_repo do
+    run_locally do
+      koha_deploy_path = Dir.pwd
+      within koha_deploy_path do # Remove this since seems to work anyway?
+        if test(" [ -d #{File.join('repo', '.git')} ] ")
+          # TODO: Translation, t(:local_repo_exists, at: ...')??
+          info "The local Koha repository is at #{File.join(koha_deploy_path, 'repo')}"
+        else
+          execute :git, 'clone', fetch(:repo_url), 'repo'
+        end
+      end
+    end
+  end
+
   before :starting, :site_settings do
     #on roles :app do
     #  template 'site.settings.php', shared_path.join(fetch(:site_path), 'site.settings.php'), 0644
