@@ -158,14 +158,19 @@ namespace :'koha' do
   #task :restore_database
   desc 'Run Koha Deploy migrations'
   task :'koha-deploy-migrate' do
+    # Extract the first 10 digits if followed by "." or "_"
+    revision_re = Regexp.new('^\d{10}(?=[._])')
     on release_roles :app do |server|
       # TODO: Sort out File.join or .join??
       migrations_dir = 'koha_deploy/migrations'
       within current_path.join(migrations_dir) do
+        # Create migrations table
         execute :sudo,
           'koha-mysql',
           server.fetch(:koha_instance_name),
           "< #{File.join(current_path, 'koha_deploy', 'migrations_schema.sql')}"
+
+        # Get current migration revision
         current_migration_revision = capture(
           :sudo,
           'koha-mysql',
@@ -173,20 +178,34 @@ namespace :'koha' do
           '-e "SELECT revision FROM koha_deploy_migrations ORDER BY revision DESC LIMIT 1"',
           '-sN',
         )
-
         debug "Current revision is #{current_migration_revision}"
+
+        extract_revision = ->(filename) do
+          revision_re.match(filename)[0]
+        end
+
+        # Get pending migrations
         pending_migrations = capture(:ls, '-1', '-r')
           .lines
           .map(&:strip)
-          .take_while { |migration_file| File.basename(migration_file, '.sql') != current_migration_revision }
+          .reject { |migration_file|
+            if not revision_re === migration_file
+              warn "Invalid migration filename \"#{migration_file}\""
+              true
+            else
+              false
+            end
+          }
+          .take_while { |migration_file| extract_revision.call(migration_file) != current_migration_revision }
           .reverse
 
-        #TODO: One at a time for better error handling
+
+        # Run pending migrations separately, one transaction per migration
         if not pending_migrations.empty?
           pending_migrations.each do |migration_file|
             sql = "START TRANSACTION;\n"
             sql += capture(:cat, migration_file) + "\n"
-            sql += "INSERT INTO koha_deploy_migrations(revision) VALUES(\"#{File.basename(migration_file, '.sql')}\");\n"
+            sql += "INSERT INTO koha_deploy_migrations(revision, filename) VALUES('#{extract_revision.call(migration_file)}', '#{migration_file}');\n"
             sql += "COMMIT;\n"
             begin
               output = capture :sudo, 'koha-mysql', server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
