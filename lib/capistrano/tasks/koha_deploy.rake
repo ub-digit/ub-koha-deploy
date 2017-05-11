@@ -236,8 +236,7 @@ namespace :deploy do
   after :publishing, 'koha:maintenance-mode-enable'
   after :publishing, 'koha:clear-cache'
   after :publishing, 'koha:updatedb'
-  after :publishing, :run_koha_deploy_instance_migrations do
-  end
+  after :publishing, 'koha:koha-deploy-migrate'
   after :publishing, :set_koha_deploy_instance_data do
   end
   after :publishing, 'koha:maintenance-mode-disable'
