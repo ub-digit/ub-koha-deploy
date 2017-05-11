@@ -1,5 +1,8 @@
-# Ignore local setenv.sh
-setenv.sh
+# Ignore local setenv
+/setenv
+
+# Ignore local Koha repo
+/repo
 
 .DS_Store
 
