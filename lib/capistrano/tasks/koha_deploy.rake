@@ -1,5 +1,5 @@
 require 'shellwords'
-
+require 'yaml'
 # Load default values the capistrano 3.x way.
 # See https://github.com/capistrano/capistrano/pull/605
 # TODO: Require template plugin, how?
@@ -15,6 +15,11 @@ end
 #file 'data' do
 #  mkdir('data')
 #end
+#
+# Provide name spaced data directory for value sources
+file 'data/value_sources' do
+  mkdir('data/value_sources')
+end
 
 namespace :'koha' do
   #Is this kosher?
@@ -199,7 +204,6 @@ namespace :'koha' do
           .take_while { |migration_file| extract_revision.call(migration_file) != current_migration_revision }
           .reverse
 
-
         # Run pending migrations separately, one transaction per migration
         if not pending_migrations.empty?
           pending_migrations.each do |migration_file|
@@ -225,10 +229,124 @@ namespace :'koha' do
     end
   end
 
-  desc 'Set Koha Deploy instance data'
-  task :'set-koha-deploy-data' do
-    on release_roles :app do
-      puts "TODO set data trlalal"
+  desc 'Sync Koha Deploy instance data'
+  task :'koha-deploy-sync-managed-data' do
+    meta_defaults = {
+      'update' => true,
+    }
+    get_filepath = ->(data_item) {
+      if data_item['directory']
+        File.join(data_item['directory'], data_item['filename'])
+      else
+        data_item['path']
+      end
+    }
+    on release_roles :app do |server|
+      within current_path.join('koha_deploy') do
+        output = capture :cat, 'managed_data.yaml'
+        managed_data = YAML.load(output)
+        # Possible stage specific override
+        stage_managed_data_filename = "managed_data/#{fetch(:stage)}.yaml"
+        if test " [ -f #{stage_managed_data_filename} ] "
+          output = capture :cat, stage_managed_data_filename
+          stage_managed_data = YAML.load(output)
+          managed_data.deep_merge!(stage_managed_data)
+        end
+
+        #@TODO: This SQL could become a monster, passing on command line still ok?
+        sql = "START TRANSACTION;\n"
+        #@TODO: perhaps break out most parts of this in separate helper class
+        managed_data.each do |table, data_info|
+          root_meta = data_info.key?('__meta__') ? meta_defaults.deep_merge(data_info['__meta__']) : meta_defaults;
+          data_info['items'].each do |data_item|
+            meta = root_meta.deep_merge(data_item.key?('__meta__') ? data_item['__meta__'] : {})
+            # Expand data entity column values
+            # @TODO: In ruby > 2.8 data_entity.values is safe, assume modern ruby version?
+            # TODO: Lots of validation and safety
+            data = {}
+            data_item.except('__meta__').each do |column, value|
+              if value.is_a?(Hash)
+                if value.key?('source')
+                  if value['source'] == 'local_file'
+                    filepath = get_filepath.call(value)
+                    data[column] = File.read(filepath)
+                  elsif value['source'] == 'release_file'
+                    filepath = get_filepath.call(value)
+                    # TODO: make sure no extra whitespace is added
+                    output = capture :cat, release_path.join(filepath)
+                    data[column] = output
+                  elsif value['source'] == 'shared_file'
+                    filepath = get_filepath.call(value)
+                    # TODO: make sure no extra whitespace is added
+                    output = capture :cat, shared_path.join(filepath)
+                    data[column] = output
+                  else
+                    raise "Invalid source trlalala"
+                  end
+                else
+                  raise "Missing source tralala..."
+                end
+              else
+                data[column] = value
+              end
+            end
+
+            #sql_variables = {}
+            #data.values.each_with_index do |i, value|
+            #  sql_variables["@var_#{i}"] = value
+            #end
+
+            # TODO: Here we assume keys exist, perhaps validation?
+            # also presently no validation keys are correct
+
+            # Insert query
+            sql_insert_query = "INSERT INTO #{table}(#{data.keys.map {|c| "`#{c}`"}.join(', ')}) VALUES("
+            #sql_insert_query += data.values.map { |value| "'#{mysql_escape(value)}'" }.join(', ')
+            sql_insert_query += (['?'] * data.length).join(', ')
+            sql_insert_query += ")"
+
+            # Update condition
+            sql_update_condition = meta['keys'].map do |column|
+              "`#{column}` = '#{mysql_escape(data[column])}'"
+            end.join(' AND ')
+
+            # Update query
+            sql_update_query = ""
+            if meta['update']
+              sql_update_query = "UPDATE #{table} SET "
+              # TODO: fix duplicate code
+              sql_update_query += data.keys.map do |column|
+                #"`#{column}` = '#{mysql_escape(data[column])}'"
+                "`#{column}` = ?"
+              end.join(', ')
+              sql_update_query += " WHERE #{sql_update_condition}"
+            else
+              # Noop
+              sql_update_query = "SELECT #{(['?'] * data.length).join(', ')}"
+            end
+
+            # TODO: Double escape, brain hurts, test
+            # Alternative: replace " with ""
+            # Alternative 2: mysql QUOTE?
+            sql += <<-HEREDOC
+              SET @sql = (SELECT IF(
+                (SELECT COUNT(*)
+                  FROM #{table} WHERE #{sql_update_condition}
+                ) > 0,
+                "#{mysql_escape(sql_update_query)};",
+                "#{mysql_escape(sql_insert_query)};"
+              ));
+              #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = \"#{mysql_escape(value)}\";" }}
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt USING #{(0...data.length).to_a.map { |i| "@var#{i}" }.join(', ')};
+              DEALLOCATE PREPARE stmt;
+HEREDOC
+          end
+        end
+        sql += "COMMIT;\n"
+        # TODO: Rescue
+        execute :sudo, 'koha-mysql', server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
+      end
     end
   end
 end
@@ -256,7 +374,6 @@ namespace :deploy do
   after :publishing, 'koha:clear-cache'
   after :publishing, 'koha:updatedb'
   after :publishing, 'koha:koha-deploy-migrate'
-  after :publishing, :set_koha_deploy_instance_data do
-  end
+  after :publishing, 'koha:koha-deploy-sync-managed-data'
   after :publishing, 'koha:maintenance-mode-disable'
 end

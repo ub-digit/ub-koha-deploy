@@ -40,6 +40,19 @@ module Capistrano
           entry = sudoers_entry('drupal-deploy', "sha256:#{digest}", "#{remote_path.join(script)}")
           upload! entry, remote_path.join('suduers-' + script.chomp('.sh'))
         end
+
+        # Stolen from https://github.com/tmtm/ruby-mysql
+        def mysql_escape(str)
+          str.gsub(/[\0\n\r\\\'\"\x1a]/) do |s|
+            case s
+            when "\0" then "\\0"
+            when "\n" then "\\n"
+            when "\r" then "\\r"
+            when "\x1a" then "\\Z"
+            else "\\#{s}"
+            end
+          end
+        end
       end
     end
   end

@@ -1,9 +1,14 @@
+require 'deep_merge'
 
 # Load DSL and Setup Up Stages
 require 'capistrano/setup'
 
 # Includes default deployment tasks
 require 'capistrano/deploy'
+
+# Set SCM the modern way
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
 
 # Npm/nodejs is needed for grunt etc
 # require 'capistrano/npm'
