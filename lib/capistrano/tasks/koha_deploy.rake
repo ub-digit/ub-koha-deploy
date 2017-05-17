@@ -233,6 +233,7 @@ namespace :'koha' do
   task :'koha-deploy-sync-managed-data' do
     meta_defaults = {
       'update' => true,
+      'insert' => true,
     }
     get_filepath = ->(data_item) {
       if data_item['directory']
@@ -257,9 +258,18 @@ namespace :'koha' do
         sql = "START TRANSACTION;\n"
         #@TODO: perhaps break out most parts of this in separate helper class
         managed_data.each do |table, data_info|
-          root_meta = data_info.key?('__meta__') ? meta_defaults.deep_merge(data_info['__meta__']) : meta_defaults;
+          # Deep copy of meta_defaults
+          root_meta = Marshal.load(Marshal.dump(meta_defaults))
+          if data_info.key?('__meta__')
+            root_meta.deep_merge!(data_info['__meta__'])
+          end
+
           data_info['items'].each do |data_item|
-            meta = root_meta.deep_merge(data_item.key?('__meta__') ? data_item['__meta__'] : {})
+            # Deep copy of root_meta
+            meta = Marshal.load(Marshal.dump(root_meta))
+            if data_item.key?('__meta__')
+              meta.deep_merge!(data_item['__meta__'])
+            end
             # Expand data entity column values
             # @TODO: In ruby > 2.8 data_entity.values is safe, assume modern ruby version?
             # TODO: Lots of validation and safety
@@ -299,11 +309,17 @@ namespace :'koha' do
             # TODO: Here we assume keys exist, perhaps validation?
             # also presently no validation keys are correct
 
-            # Insert query
-            sql_insert_query = "INSERT INTO #{table}(#{data.keys.map {|c| "`#{c}`"}.join(', ')}) VALUES("
-            #sql_insert_query += data.values.map { |value| "'#{mysql_escape(value)}'" }.join(', ')
-            sql_insert_query += (['?'] * data.length).join(', ')
-            sql_insert_query += ")"
+            sql_noop_query = "SELECT #{(['?'] * data.length).join(', ')}"
+            sql_insert_query = nil
+            if meta['insert']
+              # Insert query
+              sql_insert_query = "INSERT INTO #{table}(#{data.keys.map {|c| "`#{c}`"}.join(', ')}) VALUES("
+              #sql_insert_query += data.values.map { |value| "'#{mysql_escape(value)}'" }.join(', ')
+              sql_insert_query += (['?'] * data.length).join(', ')
+              sql_insert_query += ")"
+            else
+              sql_insert_query = sql_noop_query
+            end
 
             # Update condition
             sql_update_condition = meta['keys'].map do |column|
@@ -311,7 +327,7 @@ namespace :'koha' do
             end.join(' AND ')
 
             # Update query
-            sql_update_query = ""
+            sql_update_query = nil
             if meta['update']
               sql_update_query = "UPDATE #{table} SET "
               # TODO: fix duplicate code
@@ -322,7 +338,7 @@ namespace :'koha' do
               sql_update_query += " WHERE #{sql_update_condition}"
             else
               # Noop
-              sql_update_query = "SELECT #{(['?'] * data.length).join(', ')}"
+              sql_update_query = sql_noop_query
             end
 
             # TODO: Double escape, brain hurts, test
