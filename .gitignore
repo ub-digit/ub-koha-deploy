@@ -1,6 +1,9 @@
 # Ignore local setenv
 /setenv
 
+# Ignore vendor
+/vendor
+
 # Ignore local Koha repo
 /repo
 
