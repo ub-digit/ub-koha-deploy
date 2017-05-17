@@ -98,7 +98,7 @@ namespace :'koha' do
   task :'stash-database' do
     on release_roles(:app) do |server|
       within current_path do
-        output = capture :sudo, 'koha-dump', server.fetch(:koha_instance_name)
+        output = capture :sudo, koha_script('koha-dump'), server.fetch(:koha_instance_name)
         database_dump_path, config_dump_path = output.lines[1..2].map { |line| line.split(' ').last }
         execute :sudo, :mkdir, '-p', 'data'
         execute :sudo, :mv, database_dump_path, File.join('data', 'database.sql.gz')
@@ -149,14 +149,14 @@ namespace :'koha' do
   desc 'Apply any database updates required.'
   task :updatedb do
     on release_roles :app do |server|
-      execute :sudo, 'koha-shell', '-c', release_path.join('installer/data/mysql/updatedatabase.pl'), server.fetch(:koha_instance_name)
+      execute :sudo, koha_script('koha-shell'), '-c', release_path.join('installer/data/mysql/updatedatabase.pl'), server.fetch(:koha_instance_name)
     end
   end
 
   desc 'Rebuild Elasticsearch index.'
   task :'rebuild-elasticsearch' do
     on release_roles :app do |server|
-      execute :sudo, 'koha-shell', '-c', release_path.join('misc/search_tools/rebuild_elastic_search.pl'), '-d', server.fetch(:koha_instance_name)
+      execute :sudo, koha_script('koha-shell'), '-c', release_path.join('misc/search_tools/rebuild_elastic_search.pl'), '-d', server.fetch(:koha_instance_name)
     end
   end
   #TODO restore/revert/import?
@@ -168,17 +168,17 @@ namespace :'koha' do
     on release_roles :app do |server|
       # TODO: Sort out File.join or .join??
       migrations_dir = 'koha_deploy/migrations'
-      within current_path.join(migrations_dir) do
+      within release_path.join(migrations_dir) do
         # Create migrations table
         execute :sudo,
-          'koha-mysql',
+          koha_script('koha-mysql'),
           server.fetch(:koha_instance_name),
-          "< #{File.join(current_path, 'koha_deploy', 'migrations_schema.sql')}"
+          "< #{release_path.join('koha_deploy', 'migrations_schema.sql')}"
 
         # Get current migration revision
         current_migration_revision = capture(
           :sudo,
-          'koha-mysql',
+          koha_script('koha-mysql'),
           server.fetch(:koha_instance_name),
           '-e "SELECT revision FROM koha_deploy_migrations ORDER BY revision DESC LIMIT 1"',
           '-sN',
@@ -212,7 +212,7 @@ namespace :'koha' do
             sql += "INSERT INTO koha_deploy_migrations(revision, filename) VALUES('#{extract_revision.call(migration_file)}', '#{migration_file}');\n"
             sql += "COMMIT;\n"
             begin
-              output = capture :sudo, 'koha-mysql', server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
+              output = capture :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
             rescue SSHKit::Command::Failed => e
               error "Migration \"#{migration_file}\" failed with the following message:\n#{e.message}"
               aborted_migrations = pending_migrations.drop_while { |m| m <= migration_file }
@@ -226,6 +226,13 @@ namespace :'koha' do
           info "No pending migrations found"
         end
       end
+    end
+  end
+
+  desc 'Adjust scripts'
+  task :'koha-deploy-adjust-scripts' do
+    within release_path.join('debian/scripts') do
+      # Sed
     end
   end
 
@@ -243,7 +250,7 @@ namespace :'koha' do
       end
     }
     on release_roles :app do |server|
-      within current_path.join('koha_deploy') do
+      within release_path.join('koha_deploy') do
         output = capture :cat, 'managed_data.yaml'
         managed_data = YAML.load(output)
         # Possible stage specific override
@@ -361,7 +368,7 @@ HEREDOC
         end
         sql += "COMMIT;\n"
         # TODO: Rescue
-        execute :sudo, 'koha-mysql', server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
+        execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
       end
     end
   end
