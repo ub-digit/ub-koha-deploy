@@ -230,9 +230,18 @@ namespace :'koha' do
   end
 
   desc 'Adjust scripts'
-  task :'koha-deploy-adjust-scripts' do
-    within release_path.join('debian/scripts') do
-      # Sed
+  task :'adjust-scripts' do
+    on release_roles :app do
+      within release_path.join('debian', 'scripts') do
+        scripts_path = release_path.join('debian', 'scripts')
+        # TODO: unavailable.html?
+        execute :ls,
+          '| xargs -I{ sed -i',
+          '-e "s/\/usr\/share\/koha\/bin\/koha-functions.sh/' + scripts_path.join('koha-functions.sh').to_s.gsub('/', '\/') + '/g"',
+          '-e "s/\/usr\/share\/koha\/opac\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
+          '-e "s/\/usr\/share\/koha\/intranet\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
+          "{"
+      end
     end
   end
 
@@ -392,7 +401,8 @@ namespace :deploy do
   #  if fetch(:previous_revision)
   #    invoke 'koha:stash-database'
   #  end
-  #end
+  #enda
+  before :publishing, 'koha:adjust-scripts'
   after :publishing, 'koha:maintenance-mode-enable'
   after :publishing, 'koha:clear-cache'
   after :publishing, 'koha:updatedb'
