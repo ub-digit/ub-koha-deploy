@@ -121,7 +121,6 @@ namespace :'koha' do
 
   #TODO: Task for enabling/disabling plack,
   # should be simple enough
-
   desc "Clear all caches"
     task :'clear-cache' do
     on release_roles :app do |server|
@@ -231,19 +230,110 @@ namespace :'koha' do
 
   desc 'Adjust scripts'
   task :'adjust-scripts' do
-    on release_roles :app do
+    on release_roles :app do |server|
       within release_path.join('debian', 'scripts') do
         scripts_path = release_path.join('debian', 'scripts')
         # TODO: unavailable.html?
         execute :ls,
           '| xargs -I{ sed -i',
+          '-e "s/\/etc\/koha\/\(apache-shared[^.]*\.conf\)/\/etc\/apache2\/conf-available\/' + server.fetch(:koha_instance_name) + '\/\1/g"',
           '-e "s/\/usr\/share\/koha\/bin\/koha-functions.sh/' + scripts_path.join('koha-functions.sh').to_s.gsub('/', '\/') + '/g"',
           '-e "s/\/usr\/share\/koha\/opac\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
           '-e "s/\/usr\/share\/koha\/intranet\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
+          ## We do this since changing standard naming convention of Koha Apache configuration files (not anymore)
+          # '-e "s/\/sites-available\/\(\$site\|\$instancename\|\$name\|\$instancefile\)\.conf/\/sites-available\/koha-deploy-\1\.conf/g"',
+          '-e "s/\/etc\/koha\/plack.psgi/' + release_path.join('debian/templates/plack.psgi').to_s.gsub('/', '\/') + '/g"',
           "{"
       end
     end
   end
+
+  desc 'Adjust koha configuration'
+  task :'adjust-koha-conf' do
+    on release_roles :app do |server|
+      current_path_escaped = current_path.to_s.gsub('/', '\/')
+      command = [
+        'sed -i',
+        '-e "s/<intranetdir>[^<]*<\/intranetdir>/<intranetdir>' + current_path_escaped + '<\/intranetdir>/g"',
+        '-e "s/<opacdir>[^<]*<\/opacdir>/<opacdir>' + current_path_escaped + '\/opac<\/opacdir>/g"',
+        '-e "s/<intrahtdocs>[^<]*<\/intrahtdocs>/<intrahtdocs>' + current_path_escaped + '\/koha-tmpl\/intranet-tmpl<\/intrahtdocs>/g"',
+        '-e "s/<opachtdocs>[^<]*<\/opachtdocs>/<opachtdocs>' + current_path_escaped + '\/koha-tmpl\/opac-tmpl<\/opachtdocs>/g"',
+        '-e "s/<includes>[^<]*<\/includes>/<includes>' + current_path_escaped + '\/koha-tmpl\/intranet-tmpl\/prog\/en\/includes<\/includes>/g"',
+        # XSLT-paths etc
+        '-e "s/[^\"]\+\/koha-tmpl\/intranet-tmpl\/\([^\"]\+\)/' + current_path_escaped + '\/koha-tmpl\/intranet-tmpl\/\1/g"',
+        "/etc/koha/sites/#{server.fetch(:koha_instance_name)}/koha-conf.xml"
+      ].join(' ')
+      execute :sudo, 'bash -c', Shellwords.escape(command)
+    end
+  end
+
+  desc 'Create Apache configuration for current release, assumes existing instance created with koha-create'
+  # Rename adjust apache config
+  task :'setup-apache' do
+    on release_roles :app do |server|
+      execute :sudo, 'mkdir', "-p /etc/apache2/conf-available/#{server.fetch(:koha_instance_name)}"
+      # Assumes koha-create has been run
+      # Remove with release since not needed?
+      #TODO: :koha_instance_name should be sed-escaped
+      # Weirdness ahead: need to run in subshell since sudo only applied to first command (sed), not redirection of output
+      # Alternative (perhaps nicer) solution "sudo ... | sudo tee <output file> > /dev/null
+
+      # Use apache-shared* config files per koha instance, so replace all paths to point to these files instead
+      command = [
+        'sed -i',
+        '-e "s/[^ ]\+\/\(apache-shared[^.]*\.conf\)/\/etc\/apache2\/conf-available\/' + server.fetch(:koha_instance_name) + '\/\1/g"',
+        "/etc/apache2/sites-available/#{server.fetch(:koha_instance_name)}.conf"
+      ].join(' ')
+      execute :sudo, 'bash -c', Shellwords.escape(command)
+
+      current_path_escaped = current_path.to_s.gsub('/', '\/')
+      #TODO: setting for setting MOJO_MODE to something else than "production"?
+      apache_shared_files = {
+        'apache-shared.conf' => [
+          # Change Perl lib path
+          's/SetEnv PERL5LIB "[^"]\+"/SetEnv PERL5LIB "' + current_path_escaped + '"/g'
+        ],
+        'apache-shared-disable.conf' => [],
+        'apache-shared-intranet.conf' => [
+          's/DocumentRoot [^ ]\+/DocumentRoot ' + current_path_escaped + '\/koha-tmpl/g',
+          's/\(ScriptAlias [^ ]\+\) "[^"]\+\/cgi-bin\/\([^"]*\)"/\1 "' + current_path_escaped + '\/\2"/g',
+          's/\/usr/\/share\/koha\/api/'+ current_path_escaped + '\/api/g'
+        ],
+        'apache-shared-intranet-plack.conf' => [],
+        'apache-shared-opac.conf' => [
+          's/DocumentRoot [^ ]\+/DocumentRoot ' + current_path_escaped + '\/koha-tmpl/g',
+          's/\(ScriptAlias [^ ]\+\) "[^"]\+\/cgi-bin\/\([^"]*\)"/\1 "' + current_path_escaped + '\/\2"/g',
+          's/\/usr/\/share\/koha\/api/' + current_path_escaped + '\/api/g'
+        ],
+        'apache-shared-opac-plack.conf' => []
+      };
+      apache_shared_files.each do |file, sed_expressions|
+        path = Pathname.new(file.to_str)
+        source_file_path = path.absolute? ? path : path.join('etc/koha')
+        destination_file_path = File.join('/etc/apache2/conf-available', server.fetch(:koha_instance_name), file)
+        if not sed_expressions.empty?
+          execute(:sudo,
+            'bash -c',
+            Shellwords.escape([
+              'sed',
+              sed_expressions.map { |e| '-e \'' + e + '\'' }.join(' '),
+              "\"#{source_file_path}\" > \"#{destination_file_path}\""
+            ].join(' '))
+          )
+        else
+          # Just copy the file
+          execute :sudo, "cp \"#{source_file_path}\" \"#{destination_file_path}\""
+        end
+      end
+    end
+  end
+
+  # TODO?
+  #desc 'Perform post package installation setup tasks'
+  #task :'post-package-install-fix' do
+  #  on release_roles :app do
+  #  end
+  #end
 
   desc 'Sync Koha Deploy instance data'
   task :'koha-deploy-sync-managed-data' do
@@ -401,7 +491,7 @@ namespace :deploy do
   #  if fetch(:previous_revision)
   #    invoke 'koha:stash-database'
   #  end
-  #enda
+  #end
   before :publishing, 'koha:adjust-scripts'
   after :publishing, 'koha:maintenance-mode-enable'
   after :publishing, 'koha:clear-cache'
