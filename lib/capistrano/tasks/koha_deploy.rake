@@ -269,7 +269,7 @@ namespace :'koha' do
 
   desc 'Create Apache configuration for current release, assumes existing instance created with koha-create'
   # Rename adjust apache config
-  task :'setup-apache' do
+  task :'adjust-apache-conf' do
     on release_roles :app do |server|
       execute :sudo, 'mkdir', "-p /etc/apache2/conf-available/#{server.fetch(:koha_instance_name)}"
       # Assumes koha-create has been run
@@ -288,29 +288,27 @@ namespace :'koha' do
 
       current_path_escaped = current_path.to_s.gsub('/', '\/')
       #TODO: setting for setting MOJO_MODE to something else than "production"?
+      intranet_opac_common = [
+        's/DocumentRoot [^ ]\+/DocumentRoot ' + current_path_escaped + '\/koha-tmpl/g',
+        's/\(ScriptAlias [^ ]\+\) "[^"]\+\/cgi-bin\/\([^"]*\)"/\1 "' + current_path_escaped + '\/\2"/g',
+        's/\/usr\/share\/koha\/api/'+ current_path_escaped + '\/api/g'
+      ]
       apache_shared_files = {
-        'apache-shared.conf' => [
-          # Change Perl lib path
-          's/SetEnv PERL5LIB "[^"]\+"/SetEnv PERL5LIB "' + current_path_escaped + '"/g'
-        ],
+        'apache-shared.conf' => ['s/SetEnv PERL5LIB "[^"]\+"/SetEnv PERL5LIB "' + current_path_escaped + '"/g'],
         'apache-shared-disable.conf' => [],
-        'apache-shared-intranet.conf' => [
-          's/DocumentRoot [^ ]\+/DocumentRoot ' + current_path_escaped + '\/koha-tmpl/g',
-          's/\(ScriptAlias [^ ]\+\) "[^"]\+\/cgi-bin\/\([^"]*\)"/\1 "' + current_path_escaped + '\/\2"/g',
-          's/\/usr/\/share\/koha\/api/'+ current_path_escaped + '\/api/g'
-        ],
+        'apache-shared-intranet.conf' => [*intranet_opac_common],
         'apache-shared-intranet-plack.conf' => [],
-        'apache-shared-opac.conf' => [
-          's/DocumentRoot [^ ]\+/DocumentRoot ' + current_path_escaped + '\/koha-tmpl/g',
-          's/\(ScriptAlias [^ ]\+\) "[^"]\+\/cgi-bin\/\([^"]*\)"/\1 "' + current_path_escaped + '\/\2"/g',
-          's/\/usr/\/share\/koha\/api/' + current_path_escaped + '\/api/g'
-        ],
+        'apache-shared-opac.conf' => [*intranet_opac_common],
         'apache-shared-opac-plack.conf' => []
       };
       apache_shared_files.each do |file, sed_expressions|
-        path = Pathname.new(file.to_str)
-        source_file_path = path.absolute? ? path : path.join('etc/koha')
+        source_file_path = File.join('/etc/koha', file)
         destination_file_path = File.join('/etc/apache2/conf-available', server.fetch(:koha_instance_name), file)
+        puts [
+              'sed',
+              sed_expressions.map { |e| '-e \'' + e + '\'' }.join(' '),
+              "\"#{source_file_path}\" > \"#{destination_file_path}\""
+            ].join(' ')
         if not sed_expressions.empty?
           execute(:sudo,
             'bash -c',
@@ -328,7 +326,7 @@ namespace :'koha' do
     end
   end
 
-  # TODO?
+  # @TODO?
   #desc 'Perform post package installation setup tasks'
   #task :'post-package-install-fix' do
   #  on release_roles :app do
@@ -471,22 +469,20 @@ HEREDOC
       end
     end
   end
+
+  desc 'Setup instance (adjust apache configuration and koha-conf.xml)'
+  task :'setup-instance' do
+      on release_roles :app do
+        invoke 'koha:adjust-apache-conf'
+        invoke 'koha:adjust-koha-conf'
+        execute :sudo, '/etc/init.d/apache2 restart'
+      end
+  end
+
+  #TODO: tasks for running different koha-scripts
 end
 
 namespace :deploy do
-  before :starting, :set_command_map_paths do
-    #SSHKit.config.command_map[:koha_stash_files_apply_merge] = shared_path.join('koha-stash-files-apply-merge.sh');
-    # Temporary hack, just hard coded paths, proper way of doing this?
-    #SSHKit.config.command_map[:koha_enable] = '/usr/sbin/koha-disable'
-    #SSHKit.config.command_map[:koha_disable] = '/usr/sbin/koha-disable'
-    #SSHKit.config.command_map[:koha_dump] = '/usr/sbin/koha-dump'
-    #SSHKit.config.command_map[:koha_plack] = '/usr/sbin/koha-plack'
-    #SSHKit.config.command_map[:memcached] = '/etc/init.d/memcached'
-    #SSHKit.config.command_map[:memcached] = '/etc/init.d/memcached'
-    #koha_shell_path = '/usr/sbin/koha-shell'
-    #SSHKit.config.command_map[:rebuild_elasticsearch] = [koha_shell_path, '-c', release_path.join('misc/search_tools/rebuild_elastic_search.pl')].join(' ')
-    #SSHKit.config.command_map[:update_database] = [koha_shell_path, '-c', release_path.join('installer/data/mysql/updatedatabase.pl')].join(' ')
-  end
   #after :starting, :backup_previous_revision_database do
   #  if fetch(:previous_revision)
   #    invoke 'koha:stash-database'
