@@ -513,6 +513,14 @@ HEREDOC
         puts (capture :sudo, koha_script('koha-list'))
       end
   end
+
+  desc 'Enter interactive MySQL shell'
+  task :'mysql' do
+    on roles(:app), :primary => true do |server|
+      execute_interactively(server, "sudo #{koha_script('koha-mysql')} #{server.fetch(:koha_instance_name)}")
+    end
+  end
+
 end
 
 namespace :deploy do
