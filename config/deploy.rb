@@ -19,6 +19,7 @@ set :log_level, :info
 # Default false
 set :pty, false
 #set :pty, true
+#set :ssh_options, {:forward_agent => true}
 
 # set :linked_files, %w{web/sites/default/secret.settings.php web/sites/default/site.settings.php}
 
