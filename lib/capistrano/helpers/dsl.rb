@@ -53,8 +53,11 @@ module Capistrano
             end
           end
         end
+        def koha_scripts_path
+          release_path.join('debian', 'scripts')
+        end
         def koha_script(name)
-          release_path.join('debian', 'scripts', name)
+          koha_scripts_path.join(name)
         end
       end
     end

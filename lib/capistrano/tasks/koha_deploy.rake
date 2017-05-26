@@ -21,6 +21,31 @@ file 'data/value_sources' do
   mkdir('data/value_sources')
 end
 
+namespace :'apache' do
+
+  desc 'Restart apache'
+  task :'restart' do
+    on release_roles :app do
+        execute :sudo, '/etc/init.d/apache2 restart'
+    end
+  end
+
+  desc 'Stop apache'
+  task :'stop' do
+    on release_roles :app do
+        execute :sudo, '/etc/init.d/apache2 stop'
+    end
+  end
+
+  desc 'Start apache'
+  task :'start' do
+    on release_roles :app do
+        execute :sudo, '/etc/init.d/apache2 start'
+    end
+  end
+end
+
+
 namespace :'koha' do
   #Is this kosher?
   def data_permit_write
@@ -131,20 +156,6 @@ namespace :'koha' do
     end
   end
 
-  desc "Put Koha in maintenance mode"
-  task :'maintenance-mode-enable' do
-    on release_roles :app do |server|
-      execute :sudo, 'koha-disable', server.fetch(:koha_instance_name)
-    end
-  end
-
-  desc "Take Koha off maintenance mode"
-  task :'maintenance-mode-disable' do
-    on release_roles :app do |server|
-      execute :sudo, 'koha-enable', server.fetch(:koha_instance_name)
-    end
-  end
-
   desc 'Apply any database updates required.'
   task :updatedb do
     on release_roles :app do |server|
@@ -231,13 +242,12 @@ namespace :'koha' do
   desc 'Adjust scripts'
   task :'adjust-scripts' do
     on release_roles :app do |server|
-      within release_path.join('debian', 'scripts') do
-        scripts_path = release_path.join('debian', 'scripts')
+      within koha_scripts_path.join('debian', 'scripts') do
         # TODO: unavailable.html?
         execute :ls,
           '| xargs -I{ sed -i',
           '-e "s/\/etc\/koha\/\(apache-shared[^.]*\.conf\)/\/etc\/apache2\/conf-available\/' + server.fetch(:koha_instance_name) + '\/\1/g"',
-          '-e "s/\/usr\/share\/koha\/bin\/koha-functions.sh/' + scripts_path.join('koha-functions.sh').to_s.gsub('/', '\/') + '/g"',
+          '-e "s/\/usr\/share\/koha\/bin\/koha-functions.sh/' + koha_scripts_path.join('koha-functions.sh').to_s.gsub('/', '\/') + '/g"',
           '-e "s/\/usr\/share\/koha\/opac\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
           '-e "s/\/usr\/share\/koha\/intranet\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
           ## We do this since changing standard naming convention of Koha Apache configuration files (not anymore)
@@ -479,11 +489,30 @@ HEREDOC
       on release_roles :app do
         invoke 'koha:adjust-apache-conf'
         invoke 'koha:adjust-koha-conf'
-        execute :sudo, '/etc/init.d/apache2 restart'
+        invoke 'apache:restart'
       end
   end
 
-  #TODO: tasks for running different koha-scripts
+  desc 'Run koha-enable'
+  task :'enable' do
+      on release_roles :app do |server|
+        execute :sudo, koha_script('koha-enable'), server.fetch(:koha_instance_name)
+      end
+  end
+
+  desc 'Run koha-disable'
+  task :'disable' do
+      on release_roles :app do
+        execute :sudo, koha_script('koha-enable'), server.fetch(:koha_instance_name)
+      end
+  end
+
+  desc 'Run koha-list'
+  task :'list' do
+      on release_roles :app do
+        puts (capture :sudo, koha_script('koha-list'))
+      end
+  end
 end
 
 namespace :deploy do
@@ -493,10 +522,12 @@ namespace :deploy do
   #  end
   #end
   before :publishing, 'koha:adjust-scripts'
-  after :publishing, 'koha:maintenance-mode-enable'
+  # Enable maintenance mode
+  after :publishing, 'koha:disable'
   after :publishing, 'koha:clear-cache'
   after :publishing, 'koha:updatedb'
   after :publishing, 'koha:koha-deploy-migrate'
   after :publishing, 'koha:koha-deploy-sync-managed-data'
-  after :publishing, 'koha:maintenance-mode-disable'
+  # Disable maintenance mode
+  after :publishing, 'koha:enable'
 end
