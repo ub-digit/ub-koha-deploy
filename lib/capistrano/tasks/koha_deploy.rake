@@ -242,7 +242,6 @@ namespace :'koha' do
           '-e "s/\/usr\/share\/koha\/intranet\/htdocs/' + release_path.join('koha-tmpl').to_s.gsub('/', '\/') + '/g"',
           ## We do this since changing standard naming convention of Koha Apache configuration files (not anymore)
           # '-e "s/\/sites-available\/\(\$site\|\$instancename\|\$name\|\$instancefile\)\.conf/\/sites-available\/koha-deploy-\1\.conf/g"',
-          '-e "s/\/etc\/koha\/plack.psgi/' + release_path.join('debian/templates/plack.psgi').to_s.gsub('/', '\/') + '/g"',
           "{"
       end
     end
@@ -323,6 +322,11 @@ namespace :'koha' do
           execute :sudo, "cp \"#{source_file_path}\" \"#{destination_file_path}\""
         end
       end
+      # Update plack.psgi from latest release
+      execute :sudo,
+        'cp',
+        release_path.join('debian', 'templates', 'plack.psgi'),
+        File.join('/etc/koha/sites', server.fetch(:koha_instance_name), 'plack.psgi')
     end
   end
 
