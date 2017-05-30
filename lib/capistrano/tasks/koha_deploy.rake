@@ -397,15 +397,19 @@ namespace :'koha' do
                 if value.key?('source')
                   if value['source'] == 'local_file'
                     filepath = get_filepath.call(value)
-                    data[column] = File.read(filepath)
+                    file_data = File.read(filepath)
+                    file_data.force_encoding('UTF-8')
+                    data[column] = file_data
                   elsif value['source'] == 'release_file'
                     filepath = get_filepath.call(value)
                     # TODO: make sure no extra whitespace is added
                     output = capture :cat, release_path.join(filepath)
+                    output.force_encoding('UTF-8')
                     data[column] = output
                   elsif value['source'] == 'shared_file'
                     filepath = get_filepath.call(value)
                     # TODO: make sure no extra whitespace is added
+                    output.force_encoding('UTF-8')
                     output = capture :cat, shared_path.join(filepath)
                     data[column] = output
                   else
@@ -470,7 +474,7 @@ namespace :'koha' do
                 "#{mysql_escape(sql_update_query)};",
                 "#{mysql_escape(sql_insert_query)};"
               ));
-              #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = \"#{mysql_escape(value)}\";" }}
+            #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(String) ? '"' + mysql_escape(value) + '"' : value}\";" }}
               PREPARE stmt FROM @sql;
               EXECUTE stmt USING #{(0...data.length).to_a.map { |i| "@var#{i}" }.join(', ')};
               DEALLOCATE PREPARE stmt;
