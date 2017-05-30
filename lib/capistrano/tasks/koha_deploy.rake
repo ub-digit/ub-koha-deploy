@@ -373,7 +373,7 @@ namespace :'koha' do
         end
 
         #@TODO: This SQL could become a monster, passing on command line still ok?
-        sql = "START TRANSACTION;\n"
+        sql = "START TRANSACTION; SET FOREIGN_KEY_CHECKS = 0;\n"
         #@TODO: perhaps break out most parts of this in separate helper class
         managed_data.each do |table, data_info|
           # Deep copy of meta_defaults
@@ -474,16 +474,18 @@ namespace :'koha' do
                 "#{mysql_escape(sql_update_query)};",
                 "#{mysql_escape(sql_insert_query)};"
               ));
-            #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(String) ? '"' + mysql_escape(value) + '"' : value}\";" }}
+            #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(String) ? '"' + mysql_escape(value) + '"' : value};" }}
               PREPARE stmt FROM @sql;
               EXECUTE stmt USING #{(0...data.length).to_a.map { |i| "@var#{i}" }.join(', ')};
               DEALLOCATE PREPARE stmt;
 HEREDOC
           end
         end
-        sql += "COMMIT;\n"
+        sql += "SET FOREIGN_KEY_CHECKS = 0; COMMIT;\n"
+        tmp_sql_file = File.join('/tmp/', "koha_sync_data_#{SecureRandom.urlsafe_base64}.sql")
+        upload! StringIO.new(sql), tmp_sql_file
         # TODO: Rescue
-        execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), '-e', Shellwords.escape(sql)
+        execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), "< '#{tmp_sql_file}'"
       end
     end
   end
