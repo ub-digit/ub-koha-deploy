@@ -332,6 +332,18 @@ namespace :'koha' do
           execute :sudo, "cp \"#{source_file_path}\" \"#{destination_file_path}\""
         end
       end
+
+      # Special case for apache-shared.conf
+      destination_file_path = File.join('/etc/apache2/conf-available', server.fetch(:koha_instance_name), 'apache-shared.conf')
+      # Append "Require all granted"
+      additional_conf = <<-HEREDOC
+<IfVersion >= 2.4>
+  <Directory "#{current_path}">
+    Require all granted
+  </Directory>
+</IfVersion>
+HEREDOC
+      execute :sudo, 'bash -c', Shellwords.escape("echo #{Shellwords.escape(additional_conf)} >> #{destination_file_path}")
       # Update plack.psgi from latest release
       execute :sudo,
         'cp',
