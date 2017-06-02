@@ -1,5 +1,5 @@
 # Capistrona 3.x Koha Vagrant/Testing stage
-# config/depeploy/testing.rb
+# config/deploy/testing.rb
 
 if not ENV.has_key?('KOHA_DEPLOY_TESTING_DEVBOX_ID')
   raise "Environmental variable $KOHA_DEPLOY_TESTING_DEVBOX_ID must be set before deploying testing. Run `vagrant global-status` to list all boxes with ids"
