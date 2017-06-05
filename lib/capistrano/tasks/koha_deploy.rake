@@ -539,6 +539,12 @@ HEREDOC
     end
   end
 
+  desc 'Enter interactive Koha shell'
+  task :'shell' do
+    on roles(:app), :primary => true do |server|
+      execute_interactively(server, "sudo #{koha_script('koha-shell')} #{server.fetch(:koha_instance_name)}")
+    end
+  end
 end
 
 namespace :deploy do

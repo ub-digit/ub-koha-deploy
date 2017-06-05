@@ -62,10 +62,10 @@ module Capistrano
         end
 
         def execute_interactively(server, command)
-          # TODO!: server.netssh_options
           options = server.netssh_options
-          # TODO: FIX! check if keys etc
-          exec "ssh -l #{options[:user]} #{server.hostname} -p #{options[:port]} -i '#{options[:keys][0]}' -t '#{command}'"
+          keys = ((not options[:keys].nil?) and options[:keys].any?) ? "-i '#{options[:keys][0]}'" : ''
+          puts "ssh -l #{options[:user]} #{server.hostname} -p #{options[:port]} #{keys} -t '#{command}'"
+          exec "ssh -l #{options[:user]} #{server.hostname} -p #{options[:port]} #{keys} -t '#{command}'"
         end
       end
     end
