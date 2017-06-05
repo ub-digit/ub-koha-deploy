@@ -534,15 +534,22 @@ HEREDOC
 
   desc 'Enter interactive MySQL shell'
   task :'mysql' do
-    on roles(:app), :primary => true do |server|
+    on roles(:app) do |server|
       execute_interactively(server, "sudo #{koha_script('koha-mysql')} #{server.fetch(:koha_instance_name)}")
     end
   end
 
   desc 'Enter interactive Koha shell'
   task :'shell' do
-    on roles(:app), :primary => true do |server|
+    on roles(:app) do |server|
       execute_interactively(server, "sudo #{koha_script('koha-shell')} #{server.fetch(:koha_instance_name)}")
+    end
+  end
+
+  desc 'Adjust permissions'
+  task :'adjust-permissions' do
+    on roles(:app) do |server|
+      execute :sudo, "chown -R :'#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
     end
   end
 end
@@ -560,6 +567,9 @@ namespace :deploy do
   after :publishing, 'koha:updatedb'
   after :publishing, 'koha:koha-deploy-migrate'
   after :publishing, 'koha:koha-deploy-sync-managed-data'
+  # This is probably not needed, and could perhaps be removed
+  # TODO: Default setting for koha user name?
+  after :publishing, 'koha:adjust-permissions'
   # Disable maintenance mode
   after :publishing, 'koha:enable'
 end
