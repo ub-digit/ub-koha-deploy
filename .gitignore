@@ -19,3 +19,6 @@ todo
 *~
 *.swp
 *.swo
+
+# Ignore ruby version file
+.ruby-version
