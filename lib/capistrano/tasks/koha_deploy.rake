@@ -532,7 +532,7 @@ HEREDOC
 
   desc 'Run koha-disable'
   task :'disable' do
-      on release_roles :app do
+      on release_roles :app do |server|
         execute :sudo, koha_script('koha-enable'), server.fetch(:koha_instance_name)
       end
   end
