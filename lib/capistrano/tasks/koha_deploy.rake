@@ -242,7 +242,7 @@ namespace :'koha' do
   desc 'Adjust scripts'
   task :'adjust-scripts' do
     on release_roles :app do |server|
-      within koha_scripts_path.join('debian', 'scripts') do
+      within koha_scripts_path do
         # TODO: unavailable.html?
         execute :ls,
           '| xargs -I{ sed -i',
@@ -374,14 +374,26 @@ HEREDOC
     }
     on release_roles :app do |server|
       within release_path.join('koha_deploy') do
-        output = capture :cat, 'managed_data.yaml'
-        managed_data = YAML.load(output)
-        # Possible stage specific override
-        stage_managed_data_filename = "managed_data/#{fetch(:stage)}.yaml"
-        if test " [ -f #{stage_managed_data_filename} ] "
-          output = capture :cat, stage_managed_data_filename
-          stage_managed_data = YAML.load(output)
-          managed_data.deep_merge!(stage_managed_data)
+        # Helper?
+        managed_data_files = capture(:ls, '-1', File.join('managed_data', '*.yaml'))
+          .lines
+          .map(&:strip)
+          .sort
+
+        stage_managed_data_dir = release_path.join('koha_deploy', 'managed_data', fetch(:stage).to_s);
+        # Possible stage specific managed data
+        if test " [ -d '#{stage_managed_data_dir}' ] "
+          managed_data_files += capture(:ls, '-1', File.join(stage_managed_data_dir, '*.yaml'))
+            .lines
+            .map(&:strip)
+            .sort
+        end
+
+        managed_data = {}
+        managed_data_files.each do |file_path|
+          output = capture :cat, file_path
+          data = YAML.load(output)
+          managed_data.deep_merge!(data)
         end
 
         #@TODO: This SQL could become a monster, passing on command line still ok?
