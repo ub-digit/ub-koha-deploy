@@ -239,6 +239,41 @@ namespace :'koha' do
     end
   end
 
+  desc 'Adjust package installation scripts to use corresponding instance specific release scripts when run if possible'
+  task :'adjust-package-installation-scripts' do
+    adjust_package_script = <<-'HEREDOC'
+my $script = q(
+## BEGIN KOHA-DEPLOY
+if [ $# -ge 1 -a -f "/etc/koha/sites/$1/koha-conf.xml" ]; then
+  koha_root="$( xmlstarlet sel -t -v 'yazgfs/config/intranetdir' /etc/koha/sites/$1/koha-conf.xml )"
+  release_script="$koha_root/debian/scripts/$0"
+  if [ -f "$release_script" ]; then
+    exec "$release_script" "$@"
+  fi
+fi
+## END KOHA-DEPLOY
+);
+s{(^#!/bin/((bash)|(sh)))\s+(## BEGIN KOHA-DEPLOY.+?## END KOHA-DEPLOY\s)?}{$1$script}s;
+HEREDOC
+    on release_roles :app do |server|
+      #@TODO: helpers
+      tmp_script_file = File.join('/tmp/', "adjust_package_script_#{SecureRandom.urlsafe_base64}.pl")
+      upload! StringIO.new(adjust_package_script), tmp_script_file
+      execute :sudo, 'bash -c',
+        Shellwords.escape("ls /usr/sbin/koha-* | xargs perl -0777 -i -p #{tmp_script_file}")
+    end
+  end
+
+  desc 'Undo modifications to package installation scripts'
+  task :'adjust-package-installation-scripts-undo' do
+    on release_roles :app do |server|
+      execute :sudo, 'bash -c', Shellwords.escape([
+        'ls /usr/sbin/koha-* | xargs perl -0777 -i -p',
+        '-e \'s{## BEGIN KOHA-DEPLOY.+?## END KOHA-DEPLOY\s}{}s\''
+      ].join(' '))
+    end
+  end
+
   desc 'Adjust scripts'
   task :'adjust-scripts' do
     on release_roles :app do |server|
