@@ -647,6 +647,7 @@ namespace :deploy do
   #  end
   #end
   before :publishing, 'koha:adjust-scripts'
+  before :publishing, 'koha:plugins-install'
   # Enable maintenance mode
   after :publishing, 'koha:disable'
   after :publishing, 'koha:clear-cache'
