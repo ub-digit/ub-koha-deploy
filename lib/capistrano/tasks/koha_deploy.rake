@@ -613,25 +613,27 @@ HEREDOC
       execute :sudo, :mkdir, '-p', plugin_repos_dir
       #tmp_dir = koha_deploy_dir.join('tmp')
       #execute :sudo, :mkdir, '-p', tmp_dir
-
-      plugins = koha_yaml(release_path.join('koha_deploy', 'plugins.yaml'))
-      plugins.each do |plugin|
-        repo_name = URI(plugin['url']).path.split('/').last
-        repo_dir = plugin_repos_dir.join(repo_name)
-        if test(" [ -f #{repo_dir.join('HEAD')} ] ")
-          info "Plugin repository for #{plugin['url']} is at #{repo_dir}"
-          within repo_dir do
-            # Update the origin URL in case changed.
-            execute :sudo, 'git', 'remote', 'set-url', 'origin', plugin['url']
-            execute :sudo, 'git', 'remote', 'update', '--prune'
+      plugins_file = release_path.join('koha_deploy', 'plugins.yaml')
+      if test "[ -f '#{plugins_file}' ]"
+        plugins = koha_yaml(plugins_file)
+        plugins.each do |plugin|
+          repo_name = URI(plugin['url']).path.split('/').last
+          repo_dir = plugin_repos_dir.join(repo_name)
+          if test "[ -f '#{repo_dir.join('HEAD')}' ]"
+            info "Plugin repository for #{plugin['url']} is at #{repo_dir}"
+            within repo_dir do
+              # Update the origin URL in case changed.
+              execute :sudo, 'git', 'remote', 'set-url', 'origin', plugin['url']
+              execute :sudo, 'git', 'remote', 'update', '--prune'
+            end
+          else
+            execute :sudo, 'git', 'clone', '--mirror', plugin['url'], repo_dir
           end
-        else
-          execute :sudo, 'git', 'clone', '--mirror', plugin['url'], repo_dir
+          # Archive to plugin directory
+          execute :sudo, 'bash -c', Shellwords.escape([
+            "cd #{repo_dir};", 'git', 'archive', plugin['branch'], 'Koha', '| tar -x -f - -C', plugins_dir
+          ].join(' '))
         end
-        # Archive to plugin directory
-        execute :sudo, 'bash -c', Shellwords.escape([
-          "cd #{repo_dir};", 'git', 'archive', plugin['branch'], 'Koha', '| tar -x -f - -C', plugins_dir
-        ].join(' '))
       end
       # @TODO: Deploy info log
     end
