@@ -61,11 +61,20 @@ module Capistrano
           koha_scripts_path.join(name)
         end
 
+        def koha_conf(instance_name, name)
+          capture :sudo, "xmlstarlet sel -t -v 'yazgfs/config/#{name}' /etc/koha/sites/#{instance_name}/koha-conf.xml"
+        end
+
         def execute_interactively(server, command)
           options = server.netssh_options
           keys = ((not options[:keys].nil?) and options[:keys].any?) ? "-i '#{options[:keys][0]}'" : ''
           puts "ssh -l #{options[:user]} #{server.hostname} -p #{options[:port]} #{keys} -t '#{command}'"
           exec "ssh -l #{options[:user]} #{server.hostname} -p #{options[:port]} #{keys} -t '#{command}'"
+        end
+
+        def koha_yaml(filepath)
+          output = capture :cat, filepath
+          YAML.load(output)
         end
       end
     end

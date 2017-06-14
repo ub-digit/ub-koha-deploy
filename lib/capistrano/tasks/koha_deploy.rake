@@ -1,5 +1,6 @@
 require 'shellwords'
 require 'yaml'
+require 'uri'
 # Load default values the capistrano 3.x way.
 # See https://github.com/capistrano/capistrano/pull/605
 # TODO: Require template plugin, how?
@@ -597,6 +598,42 @@ HEREDOC
   task :'adjust-permissions' do
     on roles(:app) do |server|
       execute :sudo, "chown -R :'#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
+    end
+  end
+
+  desc 'Install plugins'
+  task :'plugins-install' do
+    on roles(:app) do |server|
+      plugins_dir = Pathname.new(koha_conf(server.fetch(:koha_instance_name), 'pluginsdir'))
+      execute :sudo, "find '#{plugins_dir}' -mindepth 1 -delete"
+
+      koha_deploy_dir = plugins_dir.dirname.join('koha_deploy')
+      #execute :sudo, :mkdir, '-p', koha_deploy_dir
+      plugin_repos_dir = koha_deploy_dir.join('plugin_repos')
+      execute :sudo, :mkdir, '-p', plugin_repos_dir
+      #tmp_dir = koha_deploy_dir.join('tmp')
+      #execute :sudo, :mkdir, '-p', tmp_dir
+
+      plugins = koha_yaml(release_path.join('koha_deploy', 'plugins.yaml'))
+      plugins.each do |plugin|
+        repo_name = URI(plugin['url']).path.split('/').last
+        repo_dir = plugin_repos_dir.join(repo_name)
+        if test(" [ -f #{repo_dir.join('HEAD')} ] ")
+          info "Plugin repository for #{plugin['url']} is at #{repo_dir}"
+          within repo_dir do
+            execute :sudo, 'git', 'remote', 'update', '--prune'
+          end
+        else
+          # Update the origin URL in case changed.
+          execute :sudo, 'git', 'remote', 'set-url', 'origin', git_repo_url
+          execute :sudo, 'git', 'clone', '--mirror', plugin['url'], repo_dir
+        end
+        # Archive to plugin directory
+        execute :sudo, 'bash -c', Shellwords.escape([
+          "cd #{repo_dir};", 'git', 'archive', plugin['branch'], 'Koha', '| tar -x -f - -C', plugins_dir
+        ].join(' '))
+      end
+      # @TODO: Deploy info log
     end
   end
 end
