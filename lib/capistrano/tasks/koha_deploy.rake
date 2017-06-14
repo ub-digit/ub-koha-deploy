@@ -621,11 +621,11 @@ HEREDOC
         if test(" [ -f #{repo_dir.join('HEAD')} ] ")
           info "Plugin repository for #{plugin['url']} is at #{repo_dir}"
           within repo_dir do
+            # Update the origin URL in case changed.
+            execute :sudo, 'git', 'remote', 'set-url', 'origin', plugin['url']
             execute :sudo, 'git', 'remote', 'update', '--prune'
           end
         else
-          # Update the origin URL in case changed.
-          execute :sudo, 'git', 'remote', 'set-url', 'origin', git_repo_url
           execute :sudo, 'git', 'clone', '--mirror', plugin['url'], repo_dir
         end
         # Archive to plugin directory
