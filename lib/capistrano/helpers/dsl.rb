@@ -34,12 +34,12 @@ module Capistrano
           end
         end
 
-        def drupal_deploy_prepare_script(script, remote_path)
-          template script, remote_path.join(script), 0750
-          digest = template_digest(script, ->(data){ Digest::SHA256.hexdigest(data) })
-          entry = sudoers_entry('drupal-deploy', "sha256:#{digest}", "#{remote_path.join(script)}")
-          upload! entry, remote_path.join('suduers-' + script.chomp('.sh'))
-        end
+        #def drupal_deploy_prepare_script(script, remote_path)
+        #  template script, remote_path.join(script), 0750
+        #  digest = template_digest(script, ->(data){ Digest::SHA256.hexdigest(data) })
+        #  entry = sudoers_entry('drupal-deploy', "sha256:#{digest}", "#{remote_path.join(script)}")
+        #  upload! entry, remote_path.join('suduers-' + script.chomp('.sh'))
+        #end
 
         # Stolen from https://github.com/tmtm/ruby-mysql
         def mysql_escape(str)
