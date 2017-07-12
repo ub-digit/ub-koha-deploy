@@ -765,6 +765,7 @@ HEREDOC
         end
         execute :git, 'checkout', start_point
         info "New release branch '#{release_branch}' is done."
+        build_state_delete.call
       end
     end
   end
