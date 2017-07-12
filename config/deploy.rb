@@ -10,6 +10,7 @@ set :repo_url, 'https://github.com/ub-digit/Koha.git'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, 'koha-deploy'
 
+set :koha_deploy_release_branch_start_point, 'master'
 set :koha_deploy_rebase_branches, [
   'bug_14957',
   'bug-18129',
