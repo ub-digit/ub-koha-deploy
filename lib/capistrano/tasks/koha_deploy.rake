@@ -648,7 +648,11 @@ HEREDOC
         info "The local Koha repository is at #{koha_repo_path}"
         within koha_repo_path do
           execute :git, 'remote', 'set-url', 'origin', fetch(:repo_url)
-          execute :git, 'fetch'
+          current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
+            .strip
+          if current_branch == fetch(:koha_deploy_release_branch_start_point)
+            execute :git, 'pull'
+          end
         end
       else
         within koha_deploy_path do
