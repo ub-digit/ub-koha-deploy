@@ -411,19 +411,30 @@ HEREDOC
     on release_roles :app do |server|
       within release_path.join('koha_deploy') do
         # Helper?
-        managed_data_files = capture(:ls, '-1', File.join('managed_data', '*.yaml'))
-          .lines
-          .map(&:strip)
-          .sort
+        managed_data_files = []
+        begin
+          managed_data_files = capture(:ls, '-1 2>/dev/null', File.join('managed_data', '*.yaml'))
+            .lines
+            .map(&:strip)
+            .sort
+        rescue SSHKit::Command::Failed => e
+          # ls with throw exception if no file matches, ignore
+          info "No managed data yaml-files found in \"#{release_path.join('koha_deploy', 'managed_data')}\"."
+        end
 
         stage_managed_data_dir = release_path.join('koha_deploy', 'managed_data', fetch(:stage).to_s);
         # Possible stage specific managed data
         if test " [ -d '#{stage_managed_data_dir}' ] "
-          managed_data_files += capture(:ls, '-1', File.join(stage_managed_data_dir, '*.yaml'))
-            .lines
-            .map(&:strip)
-            .sort
+          begin
+            managed_data_files += capture(:ls, '-1 2>/dev/null', File.join(stage_managed_data_dir, '*.yaml'))
+              .lines
+              .map(&:strip)
+              .sort
+          rescue SSHKit::Command::Failed => e
+            info "No managed data yaml-files found for stage \"#{fetch(:stage)}\" found in \"#{stage_managed_data_dir}\"."
+          end
         end
+        next if managed_data_files.empty?
 
         managed_data = {}
         managed_data_files.each do |file_path|
