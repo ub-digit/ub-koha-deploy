@@ -784,6 +784,17 @@ HEREDOC
       end
     end
   end
+
+  desc 'Remove the swedish language files.'
+  task :'remove-swedish-translation-files' do
+    on roles(:app) do |server|
+      #execute :sudo, "rm chown -R :'#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
+      File.delete("misc/translator/po/sv-SE-*")
+      #execute :sudo, '/etc/init.d/apache2 start'
+    end
+
+  end
+
 end
 
 namespace :deploy do
@@ -792,6 +803,7 @@ namespace :deploy do
   #    invoke 'koha:stash-database'
   #  end
   #end
+  before :updating, 'koha:remove-swedish-translation-files'
   before :publishing, 'koha:adjust-scripts'
   before :publishing, 'koha:plugins-install'
   # Enable maintenance mode
