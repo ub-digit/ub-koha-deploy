@@ -608,7 +608,8 @@ HEREDOC
   desc 'Adjust permissions'
   task :'adjust-permissions' do
     on roles(:app) do |server|
-      execute :sudo, "chown -R :'#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
+      execute :sudo, "chgrp -R '#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
+      execute :sudo, "chmod -R g+w '#{release_path}/koha-tmpl'"
     end
   end
 
