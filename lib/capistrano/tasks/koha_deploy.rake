@@ -608,7 +608,7 @@ HEREDOC
   desc 'Adjust permissions'
   task :'adjust-permissions' do
     on roles(:app) do |server|
-      execute :sudo, "chgrp -R '#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
+      execute :sudo, "chown -R '#{server.user}:#{server.fetch(:koha_instance_name)}-koha' '#{release_path}'"
       execute :sudo, "chmod -R g+w '#{release_path}/koha-tmpl'"
     end
   end
@@ -785,6 +785,14 @@ HEREDOC
       end
     end
   end
+
+  desc 'Install swedish language files and create templates.'
+  task :'install-swedish-language' do
+    on roles(:app) do |server|
+      execute :sudo, 'koha-translate', '--install sv-SE', "-d #{server.fetch(:koha_instance_name)}"
+    end
+  end
+
 end
 
 namespace :deploy do
@@ -801,6 +809,7 @@ namespace :deploy do
   after :publishing, 'koha:updatedb'
   after :publishing, 'koha:koha-deploy-migrate'
   after :publishing, 'koha:koha-deploy-sync-managed-data'
+  after :publishing, 'koha:install-swedish-language'
   # This is probably not needed, and could perhaps be removed
   # TODO: Default setting for koha user name?
   after :publishing, 'koha:adjust-permissions'
