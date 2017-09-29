@@ -759,10 +759,10 @@ HEREDOC
               output = capture(:git, 'status')
               # /rebase in progress;/ === output ??
               if /^Unmerged paths:/ === output
-                # TODO: Ee expect this loop iteration to be manually resolved by the user,
+                # TODO: Expect this loop iteration to be manually resolved by the user,
                 # hence the branch should be integrated when we get here the next time
                 build_state['rebase_branches_done'] << branch
-                branch_state_commit.call
+                build_state_commit.call
                 error "You have unresolved conflicts in release branch '#{release_branch}', please resolve these conflicts, run `git rebase --continue`, then run koha:build-release-branch again."
                 exit 1
               else
