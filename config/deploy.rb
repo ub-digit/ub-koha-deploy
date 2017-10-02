@@ -22,6 +22,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hide-ical-link',
   'gub-dev-hide-opac-search-and-links',
   'gub-dev-hide-syndetics-cover-images-opac',
+  'gub-dev-koha-svc',
   'gub-dev-logo',
   'gub-dev-opac-simplified-messaging',
   'gub-dev-remove-cancel-button',
