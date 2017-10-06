@@ -10,5 +10,4 @@ server 'koha-lab.ub.gu.se',
   koha_plack_enabled: false
 
 set :deploy_to, '/home/koha/koha-lab'
-set :branch, 'release-20170824'
 set :keep_releases, 5 # Save space on virtual machines
