@@ -18,6 +18,7 @@ set :koha_deploy_rebase_branches, [
   'bug-18138',
   'bug_19172',
   'bug_19197',
+  'bug_19453',
   'bulkmarcimport',
   'gub-dev-hide-ical-link',
   'gub-dev-hide-opac-search-and-links',
