@@ -8,7 +8,7 @@ set :repo_url, 'https://github.com/ub-digit/Koha.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-20171006'
+set :branch, 'release-20171019'
 
 set :koha_deploy_release_branch_start_point, 'master'
 set :koha_deploy_rebase_branches, [
