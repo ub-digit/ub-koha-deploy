@@ -453,6 +453,10 @@ HEREDOC
             root_meta.deep_merge!(data_info['__meta__'])
           end
 
+          if root_meta['truncate']
+            sql += "TRUNCATE TABLE `#{table}`;\n"
+          end
+
           data_info['items'].each do |data_item|
             # Deep copy of root_meta
             meta = Marshal.load(Marshal.dump(root_meta))
