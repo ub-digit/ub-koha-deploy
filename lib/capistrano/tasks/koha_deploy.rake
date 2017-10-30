@@ -520,7 +520,11 @@ HEREDOC
 
             # Update condition
             sql_update_condition = meta['keys'].map do |column|
-              "`#{column}` = '#{mysql_escape(data[column])}'"
+              if data[column].kind_of?(Numeric)
+                "`#{column}` = #{data[column]}"
+              else
+                "`#{column}` = '#{mysql_escape(data[column].to_s)}'"
+              end
             end.join(' AND ')
 
             # Update query
@@ -549,7 +553,7 @@ HEREDOC
                 "#{mysql_escape(sql_update_query)};",
                 "#{mysql_escape(sql_insert_query)};"
               ));
-            #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(String) ? '"' + mysql_escape(value) + '"' : value};" }}
+            #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(Numeric) ? value : '"' + mysql_escape(value.to_s) + '"'};" }}
               PREPARE stmt FROM @sql;
               EXECUTE stmt USING #{(0...data.length).to_a.map { |i| "@var#{i}" }.join(', ')};
               DEALLOCATE PREPARE stmt;
