@@ -30,7 +30,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-cancel-button',
   'gub-overdue-messaging',
   'gub-plugin-extender',
-  'koha-deploy'
+  'koha-deploy',
+  'gub-dev-opac-personal-details-adjustements'
 ]
 #set :koha_deploy_merge_branches, [
 #  'koha-deploy',
