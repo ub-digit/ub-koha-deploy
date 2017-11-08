@@ -19,7 +19,6 @@ set :koha_deploy_rebase_branches, [
   'bug_19197',
   'bug_19453',
   'bug_19471',
-  'bug-19485',
   'bug_19563',
   'bug_19564',
   'bug_19575',
