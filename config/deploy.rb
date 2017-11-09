@@ -33,7 +33,8 @@ set :koha_deploy_rebase_branches, [
   'gub-overdue-messaging',
   'gub-plugin-extender',
   'koha-deploy',
-  'gub-dev-opac-personal-details-adjustements'
+  'gub-dev-opac-personal-details-adjustements',
+  'gub-dev-withdrawn-status-details'
 ]
 #set :koha_deploy_merge_branches, [
 #  'koha-deploy',
