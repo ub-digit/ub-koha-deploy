@@ -28,13 +28,13 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hide-syndetics-cover-images-opac',
   'gub-dev-koha-svc',
   'gub-dev-logo',
+  'gub-dev-opac-personal-details-adjustements',
   'gub-dev-opac-simplified-messaging',
   'gub-dev-remove-cancel-button',
+  'gub-dev-withdrawn-status-details',
   'gub-overdue-messaging',
   'gub-plugin-extender',
-  'koha-deploy',
-  'gub-dev-opac-personal-details-adjustements',
-  'gub-dev-withdrawn-status-details'
+  'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
 #  'koha-deploy',
