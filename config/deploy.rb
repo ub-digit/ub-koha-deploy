@@ -30,6 +30,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-logo',
   'gub-dev-opac-personal-details-adjustements',
   'gub-dev-opac-redirect',
+  'gup-dev-opac-holds-table-custom',
   'gub-dev-opac-simplified-messaging',
   'gub-dev-remove-cancel-button',
   'gub-dev-withdrawn-status-details',
