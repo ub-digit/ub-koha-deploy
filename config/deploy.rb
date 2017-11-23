@@ -37,6 +37,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-bypass-confirmation-notforloan-status',
   'gub-overdue-messaging',
   'gub-plugin-extender',
+  'queue_elastic_indexing',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
