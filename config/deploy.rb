@@ -35,6 +35,7 @@ set :koha_deploy_rebase_branches, [
   'gub-overdue-messaging',
   'gub-plugin-extender',
   'gub-dev-opac-redirect',
+  'gub-disable-plugin-pagination',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
