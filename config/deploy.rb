@@ -40,6 +40,7 @@ set :koha_deploy_rebase_branches, [
   'gub-plugin-extender',
   'gub-disable-plugin-pagination',
   'queue_elastic_indexing',
+  'gub-dev-uncertainprices-bug',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
