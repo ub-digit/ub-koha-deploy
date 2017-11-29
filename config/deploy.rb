@@ -21,6 +21,7 @@ set :koha_deploy_rebase_branches, [
   'bug_19471',
   'bug_19563',
   'bug_19564',
+  'bug_19565',
   'bug_19575',
   'bug_19651',
   'bug_19707',
