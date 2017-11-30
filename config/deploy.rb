@@ -44,6 +44,7 @@ set :koha_deploy_rebase_branches, [
   'queue_elastic_indexing',
   'gub-dev-uncertainprices-bug',
   'gub-dev-acquisitions-fixes',
+  'gub-dev-letter-lang-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
