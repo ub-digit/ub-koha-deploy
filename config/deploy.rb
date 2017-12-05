@@ -69,6 +69,8 @@ set :linked_files , %w{
   misc/translator/po/sv-SE-pref.po
   misc/translator/po/sv-SE-staff-help.po
   misc/translator/po/sv-SE-staff-prog.po
+  misc/translator/po/sv-SE-local-opac-bootstrap.po
+  misc/translator/po/sv-SE-local-staff-prog.po
 }
 
 # Default value for linked_dirs is []
