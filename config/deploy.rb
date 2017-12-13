@@ -14,12 +14,9 @@ set :koha_deploy_release_branch_start_point, 'master'
 set :koha_deploy_rebase_branches, [
   'bug_14957',
   'bug-18129',
-  'bug-18131',
   'bug-18138',
   'bug_19197',
-  'bug_19453',
   'bug_19471',
-  'bug_19563',
   'bug_19564',
   'bug_19575',
   'bug_19580',
@@ -43,6 +40,7 @@ set :koha_deploy_rebase_branches, [
   'queue_elastic_indexing',
   'gub-dev-acquisitions-fixes',
   'gub-dev-local-translation-files',
+  'no-catmandu',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
