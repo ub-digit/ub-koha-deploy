@@ -44,6 +44,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acquisitions-fixes',
   'gub-dev-local-translation-files',
   'bug_19893',
+  'gub-dev-syspref-autoapprove-user-profile',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
