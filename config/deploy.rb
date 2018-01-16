@@ -8,7 +8,7 @@ set :repo_url, 'https://github.com/ub-digit/Koha.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-20180111'
+set :branch, 'release-20180116'
 
 set :koha_deploy_release_branch_start_point, 'master'
 set :koha_deploy_rebase_branches, [
@@ -16,10 +16,8 @@ set :koha_deploy_rebase_branches, [
   'bug-18129',
   'bug-18138',
   'bug_19197',
-  'bug_19471',
   'bug_19564',
   'bug_19575',
-  'bug_19580',
   'bug_19707',
   #'bug_19819', # Bug 19819 - C4::Context->dbh is unreasonably slow
   'bug_19820',
