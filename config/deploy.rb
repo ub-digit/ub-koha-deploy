@@ -44,6 +44,7 @@ set :koha_deploy_rebase_branches, [
   'bug_19893',
   'gub-dev-syspref-autoapprove-user-profile',
   'gub-dev-sip-send-location-code',
+  'gub-dev-sip-no-alert-for-available',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
