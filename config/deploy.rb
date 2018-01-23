@@ -45,6 +45,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-syspref-autoapprove-user-profile',
   'gub-dev-sip-send-location-code',
   'gub-dev-sip-no-alert-for-available',
+  'gub-dev-frontend-assets',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
