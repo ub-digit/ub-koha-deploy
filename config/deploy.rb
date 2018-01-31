@@ -46,6 +46,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-send-location-code',
   'gub-dev-sip-no-alert-for-available',
   'gub-dev-frontend-assets',
+  'bug_20114',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
