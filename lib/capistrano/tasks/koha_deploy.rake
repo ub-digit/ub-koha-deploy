@@ -757,31 +757,41 @@ HEREDOC
 
         rebase_branches.each do |branch|
           info "Rebasing on '#{branch}'."
-          begin
-            # TODO: Change to execute
-            output = capture :git, 'rebase', branch
-          rescue SSHKit::Command::Failed => e
-            #TODO: begin resque that deletes build state and current build on hard crash?
-            if /^CONFLICT / === e.message
-              # TODO: redundant, refactor?
-              output = capture(:git, 'status')
-              # /rebase in progress;/ === output ??
-              if /^Unmerged paths:/ === output
-                # TODO: Expect this loop iteration to be manually resolved by the user,
-                # hence the branch should be integrated when we get here the next time
-                build_state['rebase_branches_done'] << branch
-                build_state_commit.call
-                error "You have unresolved conflicts in release branch '#{release_branch}', please resolve these conflicts, run `git rebase --continue`, then run koha:build-release-branch again."
-                exit 1
+          rebase_continue = false
+          while true
+            begin
+              if !rebase_continue
+                # TODO: Change to execute
+                output = capture :git, 'rebase', branch
               else
-                # We have a conflict, but it has probably been resolved and auto-staged using git rerere
-                # Try `git rebase --continue` and let it crash and burn if fails,
-                # on success we should be back on track
-                info "Encountered merge conflict, but seems to have been resolved using previous solution."
-                execute :git, 'rebase', '--continue'
+                output = capture :git, 'rebase', '--continue'
               end
-            else
-              raise e
+              # No conflicts or other errors, break loop
+              break;
+            rescue SSHKit::Command::Failed => e
+              #TODO: begin resque that deletes build state and current build on hard crash?
+              if /^CONFLICT / === e.message
+                # TODO: redundant, refactor?
+                output = capture :git, 'status'
+                if /^Unmerged paths:/ === output
+                  # TODO: Expect this loop iteration to be manually resolved by the user,
+                  # hence the branch should be integrated when we get here the next time
+                  build_state['rebase_branches_done'] << branch
+                  build_state_commit.call
+                  error "You have unresolved conflicts in release branch '#{release_branch}', please resolve these conflicts, run `git rebase --continue`, then run koha:build-release-branch again."
+                  exit 1
+                else
+                  # We have a conflict, but it has probably been resolved and auto-staged using git rerere
+                  # Try `git rebase --continue` and let it crash and burn if fails on anything else
+                  # but a new conflict.
+                  # On success we should be back on track and we break out of the loop.
+                  info "Encountered merge conflict, but seems to have been resolved using previous solution."
+                  rebase_continue = true
+                end
+              else
+                # Unknown error, bail out
+                raise e
+              end
             end
           end
           build_state['rebase_branches_done'] << branch
