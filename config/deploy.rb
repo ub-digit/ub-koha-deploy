@@ -48,6 +48,7 @@ set :koha_deploy_rebase_branches, [
   'bug_20114',
   'bug_19893',
   #'gub-dev-KOHA-925',
+  'gub-dev-advanced-search-customizations',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
