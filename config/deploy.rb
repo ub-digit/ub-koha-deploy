@@ -50,6 +50,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-KOHA-925',
   'gub-dev-advanced-search-customizations',
   'gub-dev-odue-debar-removal-fix',
+  'gub-dev-auto-add-001',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
