@@ -49,6 +49,7 @@ set :koha_deploy_rebase_branches, [
   'bug_19893',
   'gub-dev-KOHA-925',
   'gub-dev-advanced-search-customizations',
+  'gub-dev-odue-debar-removal-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
