@@ -52,6 +52,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-odue-debar-removal-fix',
   'gub-dev-auto-add-001',
   'gub-dev-callnumber-095-fallback',
+  'gub-dev-restrict-history-tabs',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
