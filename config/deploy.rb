@@ -54,6 +54,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-callnumber-095-fallback',
   'gub-dev-restrict-history-tabs',
   'gub-dev-prevent-ref-from-hold-resolve',
+  'gub-dev-gub-format-facet',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
