@@ -395,34 +395,28 @@ HEREDOC
   #  end
   #end
 
+  # TODO: Second argument target folder with yaml, might work!!
   desc 'Sync Koha Deploy instance data'
-  task :'koha-deploy-sync-managed-data' do
-    meta_defaults = {
-      'update' => true,
-      'insert' => true,
-    }
-    get_filepath = ->(data_item) {
-      if data_item['directory']
-        File.join(data_item['directory'], data_item['filename'])
-      else
-        data_item['path']
-      end
-    }
+  task :'koha-deploy-sync-managed-data', :dry_run, :remote_data_path do |t, args|
+    stages_sql = {};
     on release_roles :app do |server|
-      within release_path.join('koha_deploy') do
+      # TODO :yaml_data_path validation!!
+      remote_data_path = args[:remote_data_path] ? Pathname.new(args[:remote_data_path]) : release_path.join('koha_deploy')
+      managed_data = {}
+      within remote_data_path do
         # Helper?
         managed_data_files = []
         begin
-          managed_data_files = capture(:ls, '-1 2>/dev/null', File.join('managed_data', '*.yaml'))
+          managed_data_files = capture(:ls, '-1 2>/dev/null', remote_data_path.join('managed_data', '*.yaml'))
             .lines
             .map(&:strip)
             .sort
         rescue SSHKit::Command::Failed => e
           # ls with throw exception if no file matches, ignore
-          info "No managed data yaml-files found in \"#{release_path.join('koha_deploy', 'managed_data')}\"."
+          info "No managed data yaml-files found in \"#{remote_data_path.join('managed_data')}\"."
         end
 
-        stage_managed_data_dir = release_path.join('koha_deploy', 'managed_data', fetch(:stage).to_s);
+        stage_managed_data_dir = remote_data_path.join('managed_data', fetch(:stage).to_s);
         # Possible stage specific managed data
         if test " [ -d '#{stage_managed_data_dir}' ] "
           begin
@@ -434,137 +428,34 @@ HEREDOC
             info "No managed data yaml-files found for stage \"#{fetch(:stage)}\" found in \"#{stage_managed_data_dir}\"."
           end
         end
+
         next if managed_data_files.empty?
 
-        managed_data = {}
         managed_data_files.each do |file_path|
           output = capture :cat, file_path
           data = YAML.load(output)
           managed_data.deep_merge!(data)
         end
+      end
 
-        #@TODO: This SQL could become a monster, passing on command line still ok?
-        sql = "START TRANSACTION; SET FOREIGN_KEY_CHECKS = 0;\n"
-        #@TODO: perhaps break out most parts of this in separate helper class
-        managed_data.each do |table, data_info|
-          # Deep copy of meta_defaults
-          root_meta = Marshal.load(Marshal.dump(meta_defaults))
-          if data_info.key?('__meta__')
-            root_meta.deep_merge!(data_info['__meta__'])
-          end
-
-          if root_meta['truncate']
-            sql += "TRUNCATE TABLE `#{table}`;\n"
-          end
-
-          data_info['items'].each do |data_item|
-            # Deep copy of root_meta
-            meta = Marshal.load(Marshal.dump(root_meta))
-            if data_item.key?('__meta__')
-              meta.deep_merge!(data_item['__meta__'])
-            end
-            # Expand data entity column values
-            # @TODO: In ruby > 2.8 data_entity.values is safe, assume modern ruby version?
-            # TODO: Lots of validation and safety
-            data = {}
-            data_item.except('__meta__').each do |column, value|
-              if value.is_a?(Hash)
-                if value.key?('source')
-                  if value['source'] == 'local_file'
-                    filepath = get_filepath.call(value)
-                    file_data = File.read(filepath)
-                    file_data.force_encoding('UTF-8')
-                    data[column] = file_data
-                  elsif value['source'] == 'release_file'
-                    filepath = get_filepath.call(value)
-                    # TODO: make sure no extra whitespace is added
-                    output = capture :cat, release_path.join(filepath)
-                    output.force_encoding('UTF-8')
-                    data[column] = output
-                  elsif value['source'] == 'shared_file'
-                    filepath = get_filepath.call(value)
-                    # TODO: make sure no extra whitespace is added
-                    output.force_encoding('UTF-8')
-                    output = capture :cat, shared_path.join(filepath)
-                    data[column] = output
-                  else
-                    raise "Invalid source trlalala"
-                  end
-                else
-                  raise "Missing source tralala..."
-                end
-              else
-                data[column] = value
-              end
-            end
-
-            #sql_variables = {}
-            #data.values.each_with_index do |i, value|
-            #  sql_variables["@var_#{i}"] = value
-            #end
-
-            # TODO: Here we assume keys exist, perhaps validation?
-            # also presently no validation keys are correct
-
-            sql_noop_query = "SELECT #{(['?'] * data.length).join(', ')}"
-            sql_insert_query = nil
-            if meta['insert']
-              # Insert query
-              sql_insert_query = "INSERT INTO #{table}(#{data.keys.map {|c| "`#{c}`"}.join(', ')}) VALUES("
-              #sql_insert_query += data.values.map { |value| "'#{mysql_escape(value)}'" }.join(', ')
-              sql_insert_query += (['?'] * data.length).join(', ')
-              sql_insert_query += ")"
-            else
-              sql_insert_query = sql_noop_query
-            end
-
-            # Update condition
-            sql_update_condition = meta['keys'].map do |column|
-              if data[column].kind_of?(Numeric)
-                "`#{column}` = #{data[column]}"
-              else
-                "`#{column}` = '#{mysql_escape(data[column].to_s)}'"
-              end
-            end.join(' AND ')
-
-            # Update query
-            sql_update_query = nil
-            if meta['update']
-              sql_update_query = "UPDATE #{table} SET "
-              # TODO: fix duplicate code
-              sql_update_query += data.keys.map do |column|
-                #"`#{column}` = '#{mysql_escape(data[column])}'"
-                "`#{column}` = ?"
-              end.join(', ')
-              sql_update_query += " WHERE #{sql_update_condition}"
-            else
-              # Noop
-              sql_update_query = sql_noop_query
-            end
-
-            # TODO: Double escape, brain hurts, test
-            # Alternative: replace " with ""
-            # Alternative 2: mysql QUOTE?
-            sql += <<-HEREDOC
-              SET @sql = (SELECT IF(
-                (SELECT COUNT(*)
-                  FROM #{table} WHERE #{sql_update_condition}
-                ) > 0,
-                "#{mysql_escape(sql_update_query)};",
-                "#{mysql_escape(sql_insert_query)};"
-              ));
-            #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(Numeric) ? value : '"' + mysql_escape(value.to_s) + '"'};" }}
-              PREPARE stmt FROM @sql;
-              EXECUTE stmt USING #{(0...data.length).to_a.map { |i| "@var#{i}" }.join(', ')};
-              DEALLOCATE PREPARE stmt;
-HEREDOC
-          end
-        end
-        sql += "SET FOREIGN_KEY_CHECKS = 0; COMMIT;\n"
+      sql = managed_data_to_sql(managed_data, remote_data_path, args[:remote_data_path])
+      if not args[:dry_run]
         tmp_sql_file = File.join('/tmp/', "koha_sync_data_#{SecureRandom.urlsafe_base64}.sql")
         upload! StringIO.new(sql), tmp_sql_file
         # TODO: Rescue
         execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), "< '#{tmp_sql_file}'"
+      else
+        stages_sql[fetch(:stage).to_s] = sql
+      end
+    end
+    if args[:dry_run] && stages_sql.any?
+      # TODO: this is ugly, option to write to file or not, or better way?
+      run_locally do
+        stages_sql.each do |stage, sql|
+          sql_output_path = koha_deploy_data_path.join("managed_data_dry_run_#{stage}.sql")
+          File.open(sql_output_path, 'w') { |file| file.write(sql) }
+          info "Dry run completed, generated SQL-script written to \"#{sql_output_path}\"."
+        end
       end
     end
   end
@@ -662,11 +553,9 @@ HEREDOC
   desc 'Setup local repo'
   task :'setup-local-repo' do
     run_locally do
-      koha_deploy_path = Dir.pwd
-      koha_repo_path = File.join(koha_deploy_path, 'repo')
-      if test(" [ -d #{File.join(koha_repo_path, '.git')} ] ")
-        info "The local Koha repository is at #{koha_repo_path}"
-        within koha_repo_path do
+      if test(" [ -d #{File.join(koha_deploy_repo_path, '.git')} ] ")
+        info "The local Koha repository is at #{koha_deploy_repo_path}"
+        within koha_deploy_repo_path do
           execute :git, 'remote', 'set-url', 'origin', fetch(:repo_url)
           current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
             .strip
@@ -675,8 +564,8 @@ HEREDOC
           end
         end
       else
-        within koha_deploy_path do
-          execute :git, 'clone', fetch(:repo_url), 'repo'
+        within koha_deploy_repo_path do
+          execute :git, 'clone', fetch(:repo_url), '.'
         end
       end
     end
@@ -684,12 +573,9 @@ HEREDOC
 
   desc 'Build release branch'
   task :'build-release-branch' => [:'setup-local-repo'] do
-    koha_deploy_path = Pathname.new(Dir.pwd)
-    koha_repo_path = koha_deploy_path.join('repo')
-    build_state_path = koha_deploy_path.join('data', 'build_release_branch_state')
-
     run_locally do
-      within koha_repo_path do
+      build_state_path = koha_deploy_data_path.join('build_release_branch_state')
+      within koha_deploy_repo_path do
         #TODO: Set default value capistrano 3 way!
         rebase_branches = fetch(:koha_deploy_rebase_branches) || []
         if /^rebase in progress;/ == capture(:git, 'status')

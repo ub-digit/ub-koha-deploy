@@ -16,8 +16,13 @@ install_plugin Capistrano::SCM::Git
 # Require erb for settings files templating purposes
 require 'capistrano/capistrano_plugin_template'
 
-# Hmmmm??
-require_relative 'lib/capistrano/capistrano_koha'
+require_relative 'lib/capistrano/helpers/dsl'
+
+extend Capistrano::KohaDeploy::Helpers::DSL
+SSHKit::Backend::Netssh.send(:include, Capistrano::KohaDeploy::Helpers::DSL)
+SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Paths)
+# SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Helpers::DSL)
+#SSHKit::Backend.current??
 
 # Includes tasks from other gems included in your Gemfile
 #

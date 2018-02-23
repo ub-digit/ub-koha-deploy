@@ -1,45 +1,163 @@
+require 'yaml'
+
 module Capistrano
-  module Template
+  module KohaDeploy
+    module Paths
+      # TODO: change namespace to LocalPaths, or method names
+      # to clarify these are local paths (not remote ones)
+      def koha_deploy_path
+        Pathname.new(Dir.pwd)
+      end
+
+      def koha_deploy_repo_path
+        koha_deploy_path.join('repo')
+      end
+
+      def koha_deploy_data_path
+        koha_deploy_path.join('data')
+      end
+    end
     module Helpers
       module DSL
-        def template_digest(path, digest_algo)
-          fail ::ArgumentError, "template #{path} not found Paths: #{template_paths_lookup.paths_for_file(path).join(':')}" unless template_exists?(path)
-          TemplateDigester.new(Renderer.new(template_paths_lookup.template_file(path), self), digest_algo).digest
-        end
+        def managed_data_to_sql(managed_data, data_path, data_path_overridden)
+          meta_defaults = {
+            'update' => true,
+            'insert' => true,
+          }
+          get_filepath = ->(data_item) {
+            if data_item['directory']
+              File.join(data_item['directory'], data_item['filename'])
+            else
+              data_item['path']
+            end
+          }
+          #@TODO: This SQL could become a monster, passing on command line still ok?
+          sql = "START TRANSACTION; SET FOREIGN_KEY_CHECKS = 0;\n"
+          #@TODO: perhaps break out most parts of this in separate helper class
+          managed_data.each do |table, data_info|
+            # Deep copy of meta_defaults
+            root_meta = Marshal.load(Marshal.dump(meta_defaults))
+            if data_info.key?('__meta__')
+              root_meta.deep_merge!(data_info['__meta__'])
+            end
 
-        def sha256_script_exec(script_abs_path, digest)
-          "/bin/test \"$(sha256sum #{script_abs_path} | awk {'print $1'}) = \"#{digest}\" && #{script_abs_path}"
-        end
+            if root_meta['truncate']
+              sql += "TRUNCATE TABLE `#{table}`;\n"
+            end
 
-        # TODO: Rename
-        def sudoers_entry_as_s(user, digest, command_abs_path)
-          SudoersEntry.new(user, digest, command_abs_path).render
-        end
+            data_info['items'].each do |data_item|
+              # Deep copy of root_meta
+              meta = Marshal.load(Marshal.dump(root_meta))
+              if data_item.key?('__meta__')
+                meta.deep_merge!(data_item['__meta__'])
+              end
+              # Expand data entity column values
+              # @TODO: In ruby > 2.8 data_entity.values is safe, assume modern ruby version?
+              # TODO: Lots of validation and safety
+              data = {}
+              data_item.except('__meta__').each do |column, value|
+                if value.is_a?(Hash)
+                  if value.key?('source')
+                    if value['source'] == 'local_file'
+                      filepath = get_filepath.call(value)
+                      file_data = File.read(filepath)
+                      file_data.force_encoding('UTF-8')
+                      data[column] = file_data
+                    elsif value['source'] == 'release_file'
+                      filepath = get_filepath.call(value)
+                      # TODO: make sure no extra whitespace is added
+                      # TODO: temporary hack, fix properly:
+                      if data_path_overridden
+                        # Unshift "koha_deploy" part, temp hack
+                        filepath = filepath.split(File::SEPARATOR)[1..-1].join(File::SEPARATOR)
+                      end
+                      output = capture :cat, data_path.join(filepath)
+                      output.force_encoding('UTF-8')
+                      data[column] = output
+                    elsif value['source'] == 'shared_file'
+                      filepath = get_filepath.call(value)
+                      # TODO: make sure no extra whitespace is added
+                      # TODO: Superugly dry-run path hack, but it will have to do
+                      path_root = data_path_overridden ? data_path.join('shared') : shared_path
+                      output = capture :cat, path_root.join(filepath)
+                      output.force_encoding('UTF-8')
+                      data[column] = output
+                    else
+                      raise "Invalid source trlalala"
+                    end
+                  else
+                    raise "Missing source tralala..."
+                  end
+                else
+                  data[column] = value
+                end
+              end
 
-        # *args?
-        # TODO: Command is path_to_script
-        def sudoers_entry(user, digest, command_abs_path)
-          StringIO.new(sudoers_entry_as_s(user, digest, command_abs_path))
-        end
+              #sql_variables = {}
+              #data.values.each_with_index do |i, value|
+              #  sql_variables["@var_#{i}"] = value
+              #end
 
-        class SudoersEntry
-          attr_accessor :user, :digest, :command
-          def initialize(user, digest, command)
-            @user = user
-            @digest = digest
-            @command = command
+              # TODO: Here we assume keys exist, perhaps validation?
+              # also presently no validation keys are correct
+
+              sql_noop_query = "SELECT #{(['?'] * data.length).join(', ')}"
+              sql_insert_query = nil
+              if meta['insert']
+                # Insert query
+                sql_insert_query = "INSERT INTO #{table}(#{data.keys.map {|c| "`#{c}`"}.join(', ')}) VALUES("
+                #sql_insert_query += data.values.map { |value| "'#{mysql_escape(value)}'" }.join(', ')
+                sql_insert_query += (['?'] * data.length).join(', ')
+                sql_insert_query += ")"
+              else
+                sql_insert_query = sql_noop_query
+              end
+
+              # Update condition
+              sql_update_condition = meta['keys'].map do |column|
+                if data[column].kind_of?(Numeric)
+                  "`#{column}` = #{data[column]}"
+                else
+                  "`#{column}` = '#{mysql_escape(data[column].to_s)}'"
+                end
+              end.join(' AND ')
+
+              # Update query
+              sql_update_query = nil
+              if meta['update']
+                sql_update_query = "UPDATE #{table} SET "
+                # TODO: fix duplicate code
+                sql_update_query += data.keys.map do |column|
+                  #"`#{column}` = '#{mysql_escape(data[column])}'"
+                  "`#{column}` = ?"
+                end.join(', ')
+                sql_update_query += " WHERE #{sql_update_condition}"
+              else
+                # Noop
+                sql_update_query = sql_noop_query
+              end
+
+              # TODO: Double escape, brain hurts, test
+              # Alternative: replace " with ""
+              # Alternative 2: mysql QUOTE?
+              sql += <<-HEREDOC
+              SET @sql = (SELECT IF(
+                (SELECT COUNT(*)
+                  FROM #{table} WHERE #{sql_update_condition}
+                ) > 0,
+                "#{mysql_escape(sql_update_query)};",
+                "#{mysql_escape(sql_insert_query)};"
+              ));
+              #{data.values.each_with_index.inject('') { |output, (value, i)| output + "\nSET @var#{i} = #{value.kind_of?(Numeric) ? value : '"' + mysql_escape(value.to_s) + '"'};" }}
+              PREPARE stmt FROM @sql;
+              EXECUTE stmt USING #{(0...data.length).to_a.map { |i| "@var#{i}" }.join(', ')};
+              DEALLOCATE PREPARE stmt;
+              HEREDOC
+            end
           end
-          def render
-            ERB.new("<%= @user %> ALL=(ALL) NOPASSWD: <%= @digest %> <%= @command %>").result(binding)
-          end
+          sql += "SET FOREIGN_KEY_CHECKS = 0; COMMIT;\n"
+          return sql
         end
-
-        #def drupal_deploy_prepare_script(script, remote_path)
-        #  template script, remote_path.join(script), 0750
-        #  digest = template_digest(script, ->(data){ Digest::SHA256.hexdigest(data) })
-        #  entry = sudoers_entry('drupal-deploy', "sha256:#{digest}", "#{remote_path.join(script)}")
-        #  upload! entry, remote_path.join('suduers-' + script.chomp('.sh'))
-        #end
 
         # Stolen from https://github.com/tmtm/ruby-mysql
         def mysql_escape(str)
@@ -53,6 +171,7 @@ module Capistrano
             end
           end
         end
+
         def koha_scripts_path
           release_path.join('debian', 'scripts')
         end
