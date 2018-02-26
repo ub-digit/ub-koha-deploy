@@ -395,12 +395,17 @@ HEREDOC
   #  end
   #end
 
-  # TODO: Second argument target folder with yaml, might work!!
-  desc 'Sync Koha Deploy instance data'
-  task :'koha-deploy-sync-managed-data', :dry_run, :remote_data_path do |t, args|
-    stages_sql = {};
+  desc "Build SQL-script from managed YAML data"
+  #TODO: Option for local data_path?
+  #TODO: Support either dir or direct path to yaml file??
+  task :'stage-managed-data', :remote_data_path do |t, args|
+    staged_sql = nil;
     on release_roles :app do |server|
-      # TODO :yaml_data_path validation!!
+      if staged_sql
+        error "Multiple release roles for managed data not supported"
+        exit 1
+      end
+      # TODO: remote_data_path validation?
       remote_data_path = args[:remote_data_path] ? Pathname.new(args[:remote_data_path]) : release_path.join('koha_deploy')
       managed_data = {}
       within remote_data_path do
@@ -428,37 +433,50 @@ HEREDOC
             info "No managed data yaml-files found for stage \"#{fetch(:stage)}\" found in \"#{stage_managed_data_dir}\"."
           end
         end
-
         next if managed_data_files.empty?
 
         managed_data_files.each do |file_path|
-          output = capture :cat, file_path
-          data = YAML.load(output)
+          data = koha_yaml(file_path)
           managed_data.deep_merge!(data)
         end
       end
-
-      sql = managed_data_to_sql(managed_data, remote_data_path, args[:remote_data_path])
-      if not args[:dry_run]
-        tmp_sql_file = File.join('/tmp/', "koha_sync_data_#{SecureRandom.urlsafe_base64}.sql")
-        upload! StringIO.new(sql), tmp_sql_file
-        # TODO: Rescue
-        execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), "< '#{tmp_sql_file}'"
-      else
-        stages_sql[fetch(:stage).to_s] = sql
-      end
+      staged_sql = managed_data_to_sql(managed_data, remote_data_path, args[:remote_data_path])
     end
-    if args[:dry_run] && stages_sql.any?
-      # TODO: this is ugly, option to write to file or not, or better way?
-      run_locally do
-        stages_sql.each do |stage, sql|
-          sql_output_path = koha_deploy_data_path.join("managed_data_dry_run_#{stage}.sql")
-          File.open(sql_output_path, 'w') { |file| file.write(sql) }
-          info "Dry run completed, generated SQL-script written to \"#{sql_output_path}\"."
-        end
-      end
+
+    run_locally do
+      sql_output_path = koha_deploy_data_path.join('managed_data.sql')
+      File.open(sql_output_path, 'w') { |file| file.write(staged_sql) }
+      info "Generated SQL-script written to \"#{sql_output_path}\"."
     end
   end
+
+  desc "Load staged SQL"
+  task :'load-staged-sql', :local_file_path do |t, args|
+    on release_roles :app do |server|
+        staged_file_path = nil
+        if args[:local_file_path]
+          staged_file_path = Pathname.new(args[:local_file_path])
+          if staged_file_path.relative?
+            staged_file_path = koha_deploy_data_path.join(args[:local_file_path])
+          end
+        else
+          staged_file_path = koha_deploy_data_path.join('managed_data.sql')
+        end
+        assert_local_file_exists(staged_file_path)
+        tmp_sql_file = File.join('/tmp/', "koha_sync_data_#{SecureRandom.urlsafe_base64}.sql")
+        upload! staged_file_path, tmp_sql_file
+        # TODO: Rescue
+        execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), "< '#{tmp_sql_file}'"
+    end
+  end
+
+  desc "Sync managed instance data"
+  task :'sync-managed-data', :remote_data_path do |t, args|
+    invoke 'koha:stage-managed-data', args[:remote_data_path]
+    invoke 'koha:load-staged-sql'
+  end
+
+
 
   desc 'Setup instance (adjust apache configuration and koha-conf.xml)'
   task :'setup-instance' do

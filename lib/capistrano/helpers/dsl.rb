@@ -16,6 +16,13 @@ module Capistrano
       def koha_deploy_data_path
         koha_deploy_path.join('data')
       end
+
+      def assert_local_file_exists(filepath)
+        unless File.exists?(filepath)
+          error "File \"#{filepath}\" does not exist"
+          exit
+        end
+      end
     end
     module Helpers
       module DSL
@@ -191,6 +198,7 @@ module Capistrano
           exec "ssh -l #{options[:user]} #{server.hostname} -p #{options[:port]} #{keys} -t '#{command}'"
         end
 
+        # TODO: Rename to something better?
         def koha_yaml(filepath)
           output = capture :cat, filepath
           YAML.load(output)

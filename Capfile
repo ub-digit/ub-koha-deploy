@@ -19,7 +19,9 @@ require 'capistrano/capistrano_plugin_template'
 require_relative 'lib/capistrano/helpers/dsl'
 
 extend Capistrano::KohaDeploy::Helpers::DSL
+
 SSHKit::Backend::Netssh.send(:include, Capistrano::KohaDeploy::Helpers::DSL)
+SSHKit::Backend::Netssh.send(:include, Capistrano::KohaDeploy::Paths)
 SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Paths)
 # SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Helpers::DSL)
 #SSHKit::Backend.current??
