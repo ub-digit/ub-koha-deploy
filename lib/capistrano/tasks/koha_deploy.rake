@@ -440,18 +440,24 @@ HEREDOC
           managed_data.deep_merge!(data)
         end
       end
-      staged_sql = managed_data_to_sql(managed_data, remote_data_path, args[:remote_data_path])
+      staged_sql = managed_data_to_sql(managed_data, remote_data_path, args[:remote_data_path]) unless managed_data.empty?
     end
-
-    run_locally do
-      sql_output_path = koha_deploy_data_path.join('managed_data.sql')
-      File.open(sql_output_path, 'w') { |file| file.write(staged_sql) }
-      info "Generated SQL-script written to \"#{sql_output_path}\"."
+    if staged_sql
+      run_locally do
+        sql_output_path = koha_deploy_data_path.join('managed_data.sql')
+        File.open(sql_output_path, 'w') { |file| file.write(staged_sql) }
+        info "Generated SQL-script written to \"#{sql_output_path}\"."
+      end
     end
   end
 
-  desc "Load staged SQL"
-  task :'load-staged-sql', :local_file_path do |t, args|
+  desc "Load staged managed SQL-file"
+  task :'load-managed-data', :local_file_path do |t, args|
+    invoke 'koha:load-sql', args[:local_file_path] || 'managed_data.sql'
+  end
+
+  desc "Load SQL-file"
+  task :'load-sql', :local_file_path do |t, args|
     on release_roles :app do |server|
         staged_file_path = nil
         if args[:local_file_path]
@@ -460,7 +466,10 @@ HEREDOC
             staged_file_path = koha_deploy_data_path.join(args[:local_file_path])
           end
         else
-          staged_file_path = koha_deploy_data_path.join('managed_data.sql')
+          # Is there a way in capistrano to declare required argument?
+          # TODO: Check source code for this
+          error 'Missing required argument "local_file_path"'
+          exit 1
         end
         assert_local_file_exists(staged_file_path)
         tmp_sql_file = File.join('/tmp/', "koha_sync_data_#{SecureRandom.urlsafe_base64}.sql")
@@ -473,10 +482,8 @@ HEREDOC
   desc "Sync managed instance data"
   task :'sync-managed-data', :remote_data_path do |t, args|
     invoke 'koha:stage-managed-data', args[:remote_data_path]
-    invoke 'koha:load-staged-sql'
+    invoke 'koha:load-managed-data'
   end
-
-
 
   desc 'Setup instance (adjust apache configuration and koha-conf.xml)'
   task :'setup-instance' do
