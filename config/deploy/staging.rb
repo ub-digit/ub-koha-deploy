@@ -7,7 +7,7 @@ server 'koha-staging.ub.gu.se',
   user: 'koha',
   port: 22,
   koha_instance_name: 'koha',
-  koha_plack_enabled: false
+  koha_plack_enabled: true
 
 set :deploy_to, '/home/koha/koha-staging'
 set :keep_releases, 5 # Save space on virtual machines
