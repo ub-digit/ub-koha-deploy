@@ -737,7 +737,6 @@ namespace :deploy do
   after :publishing, 'koha:clear-cache'
   after :publishing, 'koha:updatedb'
   after :publishing, 'koha:koha-deploy-migrate'
-  after :publishing, 'koha:koha-deploy-sync-managed-data'
   after :publishing, 'koha:install-swedish-language'
   # This is probably not needed, and could perhaps be removed
   # TODO: Default setting for koha user name?
