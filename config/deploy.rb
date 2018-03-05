@@ -56,6 +56,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-prevent-ref-from-hold-resolve',
   'gub-dev-gub-format-facet',
   'gub-dev-analyze-only-when-used',
+  'bug_20334',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
