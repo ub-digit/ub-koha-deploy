@@ -9,5 +9,5 @@ server 'koha.ub.gu.se',
   koha_instance_name: 'koha',
   koha_plack_enabled: true
 
-set :deploy_to, '/home/koha/koha'
+set :deploy_to, '/home/koha/koha-production'
 set :keep_releases, 10 # Save space on virtual machines
