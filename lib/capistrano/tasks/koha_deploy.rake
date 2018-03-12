@@ -406,6 +406,7 @@ HEREDOC
         exit 1
       end
       # TODO: remote_data_path validation?
+      # remote_data_root?
       remote_data_path = args[:remote_data_path] ? Pathname.new(args[:remote_data_path]) : release_path.join('koha_deploy')
       managed_data = {}
       within remote_data_path do
@@ -473,7 +474,7 @@ HEREDOC
         end
         assert_local_file_exists(staged_file_path)
         tmp_sql_file = File.join('/tmp/', "koha_sync_data_#{SecureRandom.urlsafe_base64}.sql")
-        upload! staged_file_path, tmp_sql_file
+        upload! staged_file_path.to_s, tmp_sql_file
         # TODO: Rescue
         execute :sudo, koha_script('koha-mysql'), server.fetch(:koha_instance_name), "< '#{tmp_sql_file}'"
     end
