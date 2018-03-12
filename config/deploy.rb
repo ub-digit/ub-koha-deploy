@@ -59,6 +59,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-opac-copy-change-confirmation-page',
   'gub-dev-opac-cas-login-style',
   'opac-auth-fix',
+  'gub-dev-circulation-reports',
   'bug_20334',
   'bug_20356',
   'koha-deploy'
