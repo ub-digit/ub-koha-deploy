@@ -62,6 +62,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-circulation-reports',
   'bug_20334',
   'bug_20356',
+  'bug_20285',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
