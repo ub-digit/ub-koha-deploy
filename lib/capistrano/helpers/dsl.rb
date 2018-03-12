@@ -70,14 +70,14 @@ module Capistrano
                       file_data = File.read(filepath)
                       file_data.force_encoding('UTF-8')
                       data[column] = file_data
-                    elsif value['source'] == 'release_file'
+                    elsif value['source'] == 'release_file' # Change name since root is not release, but relative to managed data dir?
                       filepath = get_filepath.call(value)
                       # TODO: make sure no extra whitespace is added
                       # TODO: temporary hack, fix properly:
-                      if data_path_overridden
-                        # Unshift "koha_deploy" part, temp hack
-                        filepath = filepath.split(File::SEPARATOR)[1..-1].join(File::SEPARATOR)
-                      end
+                      #if data_path_overridden
+                      #  # Unshift "koha_deploy" part, temp hack
+                      #  filepath = filepath.split(File::SEPARATOR)[1..-1].join(File::SEPARATOR)
+                      #end
                       output = capture :cat, data_path.join(filepath)
                       output.force_encoding('UTF-8')
                       data[column] = output
