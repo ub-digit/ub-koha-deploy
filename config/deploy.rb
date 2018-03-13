@@ -56,7 +56,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-prevent-ref-from-hold-resolve',
   'gub-dev-gub-format-facet',
   'gub-dev-analyze-only-when-used',
-  'gub-dev-opac-copy-change-confirmation-page',
   'gub-dev-opac-cas-login-style',
   'opac-auth-fix',
   'gub-dev-circulation-reports',
