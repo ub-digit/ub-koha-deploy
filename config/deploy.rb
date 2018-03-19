@@ -61,6 +61,7 @@ set :koha_deploy_rebase_branches, [
   'bug_20334',
   'bug_20356',
   'bug_20285',
+  'gub-dev-extended-inhouse-loans',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
