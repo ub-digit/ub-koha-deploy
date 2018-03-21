@@ -24,6 +24,7 @@ set :koha_deploy_rebase_branches, [
   'bug_19884',
   'bulkmarcimport',
   'gub-dev-hide-ical-link',
+  'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-hide-syndetics-cover-images-opac',
   'gub-dev-koha-svc',
   'gub-dev-logo',
