@@ -4,7 +4,7 @@
 #lock '3.2.1'
 
 set :application, 'koha'
-set :repo_url, 'git@github.com:ub-digit/Koha.git'
+set :repo_url, 'https://github.com/ub-digit/Koha.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
