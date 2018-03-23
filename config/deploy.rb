@@ -65,6 +65,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-extended-inhouse-loans',
   'gub-dev-opac-update-memberentry-bug',
   'gub-dev-message-queue-delay',
+  'gub-dev-edifact-cron',
   'gub-dev-fix-koha-1149',
   'koha-deploy'
 ]
