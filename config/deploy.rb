@@ -4,11 +4,11 @@
 #lock '3.2.1'
 
 set :application, 'koha'
-set :repo_url, 'https://github.com/ub-digit/Koha.git'
+set :repo_url, 'git@github.com:ub-digit/Koha.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-20180313'
+set :branch, 'release-20180323'
 
 set :koha_deploy_release_branch_start_point, 'master'
 set :koha_deploy_rebase_branches, [
