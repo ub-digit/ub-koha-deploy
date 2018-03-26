@@ -68,6 +68,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-edifact-cron',
   'gub-dev-fix-koha-1149',
   'gub-opac-various-fixes',
+  'gub-dev-disable-hold-waiting-on-sip-return',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
