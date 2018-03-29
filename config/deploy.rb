@@ -72,6 +72,7 @@ set :koha_deploy_rebase_branches, [
   'bug_20485',
   'bug_20251',
   'bug_20486',
+  'bug_20492',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
