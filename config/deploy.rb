@@ -69,6 +69,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-koha-1149',
   'gub-opac-various-fixes',
   'gub-dev-disable-hold-waiting-on-sip-return',
+  'bug-fix-using-nonexistent-msg',
   'bug_20485',
   'bug_20251',
   'bug_20486',
