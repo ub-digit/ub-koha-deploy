@@ -77,6 +77,7 @@ set :koha_deploy_rebase_branches, [
   'bug_20167',
   'bug_20535',
   'bug_20551',
+  'gub-dev-allow-issue-when-reserved',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
