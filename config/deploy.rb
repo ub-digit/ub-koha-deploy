@@ -72,14 +72,14 @@ set :koha_deploy_rebase_branches, [
   'bug-fix-using-nonexistent-msg',
   'stop-delete-patron-when-patron-has-holds',
   'bug_20251',
+  'bug_20551',
   'bug_20486',
   'bug_20492',
   'bug_20167',
   'bug_20535',
-  'bug_20551',
+  'bug_20485',
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
-  'bug_20485',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
