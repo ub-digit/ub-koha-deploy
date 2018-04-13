@@ -71,7 +71,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-disable-hold-waiting-on-sip-return',
   'bug-fix-using-nonexistent-msg',
   'stop-delete-patron-when-patron-has-holds',
-  'bug_20485',
   'bug_20251',
   'bug_20486',
   'bug_20492',
@@ -80,6 +79,7 @@ set :koha_deploy_rebase_branches, [
   'bug_20551',
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
+  'bug_20485',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
