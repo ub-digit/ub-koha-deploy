@@ -656,7 +656,7 @@ HEREDOC
           rebase_branches.each do |branch|
             execute :git, 'branch', '--track', branch, "remotes/origin/#{branch}"
           end
-          release_branch = 'release-' + Time.now.strftime('%Y%m%d')
+          release_branch = 'release-' + Time.now.strftime('%Y%m%d-%H%M')
           execute :git, 'checkout', '-b', release_branch, start_point
           info "Start building branch '#{release_branch}'."
           # Make sure build state file exists
