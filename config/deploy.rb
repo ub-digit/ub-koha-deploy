@@ -77,7 +77,7 @@ set :koha_deploy_rebase_branches, [
   'bug_20492',
   'bug_20167',
   'bug_20535',
-  # 'bug_20485', # excluding this one until confilct with 20551 is resolved
+  'bug_20485',
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
   'koha-deploy'
