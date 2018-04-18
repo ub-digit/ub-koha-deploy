@@ -23,7 +23,6 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-19820-GetMarcSubfieldStructure-unsafe-param',
   'gub-bug-19884-faster-GetItem',
   'bulkmarcimport',
-  'gub-dev-hide-ical-link',
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-hide-syndetics-cover-images-opac',
   'gub-dev-koha-svc',
