@@ -79,6 +79,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-20485-export-records-items-timestamp',
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
+  'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
