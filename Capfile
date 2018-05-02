@@ -23,6 +23,7 @@ extend Capistrano::KohaDeploy::Helpers::DSL
 SSHKit::Backend::Netssh.send(:include, Capistrano::KohaDeploy::Helpers::DSL)
 SSHKit::Backend::Netssh.send(:include, Capistrano::KohaDeploy::Paths)
 SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Paths)
+SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Helpers::Local::DSL)
 # SSHKit::Backend::Local.send(:include, Capistrano::KohaDeploy::Helpers::DSL)
 #SSHKit::Backend.current??
 

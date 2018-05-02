@@ -597,121 +597,181 @@ HEREDOC
     end
   end
 
-  desc 'Build release branch'
-  task :'build-release-branch' => [:'setup-local-repo'] do
-    run_locally do
-      build_state_path = koha_deploy_data_path.join('build_release_branch_state')
-      within koha_deploy_repo_path do
-        #TODO: Set default value capistrano 3 way!
-        rebase_branches = fetch(:koha_deploy_rebase_branches) || []
-        if /^rebase in progress;/ == capture(:git, 'status')
-          # TODO: Fix message
-          error "Rebase is in progess, please resolve any possible conflicts, stage files and run `git rebase --continue`"
-          exit 1
-        end
+  namespace :'build' do
 
-        build_state = {}
-        # Commit helper
-        build_state_commit = lambda do
-          File.open(build_state_path, 'w') { |file| file.write(build_state.to_yaml) }
-        end
-        # Delete helper
-        build_state_delete = lambda do
-          build_state = {}
-          FileUtils.rm(build_state_path)
-        end
-        release_branch = nil
-        current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
-          .strip
-        start_point = fetch(:koha_deploy_release_branch_start_point)
-        # Recover saved build state from aborted build
+    desc 'Clean current build state'
+    task :'clean' do
+      run_locally do
+        build_state_path = koha_deploy_build_state_path
         if File.file?(build_state_path)
           build_state = YAML.load(File.read(build_state_path))
-          # Validate build state
-          unless build_state
-            error "Empty build state, deleting."
-            build_state_delete.call
-            exit 1
+          within koha_deploy_repo_path do
+            # FIXME: Helper?
+            if capture(:git, 'status') =~ /^rebase in progress;/
+              info "Rebase in progress, aborting."
+              execute :git, 'rebase', '--abort'
+            end
+            execute :git, 'checkout', fetch(:koha_deploy_release_branch_start_point)
+            info "Deleting build branch."
+            execute :git, 'branch', '-D', build_state['branch']
           end
-          unless build_state['branch'] && current_branch == build_state['branch']
-            ## TODO: Prompt!?
-            error "Current branch '#{current_branch}' is not the expected release branch '#{build_state['branch']}', please delete build state; `rm #{build_state_path}`, or checkout start point; `git checkout #{start_point}`."
-            exit 1
-          end
-          release_branch = build_state['branch']
-          rebase_branches -= build_state['rebase_branches_done'] || []
-          info "Resume building branch '#{release_branch}'."
+          info "Deleting build state."
+          execute :rm, build_state_path
         else
-          # No rebase in progress, make sure synced against origin
-          # by deleting and re-adding all local rebase branches
-          local_branches = capture(:git, 'for-each-ref', 'refs/heads', "--format='%(refname:short)'")
-          .lines
-          .map(&:strip)
-
-          # Delete existing branches
-          (local_branches & rebase_branches).each do |branch|
-            execute :git, 'branch', '-D', branch
-          end
-          # Create tracking branches
-          rebase_branches.each do |branch|
-            execute :git, 'branch', '--track', branch, "remotes/origin/#{branch}"
-          end
-          release_branch = 'release-' + Time.now.strftime('%Y%m%d-%H%M')
-          execute :git, 'checkout', '-b', release_branch, start_point
-          info "Start building branch '#{release_branch}'."
-          # Make sure build state file exists
-          # TODO: Can this be removed?
-          File.open(build_state_path, 'w') {}
-          build_state['branch'] = release_branch
-          build_state['rebase_branches_done'] = []
-          build_state_commit.call
+          info 'Build state not found, nothing to do.'
         end
+      end
+    end
 
-        rebase_branches.each do |branch|
-          info "Rebasing on '#{branch}'."
-          rebase_continue = false
-          while true
-            begin
-              if !rebase_continue
-                # TODO: Change to execute
-                output = capture :git, 'rebase', branch
-              else
-                output = capture :git, 'rebase', '--continue'
-              end
-              # No conflicts or other errors, break loop
-              break;
-            rescue SSHKit::Command::Failed => e
-              #TODO: begin resque that deletes build state and current build on hard crash?
-              if /^CONFLICT / === e.message
-                # TODO: redundant, refactor?
-                output = capture :git, 'status'
-                if /^Unmerged paths:/ === output
-                  # TODO: Expect this loop iteration to be manually resolved by the user,
-                  # hence the branch should be integrated when we get here the next time
-                  build_state['rebase_branches_done'] << branch
-                  build_state_commit.call
-                  error "You have unresolved conflicts in release branch '#{release_branch}', please resolve these conflicts, run `git rebase --continue`, then run koha:build-release-branch again."
-                  exit 1
+    desc 'Clean current build state and build'
+    task :'build-clean', [:branch_name, :branches_prefix] => [:'clean', :'build']
+
+    desc 'Build'
+    task :'build', [:branch_name, :branches_prefix] => :'setup-local-repo' do |t, args|
+      run_locally do
+        build_state_path = koha_deploy_build_state_path
+        within koha_deploy_repo_path do
+          #TODO: Set default value capistrano 3 way!
+          if capture(:git, 'status') =~ /^rebase in progress;/
+            # TODO: Fix message
+            error "Rebase is in progess, please resolve any possible conflicts, stage files and run `git rebase --continue`"
+            exit 1
+          end
+
+          build_state = {}
+          # Commit helper
+          build_state_commit = lambda do
+            File.open(build_state_path, 'w') { |file| file.write(build_state.to_yaml) }
+          end
+          # Delete helper
+          build_state_delete = lambda do
+            build_state = {}
+            FileUtils.rm(build_state_path)
+          end
+          release_branch = nil
+          current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
+            .strip
+          start_point = fetch(:koha_deploy_release_branch_start_point)
+          # Recover saved build state from aborted build
+          rebase_branches = koha_deploy_rebase_branches(args[:branches_prefix])
+          if File.file?(build_state_path)
+            build_state = YAML.load(File.read(build_state_path))
+            # Validate build state
+            unless build_state
+              error "Empty build state, deleting."
+              build_state_delete.call
+              exit 1
+            end
+            unless build_state['branch'] && current_branch == build_state['branch']
+              ## TODO: Prompt!?
+              error "Current branch '#{current_branch}' is not the expected release branch '#{build_state['branch']}', please delete build state; `rm #{build_state_path}`, or checkout start point; `git checkout #{start_point}`."
+              exit 1
+            end
+            release_branch = build_state['branch']
+            rebase_branches -= build_state['rebase_branches_done'] || []
+            info "Resume building branch '#{release_branch}'."
+          else
+            # No rebase in progress, make sure synced against origin
+            # by deleting and re-adding all local rebase branches
+            invoke 'koha:branches:checkout', args[:branches_prefix]
+
+            release_branch = args[:branch_name] || 'release-' + Time.now.strftime('%Y%m%d-%H%M')
+            execute :git, 'checkout', '-b', release_branch, start_point
+            info "Start building branch '#{release_branch}'."
+            # Make sure build state file exists
+            # TODO: Can this be removed?
+            File.open(build_state_path, 'w') {}
+            build_state['branch'] = release_branch
+            build_state['rebase_branches_done'] = []
+            build_state_commit.call
+          end
+
+          rebase_branches.each do |branch|
+            info "Rebasing on '#{branch}'."
+            rebase_continue = false
+            while true
+              begin
+                if !rebase_continue
+                  # TODO: Change to execute
+                  output = capture :git, 'rebase', branch
                 else
-                  # We have a conflict, but it has probably been resolved and auto-staged using git rerere
-                  # Try `git rebase --continue` and let it crash and burn if fails on anything else
-                  # but a new conflict.
-                  # On success we should be back on track and we break out of the loop.
-                  info "Encountered merge conflict, but seems to have been resolved using previous solution."
-                  rebase_continue = true
+                  output = capture :git, 'rebase', '--continue'
                 end
-              else
-                # Unknown error, bail out
-                raise e
+                # No conflicts or other errors, break loop
+                break;
+              rescue SSHKit::Command::Failed => e
+                #TODO: begin resque that deletes build state and current build on hard crash?
+                if /^CONFLICT / === e.message
+                  # TODO: redundant, refactor?
+                  output = capture :git, 'status'
+                  if /^Unmerged paths:/ === output
+                    # TODO: Expect this loop iteration to be manually resolved by the user,
+                    # hence the branch should be integrated when we get here the next time
+                    build_state['rebase_branches_done'] << branch
+                    build_state_commit.call
+                    error "You have unresolved conflicts in release branch '#{release_branch}', please resolve these conflicts, run `git rebase --continue`, then run koha:build-release-branch again."
+                    exit 1
+                  else
+                    # We have a conflict, but it has probably been resolved and auto-staged using git rerere
+                    # Try `git rebase --continue` and let it crash and burn if fails on anything else
+                    # but a new conflict.
+                    # On success we should be back on track and we break out of the loop.
+                    info "Encountered merge conflict, but seems to have been resolved using previous solution."
+                    rebase_continue = true
+                  end
+                else
+                  # Unknown error, bail out
+                  raise e
+                end
               end
             end
+            build_state['rebase_branches_done'] << branch
+            build_state_commit.call
           end
-          build_state['rebase_branches_done'] << branch
-          build_state_commit.call
+          execute :git, 'checkout', start_point
+          info "New release branch '#{release_branch}' is done."
+          build_state_delete.call
         end
-        execute :git, 'checkout', start_point
-        info "New release branch '#{release_branch}' is done."
-        build_state_delete.call
+      end
+    end
+
+  end
+
+  desc 'Build'
+  task :'build', [:branch_name, :branches_prefix]  => 'build:build'
+
+  # @TODO: Possible to have task dependency on namespace level?
+  namespace :'branches' do
+
+    desc "Checkout local rebase branches"
+    task :'checkout', [:'prefix'] => :'setup-local-repo' do |t, args|
+      invoke 'koha:branches:delete', args[:'prefix']
+      run_locally do
+        within koha_deploy_repo_path do
+          koha_deploy_rebase_branches(args[:'prefix']).each do |branch|
+            execute :git, 'branch', '--track', branch, "remotes/origin/#{branch}"
+          end
+        end
+      end
+    end
+
+    desc "Push local rebase branches"
+    task :'push', [:'prefix'] => :'setup-local-repo' do |t, args|
+    end
+
+    desc "Copy local rebase branches"
+    task :'copy', [:'from_prefix', :'to_prefix'] => :'setup-local-repo' do |t, args|
+    end
+
+    desc "Delete local rebase branches"
+    task :'delete', [:'prefix'] => :'setup-local-repo'  do |t, args|
+      run_locally do
+        # Delete existing branches
+        within koha_deploy_repo_path do
+          (koha_deploy_local_branches(args[:'prefix']) & koha_deploy_rebase_branches(args[:'prefix'])).each do |branch|
+            execute :git, 'branch', '-D', branch
+          end
+        end
       end
     end
   end

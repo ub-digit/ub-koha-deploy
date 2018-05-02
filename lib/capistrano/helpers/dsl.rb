@@ -17,6 +17,10 @@ module Capistrano
         koha_deploy_path.join('data')
       end
 
+      def koha_deploy_build_state_path
+        koha_deploy_data_path.join('build_release_branch_state')
+      end
+
       def assert_local_file_exists(filepath)
         unless File.exists?(filepath)
           error "File \"#{filepath}\" does not exist"
@@ -202,6 +206,28 @@ module Capistrano
         def koha_yaml(filepath)
           output = capture :cat, filepath
           YAML.load(output)
+        end
+      end
+
+      # TODO: naming?
+      module Local
+        module DSL
+          def koha_deploy_local_branches(prefix)
+            _maybe_prefix(
+              capture(:git, 'for-each-ref', 'refs/heads', "--format='%(refname:short)'")
+              .lines
+              .map(&:strip),
+              prefix
+            )
+          end
+
+          def koha_deploy_rebase_branches(prefix)
+            _maybe_prefix(fetch(:koha_deploy_rebase_branches) || [], prefix)
+          end
+
+          def _maybe_prefix(items, prefix)
+            prefix ? items.map { |item| prefix + item } : items
+          end
         end
       end
     end
