@@ -5,6 +5,9 @@
 
 set :application, 'koha'
 set :repo_url, 'https://github.com/ub-digit/Koha.git'
+set :repo_remotes, {
+  #'gnucifer' => 'git@github.com:gnucifer/Koha.git'
+}
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -131,4 +134,8 @@ namespace :deploy do
     #  template 'site.settings.php', shared_path.join(fetch(:site_path), 'site.settings.php'), 0644
     #end
   end
+end
+
+if File.exists?(File.join(File.dirname(__FILE__), 'deploy.local.rb'))
+  require_relative 'deploy.local.rb'
 end

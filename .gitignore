@@ -22,3 +22,6 @@ todo
 
 # Ignore ruby version file
 .ruby-version
+
+# Local config files
+deploy.local.rb

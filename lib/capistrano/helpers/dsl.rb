@@ -212,16 +212,13 @@ module Capistrano
       # TODO: naming?
       module Local
         module DSL
-          def koha_deploy_local_branches(prefix)
-            _maybe_prefix(
-              capture(:git, 'for-each-ref', 'refs/heads', "--format='%(refname:short)'")
+          def koha_deploy_local_branches
+            capture(:git, 'for-each-ref', 'refs/heads', "--format='%(refname:short)'")
               .lines
-              .map(&:strip),
-              prefix
-            )
+              .map(&:strip)
           end
 
-          def koha_deploy_rebase_branches(prefix)
+          def koha_deploy_rebase_branches(prefix=nil)
             _maybe_prefix(fetch(:koha_deploy_rebase_branches) || [], prefix)
           end
 

@@ -18,9 +18,9 @@ end
 #end
 #
 # Provide name spaced data directory for value sources
-file 'data/value_sources' do
-  mkdir('data/value_sources')
-end
+# file 'data/value_sources' do
+#  mkdir('data/value_sources')
+# end
 
 namespace :'apache' do
 
@@ -469,7 +469,7 @@ HEREDOC
         else
           # Is there a way in capistrano to declare required argument?
           # TODO: Check source code for this
-          error 'Missing required argument "local_file_path"'
+          error 'Task argument [local_file_path] is required.'
           exit 1
         end
         assert_local_file_exists(staged_file_path)
@@ -583,6 +583,19 @@ HEREDOC
         info "The local Koha repository is at #{koha_deploy_repo_path}"
         within koha_deploy_repo_path do
           execute :git, 'remote', 'set-url', 'origin', fetch(:repo_url)
+          existing_remotes = capture(:git, 'remote')
+            .lines
+            .map(&:strip)
+          fetch(:repo_remotes, {}).each do |remote, url|
+            if existing_remotes.include?(remote)
+              execute :git, 'remote', 'set-url', remote, url
+            else
+              execute :git, 'remote', 'add', remote, url
+            end
+          end
+          if fetch(:repo_remotes, false)
+            execute :git, 'fetch', '--all'
+          end
           current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
             .strip
           if current_branch == fetch(:koha_deploy_release_branch_start_point)
@@ -743,24 +756,61 @@ HEREDOC
   # @TODO: Possible to have task dependency on namespace level?
   namespace :'branches' do
 
-    desc "Checkout local rebase branches"
-    task :'checkout', [:'prefix'] => :'setup-local-repo' do |t, args|
-      invoke 'koha:branches:delete', args[:'prefix']
+    desc "Rebase rebase braches"
+    task :'rebase', [:'prefix', :'upstream'] => :'setup-local-repo' do |t, args|
+      upstream = args[:'upstream'] || 'master'
       run_locally do
         within koha_deploy_repo_path do
           koha_deploy_rebase_branches(args[:'prefix']).each do |branch|
-            execute :git, 'branch', '--track', branch, "remotes/origin/#{branch}"
+            execute :git, 'rebase', upstream, branch
           end
         end
       end
     end
 
-    desc "Push local rebase branches"
-    task :'push', [:'prefix'] => :'setup-local-repo' do |t, args|
+    desc "Checkout rebase branches"
+    task :'checkout', [:'prefix', :'remote'] => :'setup-local-repo' do |t, args|
+      invoke 'koha:branches:delete', args[:'prefix']
+      remote = args[:'remote'] || 'origin'
+      run_locally do
+        within koha_deploy_repo_path do
+          koha_deploy_rebase_branches(args[:'prefix']).each do |branch|
+            execute :git, 'branch', '--track', branch, "remotes/#{remote}/#{branch}"
+          end
+        end
+      end
     end
 
-    desc "Copy local rebase branches"
-    task :'copy', [:'from_prefix', :'to_prefix'] => :'setup-local-repo' do |t, args|
+    desc "Push rebase branches"
+    task :'push', [:'prefix', :'remote'] => :'setup-local-repo' do |t, args|
+      run_locally do
+        within koha_deploy_repo_path do
+          koha_deploy_rebase_branches(args[:'prefix']).each do |branch|
+            # --set-upstream problematic if wanting to push same branches to multiple remotes?
+            execute :git, 'push', '--set-upstream', args[:'remote'] || 'origin', "#{branch}"
+          end
+        end
+      end
+    end
+
+    desc "Copy rebase branches"
+    task :'copy', [:'from_prefix', :'to_prefix', :'from_remote'] => :'setup-local-repo' do |t, args|
+      run_locally do
+        unless args[:'to_prefix']
+          error 'Task arguments [from_prefix,to_prefix] are required.'
+          exit 1
+        end
+        invoke 'koha:branches:delete', args[:'to_prefix']
+
+        from_prefix = args[:'from_prefix'] || ''
+        from_remote = args[:'from_remote'] || 'origin'
+        within koha_deploy_repo_path do
+          koha_deploy_rebase_branches.each do |branch|
+            to_branch = args[:'to_prefix'] + branch
+            execute :git, 'branch', '--no-track', to_branch, "remotes/#{from_remote}/#{from_prefix + branch}"
+          end
+        end
+      end
     end
 
     desc "Delete local rebase branches"
@@ -768,12 +818,14 @@ HEREDOC
       run_locally do
         # Delete existing branches
         within koha_deploy_repo_path do
-          (koha_deploy_local_branches(args[:'prefix']) & koha_deploy_rebase_branches(args[:'prefix'])).each do |branch|
+          (koha_deploy_local_branches & koha_deploy_rebase_branches(args[:'prefix'])).each do |branch|
             execute :git, 'branch', '-D', branch
           end
         end
       end
     end
+
+    # TODO: "Delete remote rebase branches"
   end
 
   desc 'Install swedish language files and create templates.'
