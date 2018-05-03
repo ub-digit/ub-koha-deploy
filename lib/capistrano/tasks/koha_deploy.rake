@@ -756,12 +756,22 @@ HEREDOC
   # @TODO: Possible to have task dependency on namespace level?
   namespace :'branches' do
 
-    desc "Rebase rebase braches"
-    task :'rebase', [:'prefix', :'upstream'] => :'setup-local-repo' do |t, args|
+    desc "List rebase branches"
+    task :'branches', :'prefix', :'filter_regexp' do |t, args|
+      # TODO: Extend in Capfile with local DSL to not have to run_locally
+      run_locally do
+        koha_deploy_rebase_branches(args[:'prefix'], args[:'filter_regexp']).each do |branch|
+          puts branch
+        end
+      end
+    end
+
+    desc "Rebase rebase branches"
+    task :'rebase', [:'prefix', :'upstream', :'branches_filter_regexp'] => :'setup-local-repo' do |t, args|
       upstream = args[:'upstream'] || 'master'
       run_locally do
         within koha_deploy_repo_path do
-          koha_deploy_rebase_branches(args[:'prefix']).each do |branch|
+          koha_deploy_rebase_branches(args[:'prefix'], args[:'branches_filter_regexp']).each do |branch|
             execute :git, 'rebase', upstream, branch
           end
         end
@@ -827,6 +837,9 @@ HEREDOC
 
     # TODO: "Delete remote rebase branches"
   end
+
+  desc 'List rebase branches'
+  task :'branches', [:prefix, :filter_regexp]  => 'branches:branches'
 
   desc 'Install swedish language files and create templates.'
   task :'install-swedish-language' do

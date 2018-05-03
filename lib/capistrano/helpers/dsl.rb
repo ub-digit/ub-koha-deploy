@@ -218,8 +218,14 @@ module Capistrano
               .map(&:strip)
           end
 
-          def koha_deploy_rebase_branches(prefix=nil)
-            _maybe_prefix(fetch(:koha_deploy_rebase_branches) || [], prefix)
+          def koha_deploy_rebase_branches(prefix=nil, regexp_filter=nil)
+            branches = _maybe_prefix(fetch(:koha_deploy_rebase_branches) || [], prefix)
+            if regexp_filter
+              r = Regexp.new(regexp_filter)
+              branches.select { |branch| branch =~ r }
+            else
+              branches
+            end
           end
 
           def _maybe_prefix(items, prefix)
