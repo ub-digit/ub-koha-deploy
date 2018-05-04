@@ -637,11 +637,11 @@ HEREDOC
     end
 
     desc 'Clean current build state and build'
-    task :'build-clean', [:branch_name, :branches_prefix, :branches_filter_regexp] => [:'clean', :'build']
+    task :'build-clean', [:branch_name, :branches_prefix, :branches_filter] => [:'clean', :'build']
 
     # TODO: Add remote?
     desc 'Build'
-    task :'build', [:branch_name, :branches_prefix, :branches_filter_regexp] => :'setup-local-repo' do |t, args|
+    task :'build', [:branch_name, :branches_prefix, :branches_filter] => :'setup-local-repo' do |t, args|
       run_locally do
         build_state_path = koha_deploy_build_state_path
         within koha_deploy_repo_path do
@@ -667,7 +667,7 @@ HEREDOC
             .strip
           start_point = fetch(:koha_deploy_release_branch_start_point)
           # Recover saved build state from aborted build
-          rebase_branches = koha_deploy_rebase_branches(args[:branches_prefix], args[:branches_filter_regexp])
+          rebase_branches = koha_deploy_rebase_branches(args[:branches_prefix], args[:branches_filter])
           if File.file?(build_state_path)
             build_state = YAML.load(File.read(build_state_path))
             # Validate build state
@@ -687,7 +687,7 @@ HEREDOC
           else
             # No rebase in progress, make sure synced against origin
             # by deleting and re-adding all local rebase branches
-            invoke 'koha:branches:checkout', args[:branches_prefix], args[:branches_filter_regexp]
+            invoke 'koha:branches:checkout', args[:branches_prefix], args[:branches_filter]
 
             release_branch = args[:branch_name] || 'release-' + Time.now.strftime('%Y%m%d-%H%M')
             execute :git, 'checkout', '-b', release_branch, start_point
@@ -752,27 +752,27 @@ HEREDOC
   end
 
   desc 'Build (alias)'
-  task :'build', [:branch_name, :branches_prefix, :branches_filter_regexp]  => 'build:build'
+  task :'build', [:branch_name, :branches_prefix, :branches_filter]  => 'build:build'
 
   # @TODO: Possible to have task dependency on namespace level?
   namespace :'branches' do
 
     desc "List rebase branches"
-    task :'branches', :'prefix', :'filter_regexp' do |t, args|
+    task :'branches', :'prefix', :'filter' do |t, args|
       # TODO: Extend in Capfile with local DSL to not have to run_locally
       run_locally do
-        koha_deploy_rebase_branches(args[:'prefix'], args[:'filter_regexp']).each do |branch|
+        koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
           puts branch
         end
       end
     end
 
     desc "Rebase rebase branches"
-    task :'rebase', [:'prefix', :'upstream', :'branches_filter_regexp'] => :'setup-local-repo' do |t, args|
+    task :'rebase', [:'prefix', :'upstream', :'filter'] => :'setup-local-repo' do |t, args|
       upstream = args[:'upstream'] || 'master'
       run_locally do
         within koha_deploy_repo_path do
-          koha_deploy_rebase_branches(args[:'prefix'], args[:'branches_filter_regexp']).each do |branch|
+          koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
             execute :git, 'rebase', upstream, branch
           end
         end
@@ -780,12 +780,12 @@ HEREDOC
     end
 
     desc "Checkout rebase branches"
-    task :'checkout', [:'prefix', :'branches_filter_regexp', :'remote'] => :'setup-local-repo' do |t, args|
-      invoke 'koha:branches:delete', args[:'prefix'], args[:'branches_filter_regexp']
+    task :'checkout', [:'prefix', :'filter', :'remote'] => :'setup-local-repo' do |t, args|
+      invoke 'koha:branches:delete', args[:'prefix'], args[:'filter']
       remote = args[:'remote'] || 'origin'
       run_locally do
         within koha_deploy_repo_path do
-          koha_deploy_rebase_branches(args[:'prefix'], args[:'branches_filter_regexp']).each do |branch|
+          koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
             execute :git, 'branch', '--track', branch, "remotes/#{remote}/#{branch}"
           end
         end
@@ -793,10 +793,10 @@ HEREDOC
     end
 
     desc "Push rebase branches"
-    task :'push', [:'prefix', :'branches_filter_regexp', :'remote'] => :'setup-local-repo' do |t, args|
+    task :'push', [:'prefix', :'filter', :'remote'] => :'setup-local-repo' do |t, args|
       run_locally do
         within koha_deploy_repo_path do
-          koha_deploy_rebase_branches(args[:'prefix'], args[:'branches_filter_regexp']).each do |branch|
+          koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
             # --set-upstream problematic if wanting to push same branches to multiple remotes?
             execute :git, 'push', '--set-upstream', args[:'remote'] || 'origin', "#{branch}"
           end
@@ -825,13 +825,13 @@ HEREDOC
     end
 
     desc "Delete local rebase branches"
-    task :'delete', [:'prefix', 'branches_filter_regexp'] => :'setup-local-repo'  do |t, args|
+    task :'delete', [:'prefix', 'filter'] => :'setup-local-repo'  do |t, args|
       run_locally do
         # Delete existing branches
         within koha_deploy_repo_path do
           (
             koha_deploy_local_branches &
-            koha_deploy_rebase_branches(args[:'prefix'], args[:'branches_filter_regexp'])
+            koha_deploy_rebase_branches(args[:'prefix'], args[:'filter'])
           ).each do |branch|
             execute :git, 'branch', '-D', branch
           end
@@ -843,7 +843,7 @@ HEREDOC
   end
 
   desc 'List rebase branches (alias)'
-  task :'branches', [:prefix, :filter_regexp]  => 'branches:branches'
+  task :'branches', [:prefix, :filter]  => 'branches:branches'
 
   desc 'Install swedish language files and create templates.'
   task :'install-swedish-language' do
