@@ -637,10 +637,10 @@ HEREDOC
     end
 
     desc 'Clean current build state and build'
-    task :'build-clean', [:branch_name, :branches_prefix] => [:'clean', :'build']
+    task :'build-clean', [:branch_name, :branches_prefix, :branches_filter_regexp] => [:'clean', :'build']
 
     desc 'Build'
-    task :'build', [:branch_name, :branches_prefix] => :'setup-local-repo' do |t, args|
+    task :'build', [:branch_name, :branches_prefix, :branches_filter_regexp] => :'setup-local-repo' do |t, args|
       run_locally do
         build_state_path = koha_deploy_build_state_path
         within koha_deploy_repo_path do
@@ -666,7 +666,7 @@ HEREDOC
             .strip
           start_point = fetch(:koha_deploy_release_branch_start_point)
           # Recover saved build state from aborted build
-          rebase_branches = koha_deploy_rebase_branches(args[:branches_prefix])
+          rebase_branches = koha_deploy_rebase_branches(args[:branches_prefix], args[:branches_filter_regexp])
           if File.file?(build_state_path)
             build_state = YAML.load(File.read(build_state_path))
             # Validate build state
@@ -750,8 +750,8 @@ HEREDOC
 
   end
 
-  desc 'Build'
-  task :'build', [:branch_name, :branches_prefix]  => 'build:build'
+  desc 'Build (alias)'
+  task :'build', [:branch_name, :branches_prefix, :branches_filter_regexp]  => 'build:build'
 
   # @TODO: Possible to have task dependency on namespace level?
   namespace :'branches' do
@@ -778,6 +778,7 @@ HEREDOC
       end
     end
 
+    # TODO: Add filter
     desc "Checkout rebase branches"
     task :'checkout', [:'prefix', :'remote'] => :'setup-local-repo' do |t, args|
       invoke 'koha:branches:delete', args[:'prefix']
@@ -791,6 +792,7 @@ HEREDOC
       end
     end
 
+    # TODO: Add filter?
     desc "Push rebase branches"
     task :'push', [:'prefix', :'remote'] => :'setup-local-repo' do |t, args|
       run_locally do
@@ -838,7 +840,7 @@ HEREDOC
     # TODO: "Delete remote rebase branches"
   end
 
-  desc 'List rebase branches'
+  desc 'List rebase branches (alias)'
   task :'branches', [:prefix, :filter_regexp]  => 'branches:branches'
 
   desc 'Install swedish language files and create templates.'
