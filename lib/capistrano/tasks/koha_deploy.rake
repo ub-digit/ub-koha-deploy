@@ -688,8 +688,8 @@ HEREDOC
             # No rebase in progress, make sure synced against origin
             # by deleting and re-adding all local rebase branches
             invoke 'koha:branches:checkout', args[:branches_prefix], args[:branches_filter]
-
-            release_branch = args[:branch_name] || 'release-' + Time.now.strftime('%Y%m%d-%H%M')
+            # TODO: Callback/fetch for suffix instead of hard coded time
+            release_branch = args[:branch_name] || fetch(:koha_deploy_release_branch_prefix, 'release') + Time.now.strftime('%Y%m%d-%H%M')
             execute :git, 'checkout', '-b', release_branch, start_point
             info "Start building branch '#{release_branch}'."
             # Make sure build state file exists
@@ -775,6 +775,7 @@ HEREDOC
           koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
             execute :git, 'rebase', upstream, branch
           end
+          execute :git, 'checkout', fetch(:koha_deploy_release_branch_start_point)
         end
       end
     end
@@ -793,19 +794,20 @@ HEREDOC
     end
 
     desc "Push rebase branches"
-    task :'push', [:'prefix', :'filter', :'remote'] => :'setup-local-repo' do |t, args|
+    task :'push', [:'prefix', :'filter', :'remote', :'push_options'] => :'setup-local-repo' do |t, args|
       run_locally do
         within koha_deploy_repo_path do
           koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
             # --set-upstream problematic if wanting to push same branches to multiple remotes?
-            execute :git, 'push', '--set-upstream', args[:'remote'] || 'origin', "#{branch}"
+            execute :git, 'push', args[:'push_options'] || '', '--set-upstream', args[:'remote'] || 'origin', "#{branch}"
           end
         end
       end
     end
 
+    # Rename Checkout copy, checkout rename?
     desc "Copy rebase branches"
-    task :'copy', [:'from_prefix', :'to_prefix', :'from_remote'] => :'setup-local-repo' do |t, args|
+    task :'copy', [:'from_prefix', :'to_prefix', :'filter', :'from_remote'] => :'setup-local-repo' do |t, args|
       run_locally do
         unless args[:'to_prefix']
           error 'Task arguments [from_prefix,to_prefix] are required.'
@@ -816,7 +818,7 @@ HEREDOC
         from_prefix = args[:'from_prefix'] || ''
         from_remote = args[:'from_remote'] || 'origin'
         within koha_deploy_repo_path do
-          koha_deploy_rebase_branches.each do |branch|
+          koha_deploy_rebase_branches('', args[:'filter']).each do |branch|
             to_branch = args[:'to_prefix'] + branch
             execute :git, 'branch', '--no-track', to_branch, "remotes/#{from_remote}/#{from_prefix + branch}"
           end

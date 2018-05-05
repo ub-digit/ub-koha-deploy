@@ -219,7 +219,10 @@ module Capistrano
           end
 
           def koha_deploy_rebase_branches(prefix=nil, regexp_filter=nil)
-            branches = _maybe_prefix(fetch(:koha_deploy_rebase_branches) || [], prefix)
+            branches = _maybe_prefix(
+              fetch(:koha_deploy_rebase_branches) || [],
+              (prefix || '') + (fetch(:koha_deploy_branches_prefix, nil) || '')
+            )
             if regexp_filter
               r = Regexp.new(regexp_filter)
               branches.select { |branch| branch =~ r }

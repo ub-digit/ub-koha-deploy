@@ -13,7 +13,10 @@ set :repo_remotes, {
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, 'release-20180426-1459'
 
+set :koha_deploy_branches_prefix, ''
+set :koha_deploy_release_branch_prefix, 'release-18.05-'
 set :koha_deploy_release_branch_start_point, 'master'
+
 set :koha_deploy_rebase_branches, [
   'gub-bug-14957-marc-permissions',
   'gub-bug-18129-staged-imports-user-filter',
