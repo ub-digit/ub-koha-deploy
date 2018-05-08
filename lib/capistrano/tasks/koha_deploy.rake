@@ -637,11 +637,11 @@ HEREDOC
     end
 
     desc 'Clean current build state and build'
-    task :'build-clean', [:branch_name, :branches_prefix, :branches_filter] => [:'clean', :'build']
+    task :'build-clean', [:branch_name, :branches_prefix, :branches_filter, :remote] => [:'clean', :'build']
 
     # TODO: Add remote?
     desc 'Build'
-    task :'build', [:branch_name, :branches_prefix, :branches_filter] => :'setup-local-repo' do |t, args|
+    task :'build', [:branch_name, :branches_prefix, :branches_filter, :remote] => :'setup-local-repo' do |t, args|
       run_locally do
         build_state_path = koha_deploy_build_state_path
         within koha_deploy_repo_path do
@@ -687,9 +687,9 @@ HEREDOC
           else
             # No rebase in progress, make sure synced against origin
             # by deleting and re-adding all local rebase branches
-            invoke 'koha:branches:checkout', args[:branches_prefix], args[:branches_filter]
+            invoke 'koha:branches:checkout', args[:branches_prefix], args[:branches_filter], args[:remote]
             # TODO: Callback/fetch for suffix instead of hard coded time
-            release_branch = args[:branch_name] || fetch(:koha_deploy_release_branch_prefix, 'release') + Time.now.strftime('%Y%m%d-%H%M')
+            release_branch = args[:branch_name] || fetch(:koha_deploy_release_branch_prefix, 'release') + Time.now.strftime('%Y%m%d.%H%M')
             execute :git, 'checkout', '-b', release_branch, start_point
             info "Start building branch '#{release_branch}'."
             # Make sure build state file exists
@@ -752,7 +752,7 @@ HEREDOC
   end
 
   desc 'Build (alias)'
-  task :'build', [:branch_name, :branches_prefix, :branches_filter]  => 'build:build'
+  task :'build', [:branch_name, :branches_prefix, :branches_filter, :remote]  => 'build:build'
 
   # @TODO: Possible to have task dependency on namespace level?
   namespace :'branches' do
