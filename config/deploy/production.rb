@@ -12,5 +12,7 @@ server 'koha.ub.gu.se',
 set :deploy_to, '/home/koha/koha-production'
 set :keep_releases, 10 # Save space on virtual machines
 
-set :koha_deploy_branches_prefix, 'release-18.04-'
-set :koha_deploy_release_branch_prefix, 'release-18.04-'
+release_prefix = 'release-2018.04-'
+set :koha_deploy_branches_prefix, release_prefix
+set :koha_deploy_release_branch_prefix, release_prefix
+set :koha_deploy_release_branch_start_point, release_prefix + 'master'
