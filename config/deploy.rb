@@ -78,6 +78,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-opac-minalan',
+  'gub-dev-show-852-in-biblio',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
