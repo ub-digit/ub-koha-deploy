@@ -81,6 +81,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-show-852-in-biblio',
   'gub-bug-20792-fix-patron-edit-page',
   'gub-dev-revert-bug-11512-holdoverride',
+  'gub-dev-do-not-backdate-return-via-sip',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
