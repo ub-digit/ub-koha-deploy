@@ -83,6 +83,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-bug-11512-holdoverride',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
+  'gub-bug-20972-edifact-isbn-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
