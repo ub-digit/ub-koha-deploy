@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2018.05-20180531.1119'
+set :branch, 'release-2018.05-20180725.1511'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2018.05-'
