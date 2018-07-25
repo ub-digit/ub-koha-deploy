@@ -84,6 +84,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
   'gub-bug-20972-edifact-isbn-fix',
+  'gub-bug-17561-reserveslip-itemnumber',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
