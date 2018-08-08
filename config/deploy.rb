@@ -85,6 +85,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fromdate-in-fines',
   'gub-bug-20972-edifact-isbn-fix',
   'gub-bug-17561-reserveslip-itemnumber',
+  'gub-dev-change-accruing-fine-on-lost-pay',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
