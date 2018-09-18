@@ -86,6 +86,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-20972-edifact-isbn-fix',
   'gub-bug-17561-reserveslip-itemnumber',
   'gub-dev-change-accruing-fine-on-lost-pay',
+  'gub-bug-20262-refund-fees-without-creating-credits',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
