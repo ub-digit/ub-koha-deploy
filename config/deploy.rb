@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2018.09-20180924.1644'
+set :branch, 'release-2018.09-20180928.1607'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2018.05-'
@@ -24,7 +24,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-19197-elasticsearch-wrong-operator-case',
   'gub-bug-19564-elasticsearch-sort-condition',
   'gub-bug-19575-elasticsearch-zebra-compatible-field-names',
-  'gub-bug-19707-elasticsearch-sync-mappings',
+  'gub-bug-19707-elasticsearch-sync-mappings-work',
   #'bug_19819', # Bug 19819 - C4::Context->dbh is unreasonably slow
   'gub-bug-19820-GetMarcSubfieldStructure-unsafe-param',
   'gub-bug-19884-faster-GetItem',
@@ -46,8 +46,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-no-alert-for-available',
   'gub-dev-frontend-assets',
   'gub-bug-20114-elasticsearch-facets-pagination',
-  'gub-bug-19893-elasticsearch-alternative-indexing',
-  'gub-dev-KOHA-925',
+  'gub-bug-19893-elasticsearch-alternative-indexing-work',
+  'gub-dev-KOHA-925-work',
   'gub-dev-advanced-search-customizations',
   'gub-dev-odue-debar-removal-fix',
   'gub-dev-auto-add-001',
@@ -55,7 +55,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-restrict-history-tabs',
   'gub-dev-prevent-ref-from-hold-resolve',
   'gub-dev-gub-format-facet',
-  'gub-dev-analyze-only-when-used',
   'gub-dev-circulation-reports',
   'gub-bug-20334-elasticsearch-escape-query-slashes',
   'gub-bug-20356-email-sms-driver-from',
@@ -84,9 +83,9 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
   'gub-bug-20972-edifact-isbn-fix',
-  'gub-bug-17561-reserveslip-itemnumber',
   'gub-dev-change-accruing-fine-on-lost-pay',
   'gub-bug-20262-refund-fees-without-creating-credits',
+  'gub-bug-19687-undefined-subroutine',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
