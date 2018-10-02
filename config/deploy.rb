@@ -88,6 +88,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-19687-undefined-subroutine',
   'gub-bug-21462-filter-paid-transactions-fix',
   'gub-bug-21471-fix-_getoutstanding_holds',
+  'gub-dev-fix-debarred_comment',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
