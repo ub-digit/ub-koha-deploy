@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2018.09-20180928.1607'
+set :branch, 'release-2018.05-20181001.1513'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2018.05-'
@@ -86,6 +86,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-change-accruing-fine-on-lost-pay',
   'gub-bug-20262-refund-fees-without-creating-credits',
   'gub-bug-19687-undefined-subroutine',
+  'gub-bug-21462-filter-paid-transactions-fix',
+  'gub-bug-21471-fix-_getoutstanding_holds',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
