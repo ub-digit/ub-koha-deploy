@@ -14,7 +14,7 @@ set :repo_remotes, {
 set :branch, 'release-2018.10-20181003.1557'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2018.05-'
+set :koha_deploy_release_branch_prefix, 'release-2018.10-'
 set :koha_deploy_release_branch_start_point, 'master'
 
 set :koha_deploy_rebase_branches, [
@@ -90,6 +90,8 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-21471-fix-_getoutstanding_holds',
   'gub-dev-fix-debarred_comment',
   'gub-dev-fix-unitprice-decimal',
+  'gub-bug-21471-misspelled-items',
+  'gub-dev-remove-html-filter',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
