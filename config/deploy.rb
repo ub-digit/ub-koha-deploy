@@ -92,6 +92,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-unitprice-decimal',
   'gub-bug-21471-misspelled-items',
   'gub-dev-remove-html-filter',
+  'gub-dev-owning-library-sender',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
