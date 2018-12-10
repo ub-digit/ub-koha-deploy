@@ -11,10 +11,10 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2018.10-20181030.1359'
+set :branch, 'release-2018.12-20181210.1529'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2018.10-'
+set :koha_deploy_release_branch_prefix, 'release-2018.12-'
 set :koha_deploy_release_branch_start_point, 'master'
 
 set :koha_deploy_rebase_branches, [
@@ -46,7 +46,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-no-alert-for-available',
   'gub-dev-frontend-assets',
   'gub-bug-20114-elasticsearch-facets-pagination',
-  'gub-bug-19893-elasticsearch-alternative-indexing-work',
+  #'gub-bug-19893-elasticsearch-alternative-indexing-work',
   'gub-dev-KOHA-925-work',
   'gub-dev-advanced-search-customizations',
   'gub-dev-odue-debar-removal-fix',
@@ -68,7 +68,7 @@ set :koha_deploy_rebase_branches, [
   'stop-delete-patron-when-patron-has-holds',
   'gub-bug-20251-sip-checkout',
   'gub-bug-20551-export-records-deleted',
-  'gub-bug-20486-export-records-marc-conditions',
+  #'gub-bug-20486-export-records-marc-conditions', # Now in koha master
   'gub-bug-20492-elasticsearch-adv-search-year-limit',
   'gub-bug-20167-pickup-location-keep-itemnumber',
   'gub-bug-20535-elasticsearch-ModZebra-stripped-items',
@@ -84,14 +84,15 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fromdate-in-fines',
   'gub-bug-20972-edifact-isbn-fix',
   'gub-dev-change-accruing-fine-on-lost-pay',
-  'gub-bug-20262-refund-fees-without-creating-credits',
+  #'gub-bug-20262-refund-fees-without-creating-credits',
   'gub-bug-19687-undefined-subroutine',
   'gub-bug-21462-filter-paid-transactions-fix',
   'gub-bug-21471-fix-_getoutstanding_holds',
   'gub-dev-fix-debarred_comment',
   'gub-dev-fix-unitprice-decimal',
   'gub-bug-21471-misspelled-items',
-  'gub-dev-remove-html-filter',
+  #'gub-dev-remove-html-filter', # ta bort branch, finns nu i koha ($raw)
+  'gub-bug-20589-field-boosting',
   'gub-dev-owning-library-sender',
   'koha-deploy'
 ]
