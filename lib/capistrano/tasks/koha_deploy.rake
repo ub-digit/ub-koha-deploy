@@ -581,30 +581,32 @@ HEREDOC
     run_locally do
       if test(" [ -d #{File.join(koha_deploy_repo_path, '.git')} ] ")
         info "The local Koha repository is at #{koha_deploy_repo_path}"
-        within koha_deploy_repo_path do
-          execute :git, 'remote', 'set-url', 'origin', fetch(:repo_url)
-          existing_remotes = capture(:git, 'remote')
-            .lines
-            .map(&:strip)
-          fetch(:repo_remotes, {}).each do |remote, url|
-            if existing_remotes.include?(remote)
-              execute :git, 'remote', 'set-url', remote, url
-            else
-              execute :git, 'remote', 'add', remote, url
-            end
-          end
-          if fetch(:repo_remotes, false)
-            execute :git, 'fetch', '--all'
-          end
-          current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
-            .strip
-          if current_branch == fetch(:koha_deploy_release_branch_start_point)
-            execute :git, 'pull'
-          end
-        end
       else
         within koha_deploy_repo_path do
           execute :git, 'clone', fetch(:repo_url), '.'
+        end
+      end
+      within koha_deploy_repo_path do
+        existing_remotes = capture(:git, 'remote')
+          .lines
+          .map(&:strip)
+        repo_remotes = {
+          'origin' => fetch(:repo_url)
+        }
+        repo_remotes.merge(fetch(:repo_remotes, {})).each do |remote, url|
+          if existing_remotes.include?(remote)
+            execute :git, 'remote', 'set-url', remote, url
+          else
+            execute :git, 'remote', 'add', remote, url
+          end
+        end
+        if fetch(:repo_remotes, false)
+          execute :git, 'fetch', '--all'
+        end
+        current_branch = capture(:git, 'rev-parse', '--abbrev-ref', 'HEAD')
+          .strip
+        if current_branch == fetch(:koha_deploy_release_branch_start_point)
+          execute :git, 'pull'
         end
       end
     end
@@ -767,15 +769,16 @@ HEREDOC
       end
     end
 
+    # TODO: rebase against remotes instead of local branch!!
     desc "Rebase rebase branches"
     task :'rebase', [:'prefix', :'upstream', :'filter'] => :'setup-local-repo' do |t, args|
-      upstream = args[:'upstream'] || 'master'
+      upstream = args[:'upstream'] || fetch(:koha_deploy_release_branch_start_point)
       run_locally do
         within koha_deploy_repo_path do
           koha_deploy_rebase_branches(args[:'prefix'], args[:'filter']).each do |branch|
             execute :git, 'rebase', upstream, branch
           end
-          execute :git, 'checkout', fetch(:koha_deploy_release_branch_start_point)
+          execute :git, 'checkout', upstream
         end
       end
     end
