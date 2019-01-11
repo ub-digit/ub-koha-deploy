@@ -84,7 +84,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fromdate-in-fines',
   'gub-bug-20972-edifact-isbn-fix',
   'gub-dev-change-accruing-fine-on-lost-pay',
-  #'gub-bug-20262-refund-fees-without-creating-credits',
+  'gub-bug-20262-refund-fees-without-creating-credits',
   'gub-bug-19687-undefined-subroutine',
   'gub-bug-21462-filter-paid-transactions-fix',
   'gub-bug-21471-fix-_getoutstanding_holds',
