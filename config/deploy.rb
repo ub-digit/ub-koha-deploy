@@ -64,7 +64,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-edifact-cron',
   'gub-dev-fix-koha-1149',
   'gub-dev-disable-hold-waiting-on-sip-return',
-  'bug-fix-using-nonexistent-msg',
+  #'bug-fix-using-nonexistent-msg', # Now in koha master
   'stop-delete-patron-when-patron-has-holds',
   'gub-bug-20251-sip-checkout',
   'gub-bug-20551-export-records-deleted',
