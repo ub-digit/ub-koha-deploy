@@ -11,10 +11,10 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2018.12-20181211.1518'
+set :branch, 'release-2019.01-20190122.1538'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2018.12-'
+set :koha_deploy_release_branch_prefix, 'release-2019.01-'
 set :koha_deploy_release_branch_start_point, 'master'
 
 set :koha_deploy_rebase_branches, [
@@ -94,6 +94,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-remove-html-filter', # ta bort branch, finns nu i koha ($raw)
   'gub-bug-20589-field-boosting',
   'gub-dev-owning-library-sender',
+  'gub-dev-intranet-auth-cas-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
