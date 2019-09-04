@@ -95,6 +95,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-20589-field-boosting',
   'gub-dev-owning-library-sender',
   'gub-dev-intranet-auth-cas-fix',
+  'gub-dev-incomplete-barcode',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
