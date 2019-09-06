@@ -15,18 +15,18 @@ set :branch, 'release-2019.01-20190122.1538'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2019.01-'
-set :koha_deploy_release_branch_start_point, 'master'
+set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
   'gub-bug-14957-marc-permissions',
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
   'gub-bug-19197-elasticsearch-wrong-operator-case',
-  'gub-bug-19564-elasticsearch-sort-condition',
+  #'gub-bug-19564-elasticsearch-sort-condition',
   'gub-bug-19575-elasticsearch-zebra-compatible-field-names',
   'gub-bug-19707-elasticsearch-sync-mappings-work',
   #'bug_19819', # Bug 19819 - C4::Context->dbh is unreasonably slow
-  'gub-bug-19820-GetMarcSubfieldStructure-unsafe-param',
+  #'gub-bug-19820-GetMarcSubfieldStructure-unsafe-param',
   'gub-bug-19884-faster-GetItem',
   'bulkmarcimport',
   'gub-dev-remove-lost-item-refund-msg',
@@ -57,20 +57,20 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-gub-format-facet',
   'gub-dev-circulation-reports',
   'gub-bug-20334-elasticsearch-escape-query-slashes',
-  'gub-bug-20356-email-sms-driver-from',
-  'gub-bug-20285-lost-items-fee',
+  #'gub-bug-20356-email-sms-driver-from',
+  #'gub-bug-20285-lost-items-fee',
   'gub-dev-extended-inhouse-loans',
   'gub-dev-message-queue-delay',
   'gub-dev-edifact-cron',
-  'gub-dev-fix-koha-1149',
+  #'gub-dev-fix-koha-1149',
   'gub-dev-disable-hold-waiting-on-sip-return',
   #'bug-fix-using-nonexistent-msg', # Now in koha master
   'stop-delete-patron-when-patron-has-holds',
-  'gub-bug-20251-sip-checkout',
+  #'gub-bug-20251-sip-checkout',
   'gub-bug-20551-export-records-deleted',
   #'gub-bug-20486-export-records-marc-conditions', # Now in koha master
   'gub-bug-20492-elasticsearch-adv-search-year-limit',
-  'gub-bug-20167-pickup-location-keep-itemnumber',
+  #'gub-bug-20167-pickup-location-keep-itemnumber',
   'gub-bug-20535-elasticsearch-ModZebra-stripped-items',
   'gub-bug-20485-export-records-items-timestamp',
   'gub-dev-allow-issue-when-reserved',
@@ -78,19 +78,19 @@ set :koha_deploy_rebase_branches, [
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-opac-minalan',
   'gub-dev-show-852-in-biblio',
-  'gub-bug-20792-fix-patron-edit-page',
+  #'gub-bug-20792-fix-patron-edit-page',
   'gub-dev-revert-bug-11512-holdoverride',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
-  'gub-bug-20972-edifact-isbn-fix',
+  #'gub-bug-20972-edifact-isbn-fix',
   'gub-dev-change-accruing-fine-on-lost-pay',
   'gub-bug-20262-refund-fees-without-creating-credits',
-  'gub-bug-19687-undefined-subroutine',
-  'gub-bug-21462-filter-paid-transactions-fix',
-  'gub-bug-21471-fix-_getoutstanding_holds',
+  #'gub-bug-19687-undefined-subroutine',
+  #'gub-bug-21462-filter-paid-transactions-fix',
+  #'gub-bug-21471-fix-_getoutstanding_holds',
   'gub-dev-fix-debarred_comment',
   'gub-dev-fix-unitprice-decimal',
-  'gub-bug-21471-misspelled-items',
+  #'gub-bug-21471-misspelled-items',
   #'gub-dev-remove-html-filter', # ta bort branch, finns nu i koha ($raw)
   'gub-bug-20589-field-boosting',
   'gub-dev-owning-library-sender',
