@@ -99,6 +99,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-23548-aq-field-required',
   'temporary-fix-auth-values',
   'gub-dev-bug-8367',
+  'gub-dev-allow-zero-in-phonenumber',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
