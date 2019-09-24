@@ -98,7 +98,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
   'temporary-fix-auth-values',
-  'gub-dev-bug-8367',
+  #'gub-dev-bug-8367',
   'gub-dev-allow-zero-in-phonenumber',
   'koha-deploy'
 ]
