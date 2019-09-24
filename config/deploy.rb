@@ -102,6 +102,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-allow-zero-in-phonenumber',
   'gub-dev-reset-expiration-on-revert',
   'gub-dev-mana-enabled-js-workaround',
+  'gub-dev-plugin-hooks',
+  'gub-dev-plugin-hooks-update-status',  
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
