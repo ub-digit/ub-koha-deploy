@@ -100,6 +100,7 @@ set :koha_deploy_rebase_branches, [
   'temporary-fix-auth-values',
   #'gub-dev-bug-8367',
   'gub-dev-allow-zero-in-phonenumber',
+  'gub-dev-reset-expiration-on-revert',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
