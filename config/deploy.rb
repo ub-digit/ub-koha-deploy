@@ -94,13 +94,14 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-remove-html-filter', # ta bort branch, finns nu i koha ($raw)
   'gub-bug-20589-field-boosting',
   'gub-dev-owning-library-sender',
-  # 'gub-dev-intranet-auth-cas-fix',
+  #'gub-dev-intranet-auth-cas-fix',
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
   'temporary-fix-auth-values',
   #'gub-dev-bug-8367',
   'gub-dev-allow-zero-in-phonenumber',
   'gub-dev-reset-expiration-on-revert',
+  'gub-dev-mana-enabled-js-workaround',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
