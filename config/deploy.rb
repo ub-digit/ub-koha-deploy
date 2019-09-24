@@ -103,7 +103,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-reset-expiration-on-revert',
   'gub-dev-mana-enabled-js-workaround',
   'gub-dev-plugin-hooks',
-  'gub-dev-plugin-hooks-update-status',  
+  'gub-dev-plugin-hooks-update-status',
+  'gub-bug-22592-support-for-index-scan',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
