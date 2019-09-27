@@ -106,6 +106,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-plugin-hooks-update-status',
   'gub-bug-22592-support-for-index-scan',
   'gub-bug-23680-new-item-window-close',
+  'gub-dev-syspref-plugin-hook',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
