@@ -67,7 +67,8 @@ set :koha_deploy_rebase_branches, [
   #'bug-fix-using-nonexistent-msg', # Now in koha master
   'stop-delete-patron-when-patron-has-holds',
   #'gub-bug-20251-sip-checkout',
-  'gub-bug-20551-export-records-deleted',
+  #'gub-bug-20551-export-records-deleted',
+  'gub-bug-23009-deleted-marc-conditions',
   #'gub-bug-20486-export-records-marc-conditions', # Now in koha master
   'gub-bug-20492-elasticsearch-adv-search-year-limit',
   #'gub-bug-20167-pickup-location-keep-itemnumber',
