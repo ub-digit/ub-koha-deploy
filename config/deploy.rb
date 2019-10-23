@@ -110,6 +110,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-syspref-plugin-hook',
   'gub-bug-23655-fix-about-page',
   'gub-bug-23730-fix-export-of-reports',
+  'gub-bug-22539-fines-calculation-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
