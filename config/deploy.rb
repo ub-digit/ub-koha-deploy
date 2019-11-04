@@ -6,7 +6,7 @@
 set :application, 'koha'
 set :repo_url, 'https://github.com/ub-digit/Koha.git'
 set :repo_remotes, {
-  'ub-digit' => 'git@github.com:ub-digit/Koha-build.git'
+  'koha-build' => 'git@github.com:ub-digit/Koha-build.git'
 }
 
 # Default branch is :master
