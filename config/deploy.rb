@@ -88,6 +88,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-23730-fix-export-of-reports',
   'gub-bug-22539-fines-calculation-fix',
   'gub-dev-sip-was-transferred-fix',
+  'gukort2-development',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
