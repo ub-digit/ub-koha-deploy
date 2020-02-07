@@ -14,7 +14,7 @@ set :repo_remotes, {
 set :branch, 'release-2019.10-20191007.1446'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2019.10-'
+set :koha_deploy_release_branch_prefix, 'release-2020.02-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
@@ -55,40 +55,40 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-message-queue-delay',
   'gub-dev-edifact-cron',
   'gub-dev-disable-hold-waiting-on-sip-return',
-  'stop-delete-patron-when-patron-has-holds',
+### delvis löst i Koha  'stop-delete-patron-when-patron-has-holds', 
   'gub-bug-23009-deleted-marc-conditions',
   'gub-bug-20492-elasticsearch-adv-search-year-limit',
-  'gub-bug-20535-elasticsearch-ModZebra-stripped-items',
+  #'gub-bug-20535-elasticsearch-ModZebra-stripped-items',
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-opac-minalan',
   'gub-dev-show-852-in-biblio',
-  'gub-dev-revert-bug-11512-holdoverride',
+  #'gub-dev-revert-bug-11512-holdoverride',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
   'gub-dev-change-accruing-fine-on-lost-pay',
   'gub-bug-20262-refund-fees-without-creating-credits',
   'gub-dev-fix-debarred_comment',
   'gub-dev-fix-unitprice-decimal',
-  'gub-bug-20589-field-boosting',
+### tagits med i koha master  'gub-bug-20589-field-boosting',
   'gub-dev-owning-library-sender',
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
-  'temporary-fix-auth-values',
+### löst i koha  'temporary-fix-auth-values',
   'gub-dev-allow-zero-in-phonenumber',
   'gub-dev-reset-expiration-on-revert',
-  'gub-dev-mana-enabled-js-workaround',
+### löst i koha, syspref  'gub-dev-mana-enabled-js-workaround',
   'gub-dev-plugin-hooks',
   'gub-dev-plugin-hooks-update-status',
-  'gub-bug-22592-support-for-index-scan',
+###  tagits med i koha master 'gub-bug-22592-support-for-index-scan',
   'gub-bug-23680-new-item-window-close',
   'gub-dev-syspref-plugin-hook',
-  'gub-bug-23655-fix-about-page',
+### löst i koha  'gub-bug-23655-fix-about-page',
   'gub-bug-23730-fix-export-of-reports',
   'gub-bug-22539-fines-calculation-fix',
   'gub-dev-sip-was-transferred-fix',
-  'gukort2-development',
+###  cherry-pickat commiter till gub-dev-koha-svc 'gukort2-development',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
