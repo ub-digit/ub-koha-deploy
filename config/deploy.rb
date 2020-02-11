@@ -28,7 +28,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-opac-simplified-messaging',
-  'gub-dev-remove-cancel-button',
+## löst i koha  'gub-dev-remove-cancel-button',
   'gub-dev-withdrawn-status-details',
   'gub-dev-bypass-confirmation-notforloan-status',
   'gub-overdue-messaging',
