@@ -33,7 +33,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-bypass-confirmation-notforloan-status',
   'gub-overdue-messaging',
   'gub-plugin-extender',
-  'gub-disable-plugin-pagination',
+### reservation error when enabled  'gub-disable-plugin-pagination',
   ## temporarly disabled 'queue_elastic_indexing',
   'gub-dev-acquisitions-fixes',
   'gub-dev-local-translation-files',
