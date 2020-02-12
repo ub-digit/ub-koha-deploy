@@ -85,7 +85,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-23680-new-item-window-close',
   'gub-dev-syspref-plugin-hook',
 ### löst i koha  'gub-bug-23655-fix-about-page',
-  'gub-bug-23730-fix-export-of-reports',
+### löst i i koha  'gub-bug-23730-fix-export-of-reports',
   'gub-bug-22539-fines-calculation-fix',
   'gub-dev-sip-was-transferred-fix',
 ###  cherry-pickat commiter till gub-dev-koha-svc 'gukort2-development',
