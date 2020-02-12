@@ -18,7 +18,6 @@ set :koha_deploy_release_branch_prefix, 'release-2020.02-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
-  'hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-bug-14957-marc-permissions',
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
@@ -90,6 +89,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-22539-fines-calculation-fix',
   'gub-dev-sip-was-transferred-fix',
 ###  cherry-pickat commiter till gub-dev-koha-svc 'gukort2-development',
+  'hides-dateofbirth-and-library-filters-from-patron-search',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
