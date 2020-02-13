@@ -90,6 +90,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-was-transferred-fix',
 ###  cherry-pickat commiter till gub-dev-koha-svc 'gukort2-development',
   'hides-dateofbirth-and-library-filters-from-patron-search',
+  'gub-dev-sort-collation-sv',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
