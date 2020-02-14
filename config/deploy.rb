@@ -91,6 +91,7 @@ set :koha_deploy_rebase_branches, [
 ###  cherry-pickat commiter till gub-dev-koha-svc 'gukort2-development',
   'hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
+  'move-code-from-js-to-tt-template',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
