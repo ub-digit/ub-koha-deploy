@@ -46,7 +46,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-odue-debar-removal-fix',
   'gub-dev-auto-add-001',
   'gub-dev-callnumber-095-fallback',
-  'gub-dev-restrict-history-tabs',
   'gub-dev-prevent-ref-from-hold-resolve',
   'gub-dev-gub-format-facet',
   'gub-dev-circulation-reports',
@@ -89,6 +88,11 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-22539-fines-calculation-fix',
   'gub-dev-sip-was-transferred-fix',
 ###  cherry-pickat commiter till gub-dev-koha-svc 'gukort2-development',
+  'hides-dateofbirth-and-library-filters-from-patron-search',
+  'gub-dev-sort-collation-sv',
+  'move-code-from-js-to-tt-template',
+  'gub-dev-hide-search-sort-options',
+  'gub-dev-limit-visible-patron-notices',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
