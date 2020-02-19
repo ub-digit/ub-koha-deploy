@@ -93,6 +93,9 @@ set :koha_deploy_rebase_branches, [
   'move-code-from-js-to-tt-template',
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
+  'gub-dev-acqusition-form-hide-unused-items',
+  'gub-dev-madatory-account-selection-in-acqusition',
+  'gub-dev-server-based-background',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
