@@ -78,6 +78,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-limit-visible-patron-notices',
   'gub-dev-acqusition-form-hide-unused-items',
   'gub-dev-mandatory-account-selection-in-acqusition',
+  'bug-24720-special-chars-normalize-sort-fields',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
