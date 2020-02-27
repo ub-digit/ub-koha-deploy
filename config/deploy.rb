@@ -81,6 +81,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-24720-special-chars-normalize-sort-fields',
   'gub-dev-opac-hide-renew-functionality-when-not-applicable-m',
   'gub-bug-22771-nonfiling-characters-for-sort-fields',
+  'gub-dev-acqui-handle-missing-biblio-in-orders',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
