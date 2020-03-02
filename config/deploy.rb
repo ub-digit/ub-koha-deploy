@@ -83,6 +83,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-22771-nonfiling-characters-for-sort-fields',
   'gub-dev-acqui-handle-missing-biblio-in-orders',
   'gub-dev-prevent-accidental-removal-of-library-groups',
+  'gub-dev-hide-fines-table-if-empty',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
