@@ -84,6 +84,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acqui-handle-missing-biblio-in-orders',
   'gub-dev-prevent-accidental-removal-of-library-groups',
   'gub-dev-hide-fines-table-if-empty',
+  'auto-renew-borrower-account-cron',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
