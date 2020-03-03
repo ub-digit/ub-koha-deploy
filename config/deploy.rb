@@ -88,6 +88,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-24456-incorrect-issues-sort-order',
   'gub-dev-intra-hide-revert-waiting-btn',
   'gub-dev-hide-editable-date-holds-table',
+  'gub-dev-remove-clubs-from-tab-nav',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
