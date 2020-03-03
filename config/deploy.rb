@@ -57,7 +57,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-show-852-in-biblio',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
-  'gub-dev-change-accruing-fine-on-lost-pay',
+### Fungerar ej längre men problemet den försöker lösa kvarstår  'gub-dev-change-accruing-fine-on-lost-pay',
   'gub-bug-20262-refund-fees-without-creating-credits',
   'gub-dev-fix-debarred_comment',
   'gub-dev-fix-unitprice-decimal',
