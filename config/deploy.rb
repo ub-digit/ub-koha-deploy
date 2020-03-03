@@ -87,6 +87,7 @@ set :koha_deploy_rebase_branches, [
   'auto-renew-borrower-account-cron',
   'gub-bug-24456-incorrect-issues-sort-order',
   'gub-dev-intra-hide-revert-waiting-btn',
+  'gub-dev-hide-editable-date-holds-table',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
