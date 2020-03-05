@@ -90,6 +90,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hide-editable-date-holds-table',
   'gub-dev-remove-clubs-from-tab-nav',
   'bug-24788-remove-autoloaded-column-accessors',
+  'gub-bug-24807-elasticsearch-sort-empty-values'
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
