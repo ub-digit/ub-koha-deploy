@@ -91,6 +91,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-clubs-from-tab-nav',
   'gub-bug-24788-remove-autoloaded-column-accessors',
   'gub-bug-24807-elasticsearch-sort-empty-values',
+  'gub-dev-revert-total-calculation-from-23522',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
