@@ -82,7 +82,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-opac-hide-renew-functionality-when-not-applicable-m',
   'gub-bug-22771-nonfiling-characters-for-sort-fields',
   'gub-dev-acqui-handle-missing-biblio-in-orders',
-  'gub-dev-prevent-accidental-removal-of-library-groups',
+### Tillfällig lösning på bug, ska vara rättat i Koha  'gub-dev-prevent-accidental-removal-of-library-groups',
   'gub-dev-hide-fines-table-if-empty',
   'auto-renew-borrower-account-cron',
   'gub-bug-24456-incorrect-issues-sort-order',
