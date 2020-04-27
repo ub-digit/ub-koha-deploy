@@ -93,6 +93,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-24807-elasticsearch-sort-empty-values',
   'gub-dev-revert-total-calculation-from-23522',
   'gub-dev-barcode-librarycard',
+  'gub-dev-cleaning-scripts',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
