@@ -139,6 +139,16 @@ set :keep_releases, 5
 # set :npm_prune_flags, ''
 
 namespace :deploy do
+  before "git:check", :alert_deploying_to_stage do
+    on roles(:all) do |host|
+      colors = SSHKit::Color.new($stdout)
+      message = "You are about to deploy to #{fetch(:stage)}"
+      if fetch(:stage) == :production
+        info colors.colorize("\e[5m#{message}!\e[0m", :red)
+      end
+    end
+  end
+
   before :starting, :set_command_map_paths do
     # Koha shell??
     #SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
