@@ -23,6 +23,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-18138-marc-modification-template-on-biblio-save',
   'gub-bug-19197-elasticsearch-wrong-operator-case',
   'gub-bug-19707-elasticsearch-sync-mappings-work',
+  'gub-bug-25539-remove-defer-marc-save',
   'bulkmarcimport',
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
