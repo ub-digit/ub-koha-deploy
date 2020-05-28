@@ -95,6 +95,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522',
   'gub-dev-barcode-librarycard',
   'gub-dev-cleaning-scripts',
+  'gub-dev-pg-reports',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
