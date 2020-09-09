@@ -14,14 +14,14 @@ set :repo_remotes, {
 set :branch, 'release-2020.02-20200427.1257'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2020.02-'
+set :koha_deploy_release_branch_prefix, 'release-2020.09-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
   'gub-bug-14957-marc-permissions',
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
-  'gub-bug-19197-elasticsearch-wrong-operator-case',
+#  'gub-bug-19197-elasticsearch-wrong-operator-case', # Löst i koha, via 24506
   'gub-bug-19707-elasticsearch-sync-mappings-work',
   'gub-bug-25539-remove-defer-marc-save',
   'bulkmarcimport',
@@ -33,7 +33,7 @@ set :koha_deploy_rebase_branches, [
   'gub-overdue-messaging',
   'gub-plugin-extender',
   'gub-dev-acquisitions-fixes',
-  'gub-dev-syspref-autoapprove-user-profile',
+#  'gub-dev-syspref-autoapprove-user-profile', # Löst på annat sätt i koha
   'gub-dev-sip-send-location-code',
   'gub-dev-sip-no-alert-for-available',
   'gub-dev-frontend-assets',
@@ -80,10 +80,10 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acqusition-form-hide-unused-items',
   'gub-dev-mandatory-account-selection-in-acqusition',
   'gub-bug-24720-special-chars-normalize-sort-fields',
-  'gub-dev-opac-hide-renew-functionality-when-not-applicable-m',
-  'gub-bug-22771-nonfiling-characters-for-sort-fields',
+  'gub-dev-opac-hide-renew-functionality-when-not-applicable',
+#  'gub-bug-22771-nonfiling-characters-for-sort-fields', Pushad till master i Koha, med en mindre modifikation
   'gub-dev-acqui-handle-missing-biblio-in-orders',
-  'gub-dev-prevent-accidental-removal-of-library-groups', ### Tillfällig lösning på bug, ska vara rättat i Koha
+#  'gub-dev-prevent-accidental-removal-of-library-groups', ### Tillfällig lösning på bug, numera rättat i Koha
   'gub-dev-hide-fines-table-if-empty',
   'auto-renew-borrower-account-cron',
   'gub-bug-24456-incorrect-issues-sort-order',
@@ -97,6 +97,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
   'gub-dev-pg-reports',
+  'gub-bug-25969-found-hold-checkin-error',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
