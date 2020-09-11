@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2020.02-20200427.1257'
+set :branch, 'release-2020.09-20200911.1532'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2020.09-'
@@ -69,7 +69,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-reset-expiration-on-revert',
   'gub-dev-plugin-hooks',
   'gub-dev-plugin-hooks-update-status',
-  'gub-dev-syspref-plugin-hook',
+  # Temporärt borttagen pga plackfel m.m. gub-dev-syspref-plugin-hook',
   'gub-bug-22539-fines-calculation-fix',
   'gub-dev-sip-was-transferred-fix',
   'hides-dateofbirth-and-library-filters-from-patron-search',
@@ -98,6 +98,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-online-payments',
   'gub-dev-pg-reports',
   'gub-bug-25969-found-hold-checkin-error',
+  'gub-dev-add-689-merge-rule',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
