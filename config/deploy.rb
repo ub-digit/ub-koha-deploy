@@ -100,6 +100,9 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-25969-found-hold-checkin-error',
   'gub-dev-add-689-merge-rule',
   'gub-bug-split-852b-852c-search-mappings',
+  'gub-dev-koha-1526-acquisitions-set-focus-on-new-basket',
+  'gub-dev-koha-1528-remove-paid-for-field',
+  'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
