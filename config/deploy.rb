@@ -99,6 +99,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-pg-reports',
   'gub-bug-25969-found-hold-checkin-error',
   'gub-dev-add-689-merge-rule',
+  'gub-bug-split-852b-852c-search-mappings',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
