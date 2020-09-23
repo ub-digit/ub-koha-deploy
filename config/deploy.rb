@@ -122,12 +122,15 @@ set :pty, false
 
 # set :linked_files, %w{web/sites/default/secret.settings.php web/sites/default/site.settings.php}
 set :linked_files , %w{
+  misc/translator/po/sv-SE-installer-MARC21.po
+  misc/translator/po/sv-SE-installer.po  
   misc/translator/po/sv-SE-marc-MARC21.po
   misc/translator/po/sv-SE-marc-NORMARC.po
   misc/translator/po/sv-SE-marc-UNIMARC.po
   misc/translator/po/sv-SE-opac-bootstrap.po
   misc/translator/po/sv-SE-pref.po
   misc/translator/po/sv-SE-staff-prog.po
+  misc/translator/po/sv-SE-messages-js.po
   misc/translator/po/sv-SE-messages.po
 }
 
