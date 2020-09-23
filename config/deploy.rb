@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2020.09-20200911.1532'
+set :branch, 'release-2020.09-20200922.1815'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2020.09-'
@@ -28,7 +28,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-opac-simplified-messaging',
-  'gub-dev-withdrawn-status-details',
+#  'gub-dev-withdrawn-status-details', # Ev löst i Koha, kontrollera detta.
   'gub-dev-bypass-confirmation-notforloan-status',
   'gub-overdue-messaging',
   'gub-plugin-extender',
@@ -70,7 +70,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-plugin-hooks',
   'gub-dev-plugin-hooks-update-status',
   # Temporärt borttagen pga plackfel m.m. gub-dev-syspref-plugin-hook',
-  'gub-bug-22539-fines-calculation-fix',
+  # 'gub-bug-22539-fines-calculation-fix', Troligen felrebasead sedan tidigare, men finns en ny syspref som troligen löser problemet
   'gub-dev-sip-was-transferred-fix',
   'hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
@@ -86,13 +86,13 @@ set :koha_deploy_rebase_branches, [
 #  'gub-dev-prevent-accidental-removal-of-library-groups', ### Tillfällig lösning på bug, numera rättat i Koha
   'gub-dev-hide-fines-table-if-empty',
   'auto-renew-borrower-account-cron',
-  'gub-bug-24456-incorrect-issues-sort-order',
+#  'gub-bug-24456-incorrect-issues-sort-order', Pushad till master i Koha
   'gub-dev-intra-hide-revert-waiting-btn',
   'gub-dev-hide-editable-date-holds-table',
   'gub-dev-remove-clubs-from-tab-nav',
-  'gub-bug-24788-remove-autoloaded-column-accessors',
-  'gub-bug-24807-elasticsearch-sort-empty-values',
-  'gub-dev-revert-total-calculation-from-23522',
+#  'gub-bug-24788-remove-autoloaded-column-accessors',  Pushad till master i Koha
+  'gub-bug-24807-elasticsearch-sort-empty-values', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas
+  'gub-dev-revert-total-calculation-from-23522', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas
   'gub-dev-barcode-librarycard',
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
