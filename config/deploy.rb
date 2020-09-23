@@ -103,6 +103,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-koha-1526-acquisitions-set-focus-on-new-basket',
   'gub-dev-koha-1528-remove-paid-for-field',
   'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
+  'gub-dev-koha-1545-set-permanent-location',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
