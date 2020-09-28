@@ -105,7 +105,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
-  'gub-dev-return-when-waiting-fix',gub-dev-return-when-waiting-fix
+  'gub-dev-return-when-waiting-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
