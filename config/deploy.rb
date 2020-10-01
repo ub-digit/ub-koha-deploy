@@ -107,6 +107,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-tabs-from-make-payment',
   'gub-dev-return-when-waiting-fix',
   'gub-dev-koha-1568-broken-filter-in-transactions',
+  'gub-bug-15775-maxoutstanding-alert',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
