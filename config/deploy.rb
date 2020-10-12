@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2020.09-20201006.1438'
+set :branch, 'release-2020.09-20201009.1421'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2020.09-'
@@ -108,6 +108,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-return-when-waiting-fix',
   'gub-dev-koha-1568-broken-filter-in-transactions',
   'gub-bug-15775-maxoutstanding-alert',
+  'gub-bug-26507-new-items-not-indexed',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
