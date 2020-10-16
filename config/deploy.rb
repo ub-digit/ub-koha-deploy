@@ -115,6 +115,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-26536-writeoff-pay-selected-fix',
   'gub-dev-lost-status-update-for-paid-issues',
   'gub-bug-26262-fix-broken-paging',
+  'gub-dev-force-default-replacementcost',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
