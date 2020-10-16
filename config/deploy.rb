@@ -112,6 +112,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-26460-fix-line-ending-in-json',
   'gub-bug-xxxx-marc-export-search-result',
   'gub-dev-set-default-biblio-in-orders-when-missing',
+  'gub-dev-force-default-replacementcost',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
