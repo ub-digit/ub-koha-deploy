@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2020.09-20201016.1614'
+set :branch, 'release-2020.09-20201019.1302'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2020.09-'
@@ -110,7 +110,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-15775-maxoutstanding-alert',
   'gub-bug-26507-new-items-not-indexed',
   'gub-bug-26460-fix-line-ending-in-json',
-  'gub-bug-xxxx-marc-export-search-result',
+##  'gub-bug-xxxx-marc-export-search-result', Tillfälligt bortkommenterad, test i lab pågår
   'gub-dev-set-default-biblio-in-orders-when-missing',
   'gub-bug-26536-writeoff-pay-selected-fix',
   'gub-dev-lost-status-update-for-paid-issues',
