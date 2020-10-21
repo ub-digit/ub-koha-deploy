@@ -116,6 +116,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-lost-status-update-for-paid-issues',
   'gub-bug-26262-fix-broken-paging',
   'gub-dev-force-default-replacementcost',
+  'gub-bug-26686-fix-broken-sorting',
+  'gub-dev-reindex-after-delete-item',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
