@@ -118,6 +118,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-force-default-replacementcost',
   'gub-bug-26686-fix-broken-sorting',
   'gub-dev-reindex-after-delete-item',
+  'gub-dev-allow-zero-vendor-id',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
