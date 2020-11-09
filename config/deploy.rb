@@ -121,6 +121,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-allow-zero-vendor-id',
   'gub-bug-25758-show-renew-info',
   'gub-dev-fines-run-everyday',
+  'gub-bug-26666-display-address-information-fix',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
