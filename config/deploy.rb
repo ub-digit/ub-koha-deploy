@@ -123,6 +123,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fines-run-everyday',
   'gub-bug-26666-display-address-information-fix',
   'gub-bug-koha-1614-email-html-fix',
+  'koha-1662-hide-existing-holds-priority-dropdown',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
