@@ -124,6 +124,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-26666-display-address-information-fix',
   'gub-bug-koha-1614-email-html-fix',
   'koha-1662-hide-existing-holds-priority-dropdown',
+  'gub-dev-remove-graphics-magick-dep',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
