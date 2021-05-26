@@ -127,6 +127,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
   'gub-dev-env-background-images',
+  'gub-dev-anonymize-db',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
