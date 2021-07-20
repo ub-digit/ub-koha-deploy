@@ -126,7 +126,7 @@ set :koha_deploy_rebase_branches, [
   'koha-1662-hide-existing-holds-priority-dropdown',
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
-  'gub-dev-env-background-images',
+  'gub-dev-environment-assets',
   'gub-dev-anonymize-db',
   'koha-deploy'
 ]
