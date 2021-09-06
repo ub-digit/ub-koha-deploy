@@ -128,6 +128,7 @@ set :koha_deploy_rebase_branches, [
   'gub-update-permissions',
   'gub-dev-environment-assets',
   'gub-dev-anonymize-db',
+  'security-bug-28947-28929-critical',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
