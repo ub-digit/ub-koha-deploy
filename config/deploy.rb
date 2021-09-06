@@ -11,7 +11,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2020.09-20210518.1023'
+set :branch, 'release-2020.09-20210630.1325'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2020.09-'
@@ -50,7 +50,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-edifact-cron',
   'gub-dev-disable-hold-waiting-on-sip-return',
   'gub-bug-23009-deleted-marc-conditions',
-  'gub-bug-20492-elasticsearch-adv-search-year-limit',
+  #'gub-bug-20492-elasticsearch-adv-search-year-limit', # Fixed in bug 22524
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
