@@ -21,19 +21,16 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-14957-marc-permissions',
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
-#  'gub-bug-19197-elasticsearch-wrong-operator-case', # Löst i koha, via 24506
   'gub-bug-19707-elasticsearch-sync-mappings-work',
   'gub-bug-25539-remove-defer-marc-save',
   'bulkmarcimport',
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-opac-simplified-messaging',
-#  'gub-dev-withdrawn-status-details', # Ev löst i Koha, kontrollera detta.
   'gub-dev-bypass-confirmation-notforloan-status',
   'gub-overdue-messaging',
   'gub-plugin-extender',
   'gub-dev-acquisitions-fixes',
-#  'gub-dev-syspref-autoapprove-user-profile', # Löst på annat sätt i koha
   'gub-dev-sip-send-location-code',
   'gub-dev-sip-no-alert-for-available',
   'gub-dev-frontend-assets',
@@ -50,7 +47,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-edifact-cron',
   'gub-dev-disable-hold-waiting-on-sip-return',
   'gub-bug-23009-deleted-marc-conditions',
-  #'gub-bug-20492-elasticsearch-adv-search-year-limit', # Fixed in bug 22524
   'gub-dev-allow-issue-when-reserved',
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
@@ -58,7 +54,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-show-852-in-biblio',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
-### Fungerar ej längre men problemet den försöker lösa kvarstår  'gub-dev-change-accruing-fine-on-lost-pay',
   'gub-bug-20262-refund-fees-without-creating-credits',
   'gub-dev-fix-debarred_comment',
   'gub-dev-fix-unitprice-decimal',
@@ -69,8 +64,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-reset-expiration-on-revert',
   'gub-dev-plugin-hooks',
   'gub-dev-plugin-hooks-update-status',
-  # Temporärt borttagen pga plackfel m.m. gub-dev-syspref-plugin-hook',
-  # 'gub-bug-22539-fines-calculation-fix', Troligen felrebasead sedan tidigare, men finns en ny syspref som troligen löser problemet
   'gub-dev-sip-was-transferred-fix',
   'hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
@@ -81,18 +74,14 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-mandatory-account-selection-in-acqusition',
   'gub-bug-24720-special-chars-normalize-sort-fields',
   'gub-dev-opac-hide-renew-functionality-when-not-applicable',
-#  'gub-bug-22771-nonfiling-characters-for-sort-fields', Pushad till master i Koha, med en mindre modifikation
   'gub-dev-acqui-handle-missing-biblio-in-orders',
-#  'gub-dev-prevent-accidental-removal-of-library-groups', ### Tillfällig lösning på bug, numera rättat i Koha
   'gub-dev-hide-fines-table-if-empty',
   'auto-renew-borrower-account-cron',
-#  'gub-bug-24456-incorrect-issues-sort-order', Pushad till master i Koha
   'gub-dev-intra-hide-revert-waiting-btn',
   'gub-dev-hide-editable-date-holds-table',
   'gub-dev-remove-clubs-from-tab-nav',
-#  'gub-bug-24788-remove-autoloaded-column-accessors',  Pushad till master i Koha
-  'gub-bug-24807-elasticsearch-sort-empty-values', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas
-  'gub-dev-revert-total-calculation-from-23522', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas
+  'gub-bug-24807-elasticsearch-sort-empty-values', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas (2020.09 ?)
+  'gub-dev-revert-total-calculation-from-23522', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas (2020.09 ?)
   'gub-dev-barcode-librarycard',
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
