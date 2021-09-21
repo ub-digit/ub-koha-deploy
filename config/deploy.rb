@@ -4,7 +4,9 @@
 #lock '3.2.1'
 
 set :application, 'koha'
-set :repo_url, 'https://github.com/ub-digit/Koha.git'
+#set :repo_url, 'https://github.com/ub-digit/Koha.git'
+set :repo_url, 'git@github.com:ub-digit/Koha.git'
+
 set :repo_remotes, {
   'koha-build' => 'git@github.com:ub-digit/Koha-build.git'
 }
@@ -14,7 +16,7 @@ set :repo_remotes, {
 set :branch, 'release-2020.09-20210630.1325'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2020.09-'
+set :koha_deploy_release_branch_prefix, 'release-2021.09-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
@@ -33,7 +35,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acquisitions-fixes',
   'gub-dev-sip-send-location-code',
   'gub-dev-sip-no-alert-for-available',
-  'gub-dev-frontend-assets',
+  #'gub-dev-frontend-assets', # Ska delas upp på flera 2021.09
   'gub-dev-KOHA-925-work',
   'gub-dev-advanced-search-customizations',
   'gub-dev-odue-debar-removal-fix',
@@ -67,7 +69,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-was-transferred-fix',
   'hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
-  'move-code-from-js-to-tt-template',
+  #'move-code-from-js-to-tt-template', # Ska delas upp på flera 2021.09
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
   'gub-dev-acqusition-form-hide-unused-items',
