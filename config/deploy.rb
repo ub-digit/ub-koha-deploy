@@ -120,6 +120,9 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-environment-assets',
   'gub-dev-anonymize-db',
   'security-bug-28947-28929-critical',
+  'gub-dev-favicon-for-my-loans',
+  'gub-dev-css-for-slip-prints',
+  'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
