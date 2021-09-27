@@ -33,7 +33,7 @@ set :koha_deploy_rebase_branches, [
   'gub-overdue-messaging',
   'gub-plugin-extender',
   'gub-dev-acquisitions-fixes',
-  'gub-dev-sip-send-location-code',
+  'gub-bug-20058-sip-send-location-code',
   'gub-dev-sip-no-alert-for-available',
   #'gub-dev-frontend-assets', # Ska delas upp på flera 2021.09
   'gub-dev-KOHA-925-work',
