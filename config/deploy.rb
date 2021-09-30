@@ -38,7 +38,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-frontend-assets', # Ska delas upp på flera 2021.09
   'gub-dev-KOHA-925-work',
   'gub-dev-advanced-search-customizations',
-  'gub-dev-odue-debar-removal-fix',
+  'gub-bug-29145-overdue-debarments-fix',
   'gub-dev-auto-add-001',
   'gub-dev-callnumber-095-fallback',
   'gub-dev-prevent-ref-from-hold-resolve',
