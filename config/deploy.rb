@@ -121,6 +121,16 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-anonymize-db', # Ta bort så länge, ska åtgärdas
   #'security-bug-28947-28929-critical', # Löst i master
   'gub-dev-disable-regexp-replace-in-migration',
+  'gub-dev-favicon-for-my-loans',
+  'gub-dev-css-for-slip-prints',
+  'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
+  'gub-dev-hide-checkout-history-button-in-biblio-view',
+  'gub-dev-hides-circulation-history-and-holds-history-in-patron-post',
+  'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
+  'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
+  'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
+  'gub-dev-hide-patron-attributes',
+  'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
