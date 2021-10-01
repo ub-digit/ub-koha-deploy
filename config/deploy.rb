@@ -36,7 +36,6 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-20058-sip-send-location-code',
   #'gub-dev-sip-no-alert-for-available', Ev löst i master, ska testas
   #'gub-dev-frontend-assets', # uppdelad på följande 3 (2021.09)
-  'gub-dev-disable-regexp-replace-in-migration',
   'gub-dev-favicon-for-my-loans',
   'gub-dev-css-for-slip-prints',
 
@@ -56,7 +55,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-allow-issue-when-reserved', # Troligen löst i master av bug 27936
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
-  'gub-dev-opac-minalan',
+##  'gub-dev-opac-minalan',
   'gub-dev-show-852-in-biblio',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
@@ -98,7 +97,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas (2020.09 ?), denna gör vad vi vill, behåll t.v. 2021.09
   'gub-dev-barcode-librarycard',
   'gub-dev-cleaning-scripts',
-##  'gub-dev-online-payments',
+  'gub-dev-online-payments',
   'gub-dev-pg-reports',
   #'gub-bug-25969-found-hold-checkin-error', # Denna kommer inte kunna rebasas pga för förändrad kod, får testas / utredas på nytt
   #'gub-dev-add-689-merge-rule', # Var en engångsåtgärd
