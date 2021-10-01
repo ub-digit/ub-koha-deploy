@@ -38,6 +38,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-frontend-assets', # uppdelad på följande 3 (2021.09)
   'gub-dev-favicon-for-my-loans',
   'gub-dev-css-for-slip-prints',
+  'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
 
   'gub-dev-KOHA-925-work',
   'gub-dev-advanced-search-customizations',
