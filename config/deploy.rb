@@ -30,12 +30,16 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-koha-svc',
   'gub-dev-opac-simplified-messaging',
   'gub-dev-bypass-confirmation-notforloan-status',
-##  'gub-overdue-messaging',
+  'gub-overdue-messaging',
   'gub-plugin-extender',
   'gub-dev-acquisitions-fixes',
   'gub-bug-20058-sip-send-location-code',
   #'gub-dev-sip-no-alert-for-available', Ev löst i master, ska testas
-  #'gub-dev-frontend-assets', # Ska delas upp på flera 2021.09
+  #'gub-dev-frontend-assets', # uppdelad på följande 3 (2021.09)
+  'gub-dev-disable-regexp-replace-in-migration',
+  'gub-dev-favicon-for-my-loans',
+  'gub-dev-css-for-slip-prints',
+
   'gub-dev-KOHA-925-work',
   'gub-dev-advanced-search-customizations',
   'gub-bug-29145-overdue-debarments-fix',
@@ -69,7 +73,15 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-sip-was-transferred-fix', # Ev löst i master, ska testas
   'hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
-  #'move-code-from-js-to-tt-template', # Ska delas upp på flera 2021.09
+  #'move-code-from-js-to-tt-template', # Uppdelad på följande 7 (2021.09)
+  'gub-dev-hide-checkout-history-button-in-biblio-view',
+  'gub-dev-hides-circulation-history-and-holds-history-in-patron-post',
+  'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
+  'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
+  'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
+  'gub-dev-hide-patron-attributes',
+  'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
+
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
   'gub-dev-acqusition-form-hide-unused-items',
@@ -121,16 +133,6 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-anonymize-db', # Ta bort så länge, ska åtgärdas
   #'security-bug-28947-28929-critical', # Löst i master
   'gub-dev-disable-regexp-replace-in-migration',
-  'gub-dev-favicon-for-my-loans',
-  'gub-dev-css-for-slip-prints',
-  'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
-  'gub-dev-hide-checkout-history-button-in-biblio-view',
-  'gub-dev-hides-circulation-history-and-holds-history-in-patron-post',
-  'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
-  'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
-  'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
-  'gub-dev-hide-patron-attributes',
-  'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
