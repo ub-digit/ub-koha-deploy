@@ -20,11 +20,11 @@ set :koha_deploy_release_branch_prefix, 'release-2021.09-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
-##  'gub-bug-14957-marc-permissions',
+  'gub-bug-14957-marc-permissions-tmp',
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
   'gub-bug-19707-elasticsearch-sync-mappings-work',
-  'gub-bug-25539-remove-defer-marc-save',
+  'gub-bug-25539-remove-defer-marc-save', # Ej med i dokumentet
   'bulkmarcimport',
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
@@ -40,7 +40,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-css-for-slip-prints',
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
 
-  'gub-dev-KOHA-925-work',
+  #'gub-dev-KOHA-925-work', Sammanslagen med gub-dev-opac-minalan
   'gub-dev-advanced-search-customizations',
   'gub-bug-29145-overdue-debarments-fix',
   'gub-dev-auto-add-001',
@@ -56,7 +56,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-allow-issue-when-reserved', # Troligen löst i master av bug 27936
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
-##  'gub-dev-opac-minalan',
+  'gub-dev-opac-minalan',
   'gub-dev-show-852-in-biblio',
   'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
@@ -87,7 +87,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acqusition-form-hide-unused-items',
   'gub-dev-mandatory-account-selection-in-acqusition',
   'gub-bug-24720-special-chars-normalize-sort-fields',
-  'gub-dev-opac-hide-renew-functionality-when-not-applicable',
+  #'gub-dev-opac-hide-renew-functionality-when-not-applicable', Sammanslagen med gub-dev-opac-minalan
   #'gub-dev-acqui-handle-missing-biblio-in-orders', # Ev hanterad av vårt andra script
   'gub-dev-hide-fines-table-if-empty',
   'auto-renew-borrower-account-cron',
@@ -96,7 +96,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-remove-clubs-from-tab-nav', # Hanterad i master
   #'gub-bug-24807-elasticsearch-sort-empty-values', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas (2020.09 ?), prova att använda kohas hantering 2021.09
   'gub-dev-revert-total-calculation-from-23522', # Denna är pushad till master i Koha men vår kod skiljer sig åt från Kohas, får utredas (2020.09 ?), denna gör vad vi vill, behåll t.v. 2021.09
-  'gub-dev-barcode-librarycard',
+  #'gub-dev-barcode-librarycard', Sammanslagen med gub-dev-opac-minalan
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
   'gub-dev-pg-reports',
@@ -109,7 +109,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
   #'gub-dev-return-when-waiting-fix', # Troligen löst i master av bug  26627
-  #'gub-dev-koha-1568-broken-filter-in-transactions', # Kolla om detta är löst
+  'gub-dev-koha-1568-broken-filter-in-transactions', # Ej löst i master
   'gub-bug-15775-maxoutstanding-alert',
   #'gub-bug-26507-new-items-not-indexed', # Löst i master
   #'gub-bug-26460-fix-line-ending-in-json', # Löst i master
