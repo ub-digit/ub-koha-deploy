@@ -66,7 +66,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-owning-library-sender', # löst i master
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
-  'gub-dev-allow-zero-in-phonenumber',
+  #'gub-dev-allow-zero-in-phonenumber', löst i master
   'gub-dev-reset-expiration-on-revert',
   'gub-dev-plugin-hooks',
   'gub-dev-plugin-hooks-update-status',
@@ -133,6 +133,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-anonymize-db', # Ta bort så länge, ska åtgärdas
   #'security-bug-28947-28929-critical', # Löst i master
   'gub-dev-disable-regexp-replace-in-migration',
+  'gub-dev-disable-analytics-link',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
