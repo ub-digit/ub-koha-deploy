@@ -134,6 +134,7 @@ set :koha_deploy_rebase_branches, [
   #'security-bug-28947-28929-critical', # Löst i master
   'gub-dev-disable-regexp-replace-in-migration',
   'gub-dev-disable-analytics-link',
+  'gub-dev-cpanfile-version-specification',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
