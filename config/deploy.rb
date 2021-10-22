@@ -29,7 +29,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-opac-simplified-messaging',
-  'gub-dev-bypass-confirmation-notforloan-status',
+  #'gub-dev-bypass-confirmation-notforloan-status', # Använd syspref onsitecheckoutsforce
   'gub-overdue-messaging',
   'gub-plugin-extender',
   'gub-dev-acquisitions-fixes',
@@ -110,7 +110,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-tabs-from-make-payment',
   #'gub-dev-return-when-waiting-fix', # Troligen löst i master av bug  26627
   'gub-dev-koha-1568-broken-filter-in-transactions', # Ej löst i master
-  'gub-bug-15775-maxoutstanding-alert',
+  'gub-bug-15775-maxoutstanding-alert', # Tveksamt namngiven, byt. Alt slå ihop med minalan
   #'gub-bug-26507-new-items-not-indexed', # Löst i master
   #'gub-bug-26460-fix-line-ending-in-json', # Löst i master
   'gub-bug-27859-marc-export-search-result',
