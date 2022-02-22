@@ -52,6 +52,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-message-queue-delay', # löst på annat sätt i master
   'gub-dev-edifact-cron',
   #'gub-dev-disable-hold-waiting-on-sip-return', # används ej f.n.
+  'gub-bug-20551-export-records-deleted',
   'gub-bug-23009-deleted-marc-conditions',
   #'gub-dev-allow-issue-when-reserved', # Troligen löst i master av bug 27936
   'gub-dev-cache-subscription-frequencies',
