@@ -37,7 +37,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acquisitions-recalculate-price',
   'gub-bug-20058-sip-send-location-code',
 #  'gub-dev-favicon-for-my-loans', #obsolet
-#  'gub-dev-css-for-slip-prints', #flyttas till statisk fil
+  'gub-dev-css-for-slip-prints',  #bör flyttas till statisk fil vid tillfälle
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'gub-dev-advanced-search-customizations',
   'gub-bug-29145-overdue-debarments-fix',
