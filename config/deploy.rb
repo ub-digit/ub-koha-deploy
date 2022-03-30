@@ -103,7 +103,7 @@ set :koha_deploy_rebase_branches, [
 #  'gub-dev-disable-analytics-link', #kolla om detta är löst
   'gub-dev-cpanfile-version-specification',
   'bug-30255-batchmod-optional-list-step',
-  'gub-dev-set-environment-preferences',
+  'gub-dev-anonymize-db',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
