@@ -4,10 +4,10 @@
 server 'koha-staging.ub.gu.se',
   roles: %w{web app db},
   primary: false,
-  user: 'koha',
+  user: 'apps',
   port: 22,
   koha_instance_name: 'koha',
   koha_plack_enabled: true
 
-set :deploy_to, '/home/koha/koha-staging'
+set :deploy_to, '/home/apps/koha-staging'
 set :keep_releases, 5
