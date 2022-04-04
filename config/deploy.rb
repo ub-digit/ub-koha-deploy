@@ -104,6 +104,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-cpanfile-version-specification',
   'bug-30255-batchmod-optional-list-step',
   'gub-dev-anonymize-db',
+  'gub-dev-sip-password-from-attribute',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
