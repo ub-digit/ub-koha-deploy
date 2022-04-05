@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.02-20220330.2128'
+set :branch, 'release-2022.02-20220405.1120'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.02-'
@@ -100,7 +100,7 @@ set :koha_deploy_rebase_branches, [
   'gub-update-permissions',
   'gub-dev-environment-assets',
 #  'gub-dev-disable-regexp-replace-in-migration',
-#  'gub-dev-disable-analytics-link', #kolla om detta är löst
+  'gub-dev-disable-analytics-link', #detta är inte löst i master
   'gub-dev-cpanfile-version-specification',
   'bug-30255-batchmod-optional-list-step',
   'gub-dev-anonymize-db',
