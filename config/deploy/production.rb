@@ -1,15 +1,15 @@
 # Capistrano 3.x Koha Vagrant/Production stage
 # config/deployproduction.rb
 
-server 'koha.ub.gu.se',
+server '130.241.35.139',
   roles: %w{web app db},
   primary: false,
-  user: 'koha',
+  user: 'apps',
   port: 22,
   koha_instance_name: 'koha',
   koha_plack_enabled: true
 
-set :deploy_to, '/home/koha/koha-production'
+set :deploy_to, '/home/apps/koha-production'
 set :keep_releases, 5
 
 #release_prefix = 'release-2018.04-'
