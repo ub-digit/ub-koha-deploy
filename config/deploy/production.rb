@@ -1,7 +1,7 @@
 # Capistrano 3.x Koha Vagrant/Production stage
 # config/deployproduction.rb
 
-server '130.241.35.139',
+server 'koha.ub.gu.se',
   roles: %w{web app db},
   primary: false,
   user: 'apps',

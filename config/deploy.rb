@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.02-20220419.1513'
+set :branch, 'release-2022.02-20220517.1442'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.02-'
@@ -54,7 +54,7 @@ set :koha_deploy_rebase_branches, [
 #  'gub-dev-opac-minalan', #obsolet
   'gub-dev-show-852-in-biblio',
 #  'gub-dev-do-not-backdate-return-via-sip',
-#  'gub-dev-fromdate-in-fines',
+  'gub-dev-fromdate-in-fines',
   'gub-bug-20262-refund-lost-only-if-unpaid',
   'gub-dev-fix-unitprice-decimal',
   'gub-dev-incomplete-barcode',
