@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.02-20220517.1442'
+set :branch, 'release-2022.02-20220620.0942'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.02-'
@@ -106,6 +106,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-anonymize-db',
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
+  'gub-dev-offpc-extgen-pw',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
