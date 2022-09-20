@@ -16,7 +16,7 @@ set :repo_remotes, {
 set :branch, 'release-2022.02-20220623.1205'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2022.02-'
+set :koha_deploy_release_branch_prefix, 'release-2022.09-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
