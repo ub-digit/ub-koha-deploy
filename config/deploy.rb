@@ -26,17 +26,15 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-19707-elasticsearch-sync-mappings-work',
 #  'gub-bug-25539-remove-defer-marc-save', #med i gub-bug-29440-25539-29597-29654-bulkmarcimport
 #  'bulkmarcimport', #med i gub-bug-29440-25539-29597-29654-bulkmarcimport
-  'gub-bug-29440-25539-29597-29654-bulkmarcimport',
+  'gub-bug-29440-25539-29597-29654-bulkmarcimport', # Sammanslagen branch av bulkmarc-relaterade brancher
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-simplified-messaging',
   'gub-overdue-messaging',
   'gub-plugin-extender',
-#  'gub-dev-acquisitions-fixes', #delas upp i 2 följande
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
   'gub-bug-20058-sip-send-location-code',
-#  'gub-dev-favicon-for-my-loans', #obsolet
   'gub-dev-css-for-slip-prints',  #bör flyttas till statisk fil vid tillfälle
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'gub-dev-advanced-search-customizations',
@@ -51,15 +49,12 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-23009-deleted-marc-conditions',
   'gub-dev-cache-subscription-frequencies',
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
-#  'gub-dev-opac-minalan', #obsolet
   'gub-dev-show-852-in-biblio',
-#  'gub-dev-do-not-backdate-return-via-sip',
   'gub-dev-fromdate-in-fines',
   'gub-bug-20262-refund-lost-only-if-unpaid',
   'gub-dev-fix-unitprice-decimal',
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
-#  'gub-dev-reset-expiration-on-revert',
   'gub-dev-plugin-hooks',
   'gub-dev-plugin-hooks-update-status',
   'gub-dev-hides-dateofbirth-and-library-filters-from-patron-search',
@@ -76,7 +71,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acqusition-form-hide-unused-items',
   'gub-dev-mandatory-account-selection-in-acqusition',
   'gub-bug-24720-special-chars-normalize-sort-fields',
-#  'gub-dev-hide-fines-table-if-empty', #obsolet
   'auto-renew-borrower-account-cron',
   'gub-dev-intra-hide-revert-waiting-btn',
   'gub-dev-hide-editable-date-holds-table',
@@ -87,19 +81,15 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
-#  'gub-dev-koha-1568-broken-filter-in-transactions', #verkar vara löst i master
-#  'gub-bug-15775-maxoutstanding-alert', #obsolet
   'gub-bug-27859-marc-export-search-result',
   'gub-dev-set-default-biblio-in-orders-when-missing',
   'gub-dev-lost-status-update-for-paid-issues',
   'gub-dev-force-default-replacementcost',
   'gub-dev-allow-zero-vendor-id',
-#  'gub-bug-koha-1614-email-html-fix', #löst i master
   'koha-1662-hide-existing-holds-priority-dropdown',
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
   'gub-dev-environment-assets',
-#  'gub-dev-disable-regexp-replace-in-migration',
   'gub-dev-disable-analytics-link', #detta är inte löst i master
   'gub-dev-cpanfile-version-specification',
   'bug-30255-batchmod-optional-list-step',
