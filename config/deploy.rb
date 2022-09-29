@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.02-20220623.1205'
+set :branch, 'release-2022.09-20220929.1053'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -24,9 +24,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
   'gub-bug-19707-elasticsearch-sync-mappings-work',
-#  'gub-bug-25539-remove-defer-marc-save', #med i gub-bug-29440-25539-29597-29654-bulkmarcimport
-#  'bulkmarcimport', #med i gub-bug-29440-25539-29597-29654-bulkmarcimport
-  'gub-bug-29440-25539-29597-29654-bulkmarcimport', # Sammanslagen branch av bulkmarc-relaterade brancher
+  'gub-bug-29440-25539-29597-29654-bulkmarcimport', # Sammanslagen branch av bulkmarc-relaterade brancher, 29440 applyas först, sedan de andra.
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-simplified-messaging',
@@ -34,7 +32,7 @@ set :koha_deploy_rebase_branches, [
   'gub-plugin-extender',
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
-  'gub-bug-20058-sip-send-location-code',
+  #'gub-bug-20058-sip-send-location-code', #med i master
   'gub-dev-css-for-slip-prints',  #bör flyttas till statisk fil vid tillfälle
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'gub-dev-advanced-search-customizations',
@@ -51,7 +49,7 @@ set :koha_deploy_rebase_branches, [
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-show-852-in-biblio',
   'gub-dev-fromdate-in-fines',
-  'gub-bug-20262-refund-lost-only-if-unpaid',
+  #'gub-bug-20262-refund-lost-only-if-unpaid', #med i master
   'gub-dev-fix-unitprice-decimal',
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
@@ -64,7 +62,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
   'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
   'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
-  'gub-dev-hide-patron-attributes',
+  'gub-dev-hide-patron-attributes', # ska ersättas med KOHA-1761 när denna är implementerad
   'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
@@ -77,7 +75,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522',
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
-  'gub-dev-pg-reports',
+###TMP ska åtgärdas 'gub-dev-pg-reports',
   'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
@@ -90,13 +88,14 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
   'gub-dev-environment-assets',
-  'gub-dev-disable-analytics-link', #detta är inte löst i master
-  'gub-dev-cpanfile-version-specification',
+  #'gub-dev-disable-analytics-link', #denna är troligen löst i master
+  #'gub-dev-cpanfile-version-specification', #använd Kohas
   'bug-30255-batchmod-optional-list-step',
   'gub-dev-anonymize-db',
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
+  'gub-bug-xxxx-circulation-optimizations',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
