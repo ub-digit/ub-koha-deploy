@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20220929.1053'
+set :branch, 'release-2022.09-20221007.1450'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -29,7 +29,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-koha-svc',
   'gub-dev-simplified-messaging',
   'gub-overdue-messaging',
-  'gub-plugin-extender',
+  #'gub-plugin-extender', # ersätts med Kohas pluginlösning samt gub-dev-add-plugin-hooks
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
   #'gub-bug-20058-sip-send-location-code', #med i master
@@ -53,8 +53,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-unitprice-decimal',
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
-  'gub-dev-plugin-hooks',
-  'gub-dev-plugin-hooks-update-status',
+  #'gub-dev-plugin-hooks', # ersätts med Kohas pluginlösning samt gub-dev-add-plugin-hooks
+  #'gub-dev-plugin-hooks-update-status', # ersätts med Kohas pluginlösning samt gub-dev-add-plugin-hooks
   'gub-dev-hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
   'gub-dev-hide-checkout-history-button-in-biblio-view',
@@ -96,6 +96,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
   'gub-bug-xxxx-circulation-optimizations',
+  'gub-dev-add-plugin-hooks',
+  'gub-dev-disable-stats',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
