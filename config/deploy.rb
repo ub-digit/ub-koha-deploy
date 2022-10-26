@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20221025.1609'
+set :branch, 'release-2022.09-20221026.1420'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -103,6 +103,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-31663-display-item-transfers-correctly',
   'gub-bug-31871-fix-date-due-on-moredetail',
   'gub-dev-make-extended-attributes-hidable-and-not-editable',
+  'gub-dev-hook-for-adding-template-paths',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
