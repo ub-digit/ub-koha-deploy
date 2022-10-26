@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20221007.1450'
+set :branch, 'release-2022.09-20221025.1609'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -23,7 +23,7 @@ set :koha_deploy_rebase_branches, [
 #  'gub-bug-14957-marc-permissions-tmp', #med i master
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
-  'gub-bug-19707-elasticsearch-sync-mappings-work',
+  #'gub-bug-19707-elasticsearch-sync-mappings-work', # denna fungerar inte och har aldrig användts
   'gub-bug-29440-25539-29597-29654-bulkmarcimport', # Sammanslagen branch av bulkmarc-relaterade brancher, 29440 applyas först, sedan de andra.
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
@@ -62,7 +62,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
   'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
   'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
-  'gub-dev-hide-patron-attributes', # ska ersättas med KOHA-1761 när denna är implementerad
+  #'gub-dev-hide-patron-attributes', #ersätts troligen med gub-dev-make-extended-attributes-hidable-and-not-editable (KOHA-1761)
   'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
@@ -75,7 +75,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522',
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
-###TMP ska åtgärdas 'gub-dev-pg-reports',
+  #'gub-dev-pg-reports', #tas bort och löses på annat sätt 
   'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
@@ -96,8 +96,13 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
   'gub-bug-xxxx-circulation-optimizations',
-  'gub-dev-add-plugin-hooks',
+  'gub-bug-31734-add-plugin-hooks',
   'gub-dev-disable-stats',
+  'gub-bug-31846-serials-search-max-limit',
+  'gub-bug-31856-serials-search-performance',
+  'gub-bug-31663-display-item-transfers-correctly',
+  'gub-bug-31871-fix-date-due-on-moredetail',
+  'gub-dev-make-extended-attributes-hidable-and-not-editable',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
