@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20221027.0933'
+set :branch, 'release-2022.09-20221027.1123'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -105,6 +105,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-make-extended-attributes-hidable-and-not-editable',
   'gub-dev-hook-for-adding-template-paths',
   'gub-bug-xxxxx-add-hook-circulation-return-no-issue',
+  'gub-bug-31646-focus-input-by-default-when-clicking-on-a-dropdown-field-in-the-cataloguing-editor',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
