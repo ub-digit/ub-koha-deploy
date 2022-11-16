@@ -136,7 +136,6 @@ set :linked_files , %w{
   misc/translator/po/sv-SE-installer-MARC21.po
   misc/translator/po/sv-SE-installer.po
   misc/translator/po/sv-SE-marc-MARC21.po
-  misc/translator/po/sv-SE-marc-NORMARC.po
   misc/translator/po/sv-SE-marc-UNIMARC.po
   misc/translator/po/sv-SE-opac-bootstrap.po
   misc/translator/po/sv-SE-pref.po
