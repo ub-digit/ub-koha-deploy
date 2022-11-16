@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20221103.1612'
+set :branch, 'release-2022.09-20221116.1047'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -109,6 +109,12 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-welcome-email-option',
   'gub-bug-32060-faster-columns_to_string',
   'gub-bug-32092-circulation-rules-cache',
+  'gub-dev-disable-online-payments-syspref',
+  'gub-dev-cache-itemtypes-find',
+  'gub-dev-cache-libraries-find',
+  'gub-dev-cache-item-pickup-locations',
+  'gub-dev-manual-bundle-count',
+  'gub-dev-acqui-home-speedup',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
