@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20221207.1058'
+set :branch, 'release-2022.09-20221207.1723'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2022.09-'
@@ -117,7 +117,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acqui-home-speedup',
   'gub-bug-31818-show-keyboard-shortcuts-in-advanced-cataloguing-editor',
   'gub-dev-fix-item-details-view',
-  'gub-bug-31782-fix-broken-patron-autocomplete',
+###  'gub-bug-31782-fix-broken-patron-autocomplete',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
