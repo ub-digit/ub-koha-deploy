@@ -20,20 +20,16 @@ set :koha_deploy_release_branch_prefix, 'release-2022.09-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
-#  'gub-bug-14957-marc-permissions-tmp', #med i master
   'gub-bug-18129-staged-imports-user-filter',
   'gub-bug-18138-marc-modification-template-on-biblio-save',
-  #'gub-bug-19707-elasticsearch-sync-mappings-work', # denna fungerar inte och har aldrig användts
   'gub-bug-29440-25539-29597-29654-bulkmarcimport', # Sammanslagen branch av bulkmarc-relaterade brancher, 29440 applyas först, sedan de andra.
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-simplified-messaging',
   'gub-overdue-messaging',
-  #'gub-plugin-extender', # ersätts med Kohas pluginlösning samt gub-dev-add-plugin-hooks
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
-  #'gub-bug-20058-sip-send-location-code', #med i master
-  'gub-dev-css-for-slip-prints',  #bör flyttas till statisk fil vid tillfälle
+  'gub-dev-css-for-slip-prints',  # Bör flyttas till statisk fil vid tillfälle
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'gub-dev-advanced-search-customizations',
   'gub-bug-29145-overdue-debarments-fix',
@@ -49,12 +45,9 @@ set :koha_deploy_rebase_branches, [
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-show-852-in-biblio',
   'gub-dev-fromdate-in-fines',
-  #'gub-bug-20262-refund-lost-only-if-unpaid', #med i master
   'gub-dev-fix-unitprice-decimal',
   'gub-dev-incomplete-barcode',
   'gub-bug-23548-aq-field-required',
-  #'gub-dev-plugin-hooks', # ersätts med Kohas pluginlösning samt gub-dev-add-plugin-hooks
-  #'gub-dev-plugin-hooks-update-status', # ersätts med Kohas pluginlösning samt gub-dev-add-plugin-hooks
   'gub-dev-hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
   'gub-dev-hide-checkout-history-button-in-biblio-view',
@@ -62,7 +55,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
   'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
   'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
-  #'gub-dev-hide-patron-attributes', #ersätts troligen med gub-dev-make-extended-attributes-hidable-and-not-editable (KOHA-1761)
   'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
@@ -75,7 +67,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522',
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
-  #'gub-dev-pg-reports', #tas bort och löses på annat sätt 
   'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
@@ -88,8 +79,6 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
   'gub-dev-environment-assets',
-  #'gub-dev-disable-analytics-link', #denna är troligen löst i master
-  #'gub-dev-cpanfile-version-specification', #använd Kohas
   'bug-30255-batchmod-optional-list-step',
   'gub-dev-anonymize-db',
   'gub-dev-sip-password-from-attribute',
@@ -117,7 +106,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acqui-home-speedup',
   'gub-bug-31818-show-keyboard-shortcuts-in-advanced-cataloguing-editor',
   'gub-dev-fix-item-details-view',
-###  'gub-bug-31782-fix-broken-patron-autocomplete',
+  #'gub-bug-31782-fix-broken-patron-autocomplete', # Denna hämtades från Bugzilla men löste inte vårt problem.
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
