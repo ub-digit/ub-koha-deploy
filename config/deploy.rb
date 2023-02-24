@@ -13,10 +13,10 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2022.09-20221207.1723'
+set :branch, 'release-2023.02-20230224.1430'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2022.09-'
+set :koha_deploy_release_branch_prefix, 'release-2023.02-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
@@ -52,7 +52,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sort-collation-sv',
   'gub-dev-hide-checkout-history-button-in-biblio-view',
   'gub-dev-hides-circulation-history-and-holds-history-in-patron-post',
-  'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view',
+  #'gub-dev-hides-last-returned-by-and-last-borrower-and-previous-borrower-in-item-view', # Detta är flyttat till gub-dev-hide-fields-in-item-view
+  'gub-dev-hide-fields-in-item-view',
   'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
   'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
   'gub-dev-adaptation-of-warning-message-when-deleting-bilio-if-biblio-has-an-order-post',
@@ -84,17 +85,21 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
-  'gub-bug-xxxx-circulation-optimizations',
-  'gub-bug-31734-add-plugin-hooks',
+  #'gub-bug-xxxx-circulation-optimizations', # Uppdelad i följande tre brancher
+  'gub-bug-31735-32476-circulation-optimizations',
+  'gub-bug-32476-add-patron-caching',
+  'gub-bug-32478-change-yaml-parser',
+  #'gub-bug-31734-add-plugin-hooks', # Uppdelad i fyra, varad en (31897) inte är med i master
+  'gub-bug-31897-new-hook-when-indexing-with-elasticsearch',
   'gub-dev-disable-stats',
   'gub-bug-31846-serials-search-max-limit',
   'gub-bug-31856-serials-search-performance',
-  'gub-bug-31663-display-item-transfers-correctly',
-  'gub-bug-31871-fix-date-due-on-moredetail',
+  #'gub-bug-31663-display-item-transfers-correctly', # Med i master
+  #'gub-bug-31871-fix-date-due-on-moredetail', # Med i master
   'gub-dev-make-extended-attributes-hidable-and-not-editable',
   'gub-dev-hook-for-adding-template-paths',
   'gub-bug-xxxxx-add-hook-circulation-return-no-issue',
-  'gub-bug-31646-focus-input-by-default-when-clicking-on-a-dropdown-field-in-the-cataloguing-editor',
+  #'gub-bug-31646-focus-input-by-default-when-clicking-on-a-dropdown-field-in-the-cataloguing-editor', # Med i master
   'gub-dev-remove-welcome-email-option',
   'gub-bug-32060-faster-columns_to_string',
   'gub-bug-32092-circulation-rules-cache',
@@ -104,9 +109,12 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-cache-item-pickup-locations',
   'gub-dev-manual-bundle-count',
   'gub-dev-acqui-home-speedup',
-  'gub-bug-31818-show-keyboard-shortcuts-in-advanced-cataloguing-editor',
+  #'gub-bug-31818-show-keyboard-shortcuts-in-advanced-cataloguing-editor', # Med i master
   'gub-dev-fix-item-details-view',
   #'gub-bug-31782-fix-broken-patron-autocomplete', # Denna hämtades från Bugzilla men löste inte vårt problem.
+  'gub-bug-32975-fix-package-json-definition-error',
+  'gub-bug-32978-fix-npm-install-error',
+  'gub-dev-add-compiled-assets',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
@@ -126,6 +134,7 @@ set :pty, false
 # set :linked_files, %w{web/sites/default/secret.settings.php web/sites/default/site.settings.php}
 set :linked_files , %w{
   misc/translator/po/sv-SE-installer-MARC21.po
+  misc/translator/po/sv-SE-installer-UNIMARC.po
   misc/translator/po/sv-SE-installer.po
   misc/translator/po/sv-SE-marc-MARC21.po
   misc/translator/po/sv-SE-marc-UNIMARC.po
