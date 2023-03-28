@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2023.02-20230320.0855'
+set :branch, 'release-2023.02-20230323.0904'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2023.02-'
@@ -64,7 +64,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-24720-special-chars-normalize-sort-fields',
   'auto-renew-borrower-account-cron',
   'gub-dev-intra-hide-revert-waiting-btn',
-  'gub-dev-hide-editable-date-holds-table',
+  'gub-dev-hide-editable-date-holds-table', # Testa ifall detta kan lösas med inställningar för fältvisning
   'gub-dev-revert-total-calculation-from-23522',
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
@@ -76,12 +76,12 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-lost-status-update-for-paid-issues',
   'gub-dev-force-default-replacementcost',
   'gub-dev-allow-zero-vendor-id',
-  'koha-1662-hide-existing-holds-priority-dropdown',
+  'koha-1662-hide-existing-holds-priority-dropdown', # Testa ifall detta kan lösas med inställningar för fältvisning
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
   'gub-dev-environment-assets',
   'bug-30255-batchmod-optional-list-step',
-  'gub-dev-anonymize-db',
+  #'gub-dev-anonymize-db', # Gör inte rätt, ska arbetas om
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
@@ -118,6 +118,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-always-show-circ-settings',
   'gub-dev-fix-compare-bug',
   'gub-dev-acqusition-form-set-quantity-maxlength',
+  'gub-dev-limit-edifact-list',
+  'gub-dev-anonymize-pickup-code',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
