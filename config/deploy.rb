@@ -124,6 +124,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hide-empty-subfield-rows',
   'gub-dev-fix-dateenrolled-bug-on-duplicate-patron',
   'gub-dev-show-only-3-latest-checkouts',
+  'gub-dev-fix-basket-created-by-search',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
