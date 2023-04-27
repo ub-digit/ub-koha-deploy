@@ -13,7 +13,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2023.02-20230417.1508'
+set :branch, 'release-2023.02-20230426.1349'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2023.02-'
@@ -125,6 +125,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-dateenrolled-bug-on-duplicate-patron',
   'gub-dev-show-only-3-latest-checkouts',
   'gub-dev-fix-basket-created-by-search',
+  'gub-bug-33014-add-link-to-serial-advanced-search',
+  'gub-dev-dont-show-change-messaging-preferences-confirm',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
