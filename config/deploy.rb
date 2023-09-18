@@ -8,6 +8,7 @@ set :application, 'koha'
 set :repo_url, 'git@github.com:ub-digit/Koha-build.git'
 
 set :repo_remotes, {
+  'origin' => 'git@github.com:ub-digit/Koha.git',
   'koha-build' => 'git@github.com:ub-digit/Koha-build.git'
 }
 
