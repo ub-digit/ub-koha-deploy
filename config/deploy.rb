@@ -128,6 +128,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-33014-add-link-to-serial-advanced-search',
   'gub-dev-dont-show-change-messaging-preferences-confirm',
   'gub-dev-sync-message-preferences-with-syspref',
+  'gub-bug-33721-fix-display-of-shipping-cost-fund',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
