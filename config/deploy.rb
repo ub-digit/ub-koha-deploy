@@ -14,10 +14,10 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2023.02-20230502.0912'
+set :branch, 'release-2023.09-20231017.1940'
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2023.02-'
+set :koha_deploy_release_branch_prefix, 'release-2023.09-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
@@ -46,9 +46,9 @@ set :koha_deploy_rebase_branches, [
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-show-852-in-biblio',
   'gub-dev-fromdate-in-fines',
-  'gub-dev-fix-unitprice-decimal',
+  #'gub-dev-fix-unitprice-decimal', # Ändrats mycket, omgjort till modal. Kolla om vi kan köra utan denna
   'gub-dev-incomplete-barcode',
-  'gub-bug-23548-aq-field-required',
+  #'gub-bug-23548-aq-field-required', # Med i master
   'gub-dev-hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
   'gub-dev-hide-checkout-history-button-in-biblio-view',
@@ -87,9 +87,10 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
   #'gub-bug-xxxx-circulation-optimizations', # Uppdelad i följande tre brancher
-  'gub-bug-31735-32476-circulation-optimizations',
+  #'gub-bug-31735-32476-circulation-optimizations', # 31735 med i master 32496 (felaktigt angiven i branchnamnet) hämtas i följande branch (numera med i master).
+  'gub-bug-32496-reduce-unnecessary-unblessings-of-objects-in-circulation',
   'gub-bug-32476-add-patron-caching',
-  'gub-bug-32478-change-yaml-parser',
+  #'gub-bug-32478-change-yaml-parser', # Med i master
   #'gub-bug-31734-add-plugin-hooks', # Uppdelad i fyra, varad en (31897) inte är med i master
   'gub-bug-31897-new-hook-when-indexing-with-elasticsearch',
   'gub-dev-disable-stats',
@@ -102,7 +103,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-xxxxx-add-hook-circulation-return-no-issue',
   #'gub-bug-31646-focus-input-by-default-when-clicking-on-a-dropdown-field-in-the-cataloguing-editor', # Med i master
   'gub-dev-remove-welcome-email-option',
-  'gub-bug-32060-faster-columns_to_string',
+  #'gub-bug-32060-faster-columns_to_string', # Med i master
   'gub-bug-32092-circulation-rules-cache',
   'gub-dev-disable-online-payments-syspref',
   'gub-dev-cache-itemtypes-find',
@@ -113,23 +114,30 @@ set :koha_deploy_rebase_branches, [
   #'gub-bug-31818-show-keyboard-shortcuts-in-advanced-cataloguing-editor', # Med i master
   'gub-dev-fix-item-details-view',
   #'gub-bug-31782-fix-broken-patron-autocomplete', # Denna hämtades från Bugzilla men löste inte vårt problem.
-  'gub-bug-32975-fix-package-json-definition-error',
-  'gub-bug-32978-fix-npm-install-error',
-  'gub-dev-add-compiled-assets',
+  #'gub-bug-32975-fix-package-json-definition-error', # Med i master
+  #'gub-bug-32978-fix-npm-install-error', # Med i master
+  'gub-dev-add-compiled-assets', # Se instruktioner https://github.com/ub-digit/koha-assets-build
   'gub-dev-always-show-circ-settings',
-  'gub-dev-fix-compare-bug',
+  #'gub-dev-fix-compare-bug', # Denna bör vara åtgärdad i master, testa
   'gub-dev-acqusition-form-set-quantity-maxlength',
   'gub-dev-limit-edifact-list',
   'gub-dev-anonymize-pickup-code',
   'gub-dev-show-correct-manage-staged-records-link',
   'gub-dev-hide-empty-subfield-rows',
   'gub-dev-fix-dateenrolled-bug-on-duplicate-patron',
-  'gub-dev-show-only-3-latest-checkouts',
+  #'gub-dev-show-only-3-latest-checkouts', # Åtgärdad i master
   'gub-dev-fix-basket-created-by-search',
-  'gub-bug-33014-add-link-to-serial-advanced-search',
+  #'gub-bug-33014-add-link-to-serial-advanced-search', # Med i master
   'gub-dev-dont-show-change-messaging-preferences-confirm',
   'gub-dev-sync-message-preferences-with-syspref',
-  'gub-bug-33721-fix-display-of-shipping-cost-fund',
+  #'gub-bug-33721-fix-display-of-shipping-cost-fund', # Med i master
+  'gub-dev-log-patron-attributes',
+  'gub-bug-xxxxx-ignore-empty-barcode-on-checkout',
+  'gub-dev-set-always-sms-provider',
+  'gub-bug-xxxxx-fix-column-count-for-transaction-filters',
+  'gub-dev-retry-unfound-backgroundjobs',
+  'gub-dev-subscription-holds',
+  'gub-bug-35004-fix-error-about-no-quantity-set',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
