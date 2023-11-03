@@ -142,6 +142,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-35133-accessors-super-fix',
   'gub-dev-fix-reldebarments-href-error',
   'gub-dev-library-properties-template-plugin',
+  'gub-dev-show-patron-flags-and-edit-links',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
