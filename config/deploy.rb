@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2023.09-20231113.1338'
+set :branch, 'release-2023.09-20231117.0848'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2023.09-'
@@ -145,6 +145,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-show-patron-flags-and-edit-links',
   'gub-dev-reserve-template-plugin',
   'gub-bug-34818-fix-batch-patron-modification-tool-bug',
+  'gub-dev-do-not-show-patron-data-at-check-in',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
