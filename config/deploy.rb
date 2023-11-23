@@ -146,6 +146,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-reserve-template-plugin',
   'gub-bug-34818-fix-batch-patron-modification-tool-bug',
   'gub-dev-do-not-show-patron-data-at-check-in',
+  'gub-dev-add-edi-message-button-to-basket-view',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
