@@ -115,13 +115,13 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-log-patron-attributes',
   'gub-bug-xxxxx-ignore-empty-barcode-on-checkout',
   'gub-dev-set-always-sms-provider',
-  'gub-bug-xxxxx-fix-column-count-for-transaction-filters',
+  #'gub-bug-xxxxx-fix-column-count-for-transaction-filters', # åtgärdad i master
   'gub-dev-retry-unfound-backgroundjobs',
   'gub-dev-subscription-holds',
   #'gub-bug-35004-fix-error-about-no-quantity-set', # med i master 2023-11-03
   'gub-dev-hide-shipping-found-dropdown',
   'gub-bug-35133-accessors-super-fix',
-  'gub-dev-fix-reldebarments-href-error',
+  #'gub-dev-fix-reldebarments-href-error', # åtgärdad i master
   'gub-dev-library-properties-template-plugin',
   'gub-dev-show-patron-flags-and-edit-links',
   'gub-dev-reserve-template-plugin',
