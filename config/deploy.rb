@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2023.09-20231124.1150'
+set :branch, 'release-2024.02-20240223.0839'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2024.02-'
@@ -33,7 +33,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-css-for-slip-prints',  # Bör flyttas till statisk fil vid tillfälle
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'gub-dev-advanced-search-customizations',
-  'gub-bug-29145-overdue-debarments-fix',
+  #'gub-bug-29145-overdue-debarments-fix', # med i master
   'gub-dev-auto-add-001',
   'gub-dev-callnumber-095-fallback',
   'gub-dev-gub-format-facet',
@@ -83,14 +83,14 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
-  'gub-bug-32496-reduce-unnecessary-unblessings-of-objects-in-circulation',
+  #'gub-bug-32496-reduce-unnecessary-unblessings-of-objects-in-circulation', # med i master 2023-09-22
   'gub-bug-32476-add-patron-caching',
   'gub-bug-31897-new-hook-when-indexing-with-elasticsearch',
   'gub-dev-disable-stats',
-  'gub-bug-31846-serials-search-max-limit',
+  #'gub-bug-31846-serials-search-max-limit', # med i master 2023-10-25
   'gub-bug-31856-serials-search-performance',
   'gub-dev-make-extended-attributes-hidable-and-not-editable',
-  'gub-dev-hook-for-adding-template-paths',
+  #'gub-dev-hook-for-adding-template-paths', # prova om 35070 löser detta
   'gub-bug-xxxxx-add-hook-circulation-return-no-issue',
   'gub-dev-remove-welcome-email-option',
   'gub-bug-32092-circulation-rules-cache',
@@ -104,9 +104,9 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-add-compiled-assets', # Se instruktioner https://github.com/ub-digit/koha-assets-build
   'gub-dev-always-show-circ-settings',
   'gub-dev-acqusition-form-set-quantity-maxlength',
-  'gub-dev-limit-edifact-list',
+  #'gub-dev-limit-edifact-list', # APIet används för att hämta edifact-meddelanden, kolla ifall en motsvarighet till denna patch behövs
   'gub-dev-anonymize-pickup-code',
-  'gub-dev-show-correct-manage-staged-records-link',
+  #'gub-dev-show-correct-manage-staged-records-link', # troligen löst av 34468
   'gub-dev-hide-empty-subfield-rows',
   'gub-dev-fix-dateenrolled-bug-on-duplicate-patron',
   'gub-dev-fix-basket-created-by-search',
@@ -118,17 +118,17 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-xxxxx-fix-column-count-for-transaction-filters',
   'gub-dev-retry-unfound-backgroundjobs',
   'gub-dev-subscription-holds',
-  'gub-bug-35004-fix-error-about-no-quantity-set',
+  #'gub-bug-35004-fix-error-about-no-quantity-set', # med i master 2023-11-03
   'gub-dev-hide-shipping-found-dropdown',
   'gub-bug-35133-accessors-super-fix',
   'gub-dev-fix-reldebarments-href-error',
   'gub-dev-library-properties-template-plugin',
   'gub-dev-show-patron-flags-and-edit-links',
   'gub-dev-reserve-template-plugin',
-  'gub-bug-34818-fix-batch-patron-modification-tool-bug',
+  #'gub-bug-34818-fix-batch-patron-modification-tool-bug', # med i master 2023-09-19
   'gub-dev-do-not-show-patron-data-at-check-in',
   'gub-dev-add-edi-message-button-to-basket-view',
-  'gub-bug-35273-fix-aqorders-items-update',
+  #'gub-bug-35273-fix-aqorders-items-update', # med i master 2023-11-10
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
