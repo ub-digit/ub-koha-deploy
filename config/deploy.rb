@@ -129,6 +129,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-do-not-show-patron-data-at-check-in',
   'gub-dev-add-edi-message-button-to-basket-view',
   #'gub-bug-35273-fix-aqorders-items-update', # med i master 2023-11-10
+  'gub-dev-fix-edifact-list-typo',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
