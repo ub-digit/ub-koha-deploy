@@ -130,6 +130,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-add-edi-message-button-to-basket-view',
   #'gub-bug-35273-fix-aqorders-items-update', # med i master 2023-11-10
   'gub-dev-fix-edifact-list-typo',
+  'gub-dev-myloans-alert-from-koha',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
