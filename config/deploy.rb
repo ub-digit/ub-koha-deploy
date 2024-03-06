@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2024.02-20240223.0839'
+set :branch, 'release-2024.02-20240229.1324'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2024.02-'
@@ -84,7 +84,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
   #'gub-bug-32496-reduce-unnecessary-unblessings-of-objects-in-circulation', # med i master 2023-09-22
-  'gub-bug-32476-add-patron-caching',
+  'gub-bug-32476-add-patron-caching', # har ett beroende till 35133 (vår branch gub-bug-35133-accessors-super-fix) som också är med i denna.
   'gub-bug-31897-new-hook-when-indexing-with-elasticsearch',
   'gub-dev-disable-stats',
   #'gub-bug-31846-serials-search-max-limit', # med i master 2023-10-25
@@ -120,7 +120,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-subscription-holds',
   #'gub-bug-35004-fix-error-about-no-quantity-set', # med i master 2023-11-03
   'gub-dev-hide-shipping-found-dropdown',
-  'gub-bug-35133-accessors-super-fix',
+  #'gub-bug-35133-accessors-super-fix', # kommer med via gub-bug-32476-add-patron-caching
   #'gub-dev-fix-reldebarments-href-error', # åtgärdad i master
   'gub-dev-library-properties-template-plugin',
   'gub-dev-show-patron-flags-and-edit-links',
