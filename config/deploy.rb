@@ -113,7 +113,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-dont-show-change-messaging-preferences-confirm',
   'gub-dev-sync-message-preferences-with-syspref',
   'gub-dev-log-patron-attributes',
-  'gub-bug-xxxxx-ignore-empty-barcode-on-checkout',
+  'gub-bug-35149-ignore-empty-barcode-on-checkout',
   'gub-dev-set-always-sms-provider',
   #'gub-bug-xxxxx-fix-column-count-for-transaction-filters', # åtgärdad i master
   'gub-dev-retry-unfound-backgroundjobs',
