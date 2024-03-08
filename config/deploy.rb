@@ -132,6 +132,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-edifact-list-typo',
   'gub-dev-myloans-alert-from-koha',
   'gub-dev-publisher-number-delimiter',
+  'gub-bug-36022-default-country-code',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
