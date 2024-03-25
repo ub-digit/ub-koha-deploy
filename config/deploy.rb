@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2024.02-20240321.1641'
+set :branch, 'release-2024.02-20240325.1408'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2024.02-'
@@ -139,6 +139,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-stage-marc-auto-select-profile',
   'gub-dev-show-special-notices',
   'gub-dev-private-reports',
+  'gub-dev-disable-host-items-on-detail-page',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
