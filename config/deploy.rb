@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2024.02-20240828.1416'
+set :branch, 'release-2024.02-20241101.1135'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2024.02-'
@@ -140,8 +140,10 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-show-special-notices',
   'gub-dev-private-reports',
   'gub-dev-disable-host-items-on-detail-page',
-  #'gub-bug-30279-patron-view-log', # Test på staging
+  'gub-bug-30279-patron-view-log', # Test på staging
   'gub-dev-fix-wrong-csrf-token-issue-on-oidc-login',
+  'gub-dev-always-exclude-patrons-view-entries-from-log-viewer',
+  'gub-dev-set-limit-for-number-of-rows-in-action-logs',
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
