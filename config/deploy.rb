@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2024.02-20241125.1117'
+set :branch, 'release-2024.02-20250127.1341'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2024.02-'
@@ -131,6 +131,13 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-wrong-csrf-token-issue-on-oidc-login',
   'gub-dev-always-exclude-patrons-view-entries-from-log-viewer',
   'gub-dev-set-limit-for-number-of-rows-in-action-logs',
+
+  # Security patches
+  'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication',
+  'gub-sec-36818-rce-in-upload-cover-image',
+  'gub-sec-37323-rce-in-picture-upload',
+  'gub-sec-37464-rce-in-barcode-function-leads-to-reverse-shell',
+
   'koha-deploy'
 ]
 #set :koha_deploy_merge_branches, [
