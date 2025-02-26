@@ -14,34 +14,38 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2024.02-20250127.1341'
+set :branch, 'release-2025.01-20250218.2040'
+###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
 
 set :koha_deploy_branches_prefix, ''
-set :koha_deploy_release_branch_prefix, 'release-2024.02-'
+set :koha_deploy_release_branch_prefix, 'release-2025.01-'
 set :koha_deploy_release_branch_start_point, 'koha-build-master'
 
 set :koha_deploy_rebase_branches, [
   'gub-bug-18129-staged-imports-user-filter',
-  'gub-bug-18138-marc-modification-template-on-biblio-save',
-  'gub-bug-29440-25539-29597-29654-bulkmarcimport', # Sammanslagen branch av bulkmarc-relaterade brancher, 29440 applyas först, sedan de andra.
+  #'gub-bug-18138-marc-modification-template-on-biblio-save', # Används troligen inte, tas bort tills vidare
+  #'gub-bug-29440-25539-29597-29654-bulkmarcimport', # 29440 och 25539 med i master, de andra läggs på separat
+  'gub-bug-29597-add-tomarcplugin-option-to-bulkmarcimport',
+  'gub-bug-29654-add-option-to-bulkmarimport-for-matching-on-original-id',
   'gub-dev-remove-lost-item-refund-msg',
   'gub-dev-koha-svc',
   'gub-dev-simplified-messaging',
-  'gub-overdue-messaging', # Numera levererad (30515), kan tas med vid nästa koha-release
+  #'gub-overdue-messaging', # Ersatt med nedanstående
+  'gub-bug-30515-move-overdue-transports-to-patron-messaging-preferences',
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
   'gub-dev-css-for-slip-prints',  # Bör flyttas till statisk fil vid tillfälle
   'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
   'gub-dev-advanced-search-customizations',
   'gub-dev-auto-add-001',
-  'gub-dev-callnumber-095-fallback',
-  'gub-dev-gub-format-facet',
+  #'gub-dev-callnumber-095-fallback', # Visningen ändrad, avvaktar med denna
+  #'gub-dev-gub-format-facet', # Kan göras via gränssnittet istället
   'gub-dev-circulation-reports',
   'gub-dev-extended-inhouse-loans',
   'gub-dev-edifact-cron',
-  'gub-bug-20551-export-records-deleted',
-  'gub-bug-23009-deleted-marc-conditions',
-  'gub-dev-cache-subscription-frequencies', # Kolla ifall den generella cache-lösningen gör att denna inte behövs
+  #'gub-bug-20551-export-records-deleted', # Ingår i gub-bug-23009-deleted-marc-conditions
+  'gub-bug-23009-deleted-marc-conditions', # Denna har ett beroende till 20551 vilken är med i denna branch
+  'gub-dev-cache-subscription-frequencies', # Den generella cache-lösningen täcker troligen inte denna
   'gub-change-sort-order-and-paging-for-table-subscription-numberpatterns',
   'gub-dev-show-852-in-biblio',
   'gub-dev-fromdate-in-fines',
@@ -57,7 +61,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hide-search-sort-options',
   'gub-dev-limit-visible-patron-notices',
   'gub-dev-acqusition-form-hide-unused-items',
-  'gub-dev-mandatory-account-selection-in-acqusition',
+  #'gub-dev-mandatory-account-selection-in-acqusition', # Filen acqui/edi_ean.pl borttagen, men denna patch behövs troligen inte längre
   'gub-bug-24720-special-chars-normalize-sort-fields',
   'auto-renew-borrower-account-cron',
   'gub-dev-intra-hide-revert-waiting-btn',
@@ -65,7 +69,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522', # Kolla ifall denna fortfarande behövs (se t.ex. 25750)
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
-  'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
+  'gub-dev-koha-1527-alphabetical-sorting-of-accounts', # acqui/edi_ean.pl borttagen, patchen flyttad
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
   'gub-bug-27859-marc-export-search-result',
@@ -81,46 +85,49 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
-  'gub-bug-32476-add-patron-caching', # har ett beroende till 35133 (vår branch gub-bug-35133-accessors-super-fix) som också är med i denna. Kolla ifall denna löses via generell cache-lösning.
-  'gub-bug-31897-new-hook-when-indexing-with-elasticsearch', # Kolla ifall 36433 löser detta.
+  'gub-bug-32476-add-patron-caching',
+  'gub-bug-31897-new-hook-when-indexing-with-elasticsearch', # Finns likande lösning i 36433 med vi använder vår patch
   'gub-dev-disable-stats',
+  'gub-bug-36350-add-caching-at-koha-objects-level', # Ersätter ett antal brancher
   'gub-bug-31856-serials-search-performance',
   'gub-dev-make-extended-attributes-hidable-and-not-editable',
-  'gub-bug-xxxxx-add-hook-circulation-return-no-issue', # Finns i bugzilla (36303), använda denna framöver
+  #'gub-bug-xxxxx-add-hook-circulation-return-no-issue', # Finns i bugzilla (36303) och patchen är ersatt med gub-bug-36303-add-hook-circulation-return-no-issue
+  'gub-bug-36303-add-hook-circulation-return-no-issue',
   'gub-dev-remove-welcome-email-option',
   'gub-bug-32092-circulation-rules-cache',
   'gub-dev-disable-online-payments-syspref',
-  'gub-dev-cache-itemtypes-find', # Kolla ifall denna löses via generell cache-lösning.
-  'gub-dev-cache-libraries-find', # Kolla ifall denna löses via generell cache-lösning.
-  'gub-dev-cache-item-pickup-locations', # Kolla ifall denna löses via generell cache-lösning.
-  'gub-dev-manual-bundle-count', # Kolla ifall denna löses via generell cache-lösning (tveksamt).
-  'gub-dev-acqui-home-speedup', # Kolla ifall denna löses via generell cache-lösning.
-  'gub-dev-fix-item-details-view', #Kolla ifall denna bugg är åtgärdad, alt. ifall denna kan levereras
+  #'gub-dev-cache-itemtypes-find', # Löses via 36350
+  #'gub-dev-cache-libraries-find', # Löses via 36350
+  #'gub-dev-cache-item-pickup-locations', # Löses via 36350
+  'gub-dev-manual-bundle-count',
+  #'gub-dev-acqui-home-speedup', # Löses via 36350
+  'gub-dev-fix-item-details-view', # Kolla ifall denna bugg är åtgärdad, alt. ifall denna kan levereras
   'gub-dev-add-compiled-assets', # Se instruktioner https://github.com/ub-digit/koha-assets-build
   'gub-dev-always-show-circ-settings',
   'gub-dev-acqusition-form-set-quantity-maxlength',
   'gub-dev-anonymize-pickup-code',
   'gub-dev-hide-empty-subfield-rows', # Borde ev levereras
   'gub-dev-fix-dateenrolled-bug-on-duplicate-patron', # Borde ev levereras
-  'gub-dev-fix-basket-created-by-search', # Borde ev levereras
+  #'gub-dev-fix-basket-created-by-search', # med i master
   'gub-dev-dont-show-change-messaging-preferences-confirm',
   'gub-dev-sync-message-preferences-with-syspref',
-  'gub-dev-log-patron-attributes', # Levererad (26744), ta med denna nästa gång
-  'gub-bug-35149-ignore-empty-barcode-on-checkout',
+  #'gub-dev-log-patron-attributes', # Ersatt med nedanstående
+  'gub-bug-26744-log-patron-attributes',
+  #'gub-bug-35149-ignore-empty-barcode-on-checkout', # Med i master
   'gub-dev-set-always-sms-provider',
-  'gub-dev-retry-unfound-backgroundjobs',
+  #'gub-dev-retry-unfound-backgroundjobs', # Motsvarande lösning verkar finnas i master (35819)
   'gub-dev-subscription-holds',
   'gub-dev-hide-shipping-found-dropdown',
   'gub-dev-library-properties-template-plugin',
-  'gub-dev-show-patron-flags-and-edit-links', # Levererad (36440), ta med denna nästa gång
+  #'gub-dev-show-patron-flags-and-edit-links', # Med i master (36440)
   'gub-dev-reserve-template-plugin',
   'gub-dev-do-not-show-patron-data-at-check-in',
   'gub-dev-add-edi-message-button-to-basket-view', # Kanske kan levereras
-  'gub-dev-fix-edifact-list-typo', # Levererad ?
+  #'gub-dev-fix-edifact-list-typo', # Med i master
   'gub-dev-myloans-alert-from-koha',
   'gub-dev-publisher-number-delimiter',
   'gub-bug-36022-default-country-code',
-  'gub-dev-fix-checkout-list-error',
+  #'gub-dev-fix-checkout-list-error', # Fixad i master (bugg introducerad i 35506, löst i 36581)
   'gub-dev-add-search-field-aliases',
   'gub-dev-edifact-status-case-insensitive-error-fix',
   'gub-dev-stage-marc-auto-select-profile',
@@ -128,15 +135,16 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-private-reports',
   'gub-dev-disable-host-items-on-detail-page',
   'gub-bug-30279-patron-view-log',
-  'gub-dev-fix-wrong-csrf-token-issue-on-oidc-login',
+  #'gub-dev-fix-wrong-csrf-token-issue-on-oidc-login', # Dessa patchar (36102 och 36149) är med i master
   'gub-dev-always-exclude-patrons-view-entries-from-log-viewer',
   'gub-dev-set-limit-for-number-of-rows-in-action-logs',
+  'gub-dev-change-order-default-quantity',
 
   # Security patches
-  'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication',
-  'gub-sec-36818-rce-in-upload-cover-image',
-  'gub-sec-37323-rce-in-picture-upload',
-  'gub-sec-37464-rce-in-barcode-function-leads-to-reverse-shell',
+  #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
+  #'gub-sec-36818-rce-in-upload-cover-image', # med i master
+  #'gub-sec-37323-rce-in-picture-upload', # med i master
+  #'gub-sec-37464-rce-in-barcode-function-leads-to-reverse-shell', # med i master
 
   'koha-deploy'
 ]
