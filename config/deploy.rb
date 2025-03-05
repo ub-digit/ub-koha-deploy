@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250218.2040'
+set :branch, 'release-2025.01-20250305.0929'
 ###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
 
 set :koha_deploy_branches_prefix, ''
@@ -90,7 +90,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-disable-stats',
   'gub-bug-36350-add-caching-at-koha-objects-level', # Ersätter ett antal brancher
   'gub-bug-31856-serials-search-performance',
-  'gub-dev-make-extended-attributes-hidable-and-not-editable',
+  #'gub-dev-make-extended-attributes-hidable-and-not-editable', # Ersatt med nedanstående
+  'gub-dev-extended-attributes-visibility-properties',
   #'gub-bug-xxxxx-add-hook-circulation-return-no-issue', # Finns i bugzilla (36303) och patchen är ersatt med gub-bug-36303-add-hook-circulation-return-no-issue
   'gub-bug-36303-add-hook-circulation-return-no-issue',
   'gub-dev-remove-welcome-email-option',
@@ -139,6 +140,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-always-exclude-patrons-view-entries-from-log-viewer',
   'gub-dev-set-limit-for-number-of-rows-in-action-logs',
   'gub-dev-change-order-default-quantity',
+  'gub-dev-always-allow-table-settings',
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
