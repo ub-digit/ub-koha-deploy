@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250305.0929'
+set :branch, 'release-2025.01-20250306.1113'
 ###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
 
 set :koha_deploy_branches_prefix, ''
@@ -141,6 +141,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-set-limit-for-number-of-rows-in-action-logs',
   'gub-dev-change-order-default-quantity',
   'gub-dev-always-allow-table-settings',
+  'gub-bug-39229-extend-patron-quicksearch', # Denna har en extra commit med lokala förändringar, detta behöver hanteras vid rebase
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
