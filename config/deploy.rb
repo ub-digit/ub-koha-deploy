@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250307.1311'
+set :branch, 'release-2025.01-20250314.1157'
 ###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
 
 set :koha_deploy_branches_prefix, ''
@@ -35,7 +35,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
   'gub-dev-css-for-slip-prints',  # Bör flyttas till statisk fil vid tillfälle
-  'gub-dev-set-focus-on-confirm-hold-and-transfer-button',
+  #'gub-dev-set-focus-on-confirm-hold-and-transfer-button', # Ersatt med nedanstående
+  'gub-dev-set-focus-on-return-buttons',
   'gub-dev-advanced-search-customizations',
   'gub-dev-auto-add-001',
   #'gub-dev-callnumber-095-fallback', # Visningen ändrad, avvaktar med denna
@@ -65,7 +66,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-24720-special-chars-normalize-sort-fields',
   'auto-renew-borrower-account-cron',
   'gub-dev-intra-hide-revert-waiting-btn',
-  'gub-dev-hide-editable-date-holds-table',
+  #'gub-dev-hide-editable-date-holds-table', # Kan göras via column settings
   'gub-dev-revert-total-calculation-from-23522', # Kolla ifall denna fortfarande behövs (se t.ex. 25750)
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
@@ -77,7 +78,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-lost-status-update-for-paid-issues',
   'gub-dev-force-default-replacementcost',
   'gub-dev-allow-zero-vendor-id',
-  'koha-1662-hide-existing-holds-priority-dropdown',
+  #'koha-1662-hide-existing-holds-priority-dropdown', # Kan göras via column settings
   'gub-dev-remove-graphics-magick-dep',
   'gub-update-permissions',
   'gub-dev-environment-assets',
@@ -145,6 +146,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-force-preferred-name-synced',
   'gub-bug-39267-remember-for-session-due-date-fix',
   'gub-dev-view-restrictions-link-fix',
+  'gub-dev-customise-patron-messages',
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
