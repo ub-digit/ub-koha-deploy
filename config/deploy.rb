@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250314.1157'
+set :branch, 'release-2025.01-20250324.1751'
 ###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
 
 set :koha_deploy_branches_prefix, ''
@@ -103,7 +103,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-dev-cache-item-pickup-locations', # Löses via 36350
   'gub-dev-manual-bundle-count',
   #'gub-dev-acqui-home-speedup', # Löses via 36350
-  'gub-dev-fix-item-details-view', # Kolla ifall denna bugg är åtgärdad, alt. ifall denna kan levereras
+  #'gub-dev-fix-item-details-view', # Kolla ifall denna bugg är åtgärdad i master
   'gub-dev-add-compiled-assets', # Se instruktioner https://github.com/ub-digit/koha-assets-build
   'gub-dev-always-show-circ-settings',
   'gub-dev-acqusition-form-set-quantity-maxlength',
