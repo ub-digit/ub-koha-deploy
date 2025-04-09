@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250324.1751'
+set :branch, 'release-2025.01-20250407.2132'
 ###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
 
 set :koha_deploy_branches_prefix, ''
@@ -126,7 +126,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-do-not-show-patron-data-at-check-in',
   'gub-dev-add-edi-message-button-to-basket-view', # Kanske kan levereras
   #'gub-dev-fix-edifact-list-typo', # Med i master
-  'gub-dev-myloans-alert-from-koha',
+  'gub-dev-alert-messages-for-other-applications',
   'gub-dev-publisher-number-delimiter',
   'gub-bug-36022-default-country-code',
   #'gub-dev-fix-checkout-list-error', # Fixad i master (bugg introducerad i 35506, löst i 36581)
@@ -147,6 +147,8 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-39267-remember-for-session-due-date-fix',
   'gub-dev-view-restrictions-link-fix',
   'gub-dev-customise-patron-messages',
+  'gub-dev-always-toggle-onsite-checkout',
+  'gub-dev-translate-renew-in-patron-context',
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
