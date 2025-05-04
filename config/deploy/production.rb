@@ -12,6 +12,7 @@ server 'koha.ub.gu.se',
 set :deploy_to, '/home/apps/koha-production'
 set :keep_releases, 5
 
+set :branch, ''
 #release_prefix = 'release-2018.04-'
 #set :koha_deploy_branches_prefix, release_prefix
 #set :koha_deploy_release_branch_prefix, release_prefix
