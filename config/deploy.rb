@@ -14,8 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250409.1859'
-###set :branch, 'release-2024.02-20250214.1313' # RELEASE för lösenordsbytes-grejerna
+set :branch, 'release-2025.01-20250502.1537'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2025.01-'
@@ -149,6 +148,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-customise-patron-messages',
   'gub-dev-always-toggle-onsite-checkout',
   'gub-dev-translate-renew-in-patron-context',
+  'gub-dev-force-edit-history-visible-on-subscription-planning',
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
