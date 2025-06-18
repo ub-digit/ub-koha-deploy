@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250502.1537'
+set :branch, 'release-2025.01-20250523.1049'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2025.01-'
@@ -155,6 +155,7 @@ set :koha_deploy_rebase_branches, [
   #'gub-sec-36818-rce-in-upload-cover-image', # med i master
   #'gub-sec-37323-rce-in-picture-upload', # med i master
   #'gub-sec-37464-rce-in-barcode-function-leads-to-reverse-shell', # med i master
+  'gub-sec-38969-reflected-xss-vulnerability-in-tags',
 
   'koha-deploy'
 ]
