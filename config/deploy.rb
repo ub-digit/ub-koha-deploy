@@ -14,7 +14,7 @@ set :repo_remotes, {
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'release-2025.01-20250828.1141'
+set :branch, 'release-2025.01-20250915.1226'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2025.01-'
@@ -150,6 +150,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-translate-renew-in-patron-context',
   'gub-dev-force-edit-history-visible-on-subscription-planning',
   'gub-dev-remove-advanced-search-from-acquisition-home',
+  'gub-dev-catgroup-template-plugin',
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
