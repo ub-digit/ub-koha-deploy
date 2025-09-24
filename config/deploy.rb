@@ -151,6 +151,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-force-edit-history-visible-on-subscription-planning',
   'gub-dev-remove-advanced-search-from-acquisition-home',
   'gub-dev-catgroup-template-plugin',
+  'gub-bug-40869-preserve-required-item-fields',
 
   # Security patches
   #'gub-sec-37247-on-subscriptions-operation-allowed-without-authentication', # med i master
