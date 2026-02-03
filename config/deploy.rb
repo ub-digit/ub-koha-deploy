@@ -75,12 +75,13 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
-  'gub-bug-32476-add-patron-caching',
+  ###  'gub-bug-32476-add-patron-caching',
   'gub-bug-31897-new-hook-when-indexing-with-elasticsearch', # Finns likande lösning i 36433 med vi använder vår patch
   'gub-dev-disable-stats',
   'gub-bug-36350-add-caching-at-koha-objects-level',
-  'gub-bug-31856-serials-search-performance',
-  'gub-dev-extended-attributes-visibility-properties',
+  ###  'gub-bug-31856-serials-search-performance',
+  #'gub-dev-make-extended-attributes-hidable-and-not-editable', # Denna har implementerats på annat sätt och ersätts av nedanstående
+  'gub-bug-39453-add-attribute-type-settings-for-restricting-access-to-extended-attributes',
   'gub-bug-36303-add-hook-circulation-return-no-issue',
   'gub-dev-remove-welcome-email-option',
   'gub-bug-32092-circulation-rules-cache',
@@ -94,19 +95,19 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-fix-dateenrolled-bug-on-duplicate-patron', # Kanske kan levereras
   'gub-dev-dont-show-change-messaging-preferences-confirm',
   'gub-dev-sync-message-preferences-with-syspref',
-  'gub-bug-26744-log-patron-attributes',
+  #'gub-bug-26744-log-patron-attributes', # Med i master
   'gub-dev-set-always-sms-provider',
   'gub-dev-subscription-holds',
   'gub-dev-hide-shipping-found-dropdown',
   'gub-dev-library-properties-template-plugin',
   'gub-dev-reserve-template-plugin',
-  'gub-dev-do-not-show-patron-data-at-check-in',
+  'gub-dev-do-not-show-patron-data-at-check-in', # Fler saker som kommit till i master ska döljas, se 39642
   'gub-dev-add-edi-message-button-to-basket-view', # Kanske kan levereras
   'gub-dev-alert-messages-for-other-applications',
-  'gub-dev-publisher-number-delimiter',
-  'gub-bug-36022-default-country-code',
+  #'gub-dev-publisher-number-delimiter', # Kolla om denna är åtgärdad i master
+  'gub-bug-36022-default-country-code', # Fixad i master (bugg introducerad i 35506, löst i 36581)
   'gub-dev-add-search-field-aliases',
-  'gub-dev-edifact-status-case-insensitive-error-fix',
+  #'gub-dev-edifact-status-case-insensitive-error-fix', # Med i master (39468)
   'gub-dev-stage-marc-auto-select-profile',
   'gub-dev-show-special-notices',
   'gub-dev-private-reports',
@@ -119,7 +120,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-39229-extend-patron-quicksearch', # Denna har en extra commit med lokala förändringar, detta måste hanteras vid rebase
   'gub-dev-force-preferred-name-synced',
   'gub-bug-39267-remember-for-session-due-date-fix',
-  'gub-dev-view-restrictions-link-fix',
+  #'gub-dev-view-restrictions-link-fix', # Med i master (39467)
   'gub-dev-customise-patron-messages',
   'gub-dev-always-toggle-onsite-checkout',
   'gub-dev-translate-renew-in-patron-context',
@@ -131,7 +132,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-pnr-as-login-identifier-in-sip',
 
   # Security patches
-  'gub-sec-38969-reflected-xss-vulnerability-in-tags',
+  #'gub-sec-38969-reflected-xss-vulnerability-in-tags', # Med i master
 
   'koha-deploy'
 ]
