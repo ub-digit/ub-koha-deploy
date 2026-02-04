@@ -197,6 +197,6 @@ namespace :deploy do
   end
 end
 
-if File.exists?(File.join(File.dirname(__FILE__), 'deploy.local.rb'))
+if File.exist?(File.join(File.dirname(__FILE__), 'deploy.local.rb'))
   require_relative 'deploy.local.rb'
 end
