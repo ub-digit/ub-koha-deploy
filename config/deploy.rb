@@ -1,7 +1,6 @@
 ## CAPISTRANO ##
 
-# config valid only for Capistrano 3.1
-#lock '3.2.1'
+# config valid for Capistrano 3.20.0
 
 set :application, 'koha'
 #set :repo_url, 'https://github.com/ub-digit/Koha.git'
@@ -15,7 +14,6 @@ set :repo_remotes, {
 }
 
 # Default branch is :master
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, 'release-2025.01-20251125.1441'
 
 set :koha_deploy_branches_prefix, ''
@@ -138,12 +136,6 @@ set :koha_deploy_rebase_branches, [
 
   'koha-deploy'
 ]
-#set :koha_deploy_merge_branches, [
-#  'koha-deploy',
-#]
-
-# Default deploy_to directory is /var/www/my_app
-# set :deploy_to, '/var/www/drupal/staging'
 
 set :format, :pretty
 set :log_level, :info
@@ -152,7 +144,6 @@ set :log_level, :info
 set :pty, false
 #set :pty, true
 
-# set :linked_files, %w{web/sites/default/secret.settings.php web/sites/default/site.settings.php}
 set :linked_files , %w{
   misc/translator/po/sv-SE-installer-MARC21.po
   misc/translator/po/sv-SE-installer-UNIMARC.po
