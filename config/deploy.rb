@@ -48,7 +48,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-hides-dateofbirth-and-library-filters-from-patron-search',
   'gub-dev-sort-collation-sv',
   'gub-dev-hide-checkout-history-button-in-biblio-view',
-  'gub-dev-hides-circulation-history-and-holds-history-in-patron-post',
+  #'gub-dev-hides-circulation-history-and-holds-history-in-patron-post', # Nya rättigheter har tillkommit, kolla om vi ska använda dem (32682)
   'gub-dev-hide-fields-in-item-view',
   'gub-dev-hides-pay-all-fines-button-in-patron-checkout-view',
   'gub-dev-hides-show-all-transactions-filter-button-in-borrower-accounting-view',
@@ -77,11 +77,11 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-sip-password-from-attribute',
   'gub-dev-basket-id-as-column',
   'gub-dev-offpc-extgen-pw',
-  ###  'gub-bug-32476-add-patron-caching',
+  #'gub-bug-32476-add-patron-caching', # Utred om denna går att ta bort
   'gub-bug-31897-new-hook-when-indexing-with-elasticsearch', # Finns likande lösning i 36433 med vi använder vår patch
   'gub-dev-disable-stats',
   'gub-bug-36350-add-caching-at-koha-objects-level',
-  ###  'gub-bug-31856-serials-search-performance',
+  #'gub-bug-31856-serials-search-performance', # Utred om denna går att ta bort
   #'gub-dev-make-extended-attributes-hidable-and-not-editable', # Denna har implementerats på annat sätt och ersätts av nedanstående
   'gub-bug-39453-add-attribute-type-settings-for-restricting-access-to-extended-attributes',
   'gub-bug-36303-add-hook-circulation-return-no-issue',
