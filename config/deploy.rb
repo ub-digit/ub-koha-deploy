@@ -14,7 +14,7 @@ set :repo_remotes, {
 }
 
 # Default branch is :master
-set :branch, 'release-2026.02-20260206.1015'
+set :branch, 'release-2026.02-20260206.1516'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2026.02-'
@@ -104,7 +104,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-do-not-show-patron-data-at-check-in', # Fler saker som kommit till i master ska döljas, se 39642
   'gub-dev-add-edi-message-button-to-basket-view', # Kanske kan levereras
   'gub-dev-alert-messages-for-other-applications',
-  #'gub-dev-publisher-number-delimiter', # Kolla om denna är åtgärdad i master
+  #'gub-dev-publisher-number-delimiter', # Denna är delvis löst i master (exemplarvisningen men inte i resultatlistan), ersätts av nedanstående
+  'gub-dev-fix-publisher-number-separator-in-item-results-view', # Kanske kan levereras
   'gub-bug-36022-default-country-code', # Fixad i master (bugg introducerad i 35506, löst i 36581)
   'gub-dev-add-search-field-aliases',
   #'gub-dev-edifact-status-case-insensitive-error-fix', # Med i master (39468)
