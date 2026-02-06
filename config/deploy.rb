@@ -14,7 +14,7 @@ set :repo_remotes, {
 }
 
 # Default branch is :master
-set :branch, 'release-2025.01-20251125.1441'
+set :branch, 'release-2026.02-20260205.2226'
 
 set :koha_deploy_branches_prefix, ''
 set :koha_deploy_release_branch_prefix, 'release-2026.02-'
