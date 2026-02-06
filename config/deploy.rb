@@ -5,12 +5,12 @@
 set :application, 'koha'
 #set :repo_url, 'https://github.com/ub-digit/Koha.git'
 #set :repo_url, 'git@github.com:ub-digit/Koha-build.git'
-set :repo_url, 'git@github.com:ub-digit/testing-koha-build.git'
+set :repo_url, 'git@github.com:ub-digit/koha-build-2026.02.git'
 
 set :repo_remotes, {
   #'origin' => 'git@github.com:ub-digit/Koha.git',
   #'koha-build' => 'git@github.com:ub-digit/Koha-build.git'
-  'testing-koha-build' => 'git@github.com:ub-digit/testing-koha-build.git'
+  'koha-build-2026.02' => 'git@github.com:ub-digit/koha-build-2026.02.git'
 }
 
 # Default branch is :master
