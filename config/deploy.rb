@@ -60,7 +60,8 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-revert-total-calculation-from-23522', # Kolla ifall denna fortfarande behövs (se t.ex. 25750)
   'gub-dev-cleaning-scripts',
   'gub-dev-online-payments',
-  'gub-dev-koha-1527-alphabetical-sorting-of-accounts',
+  #'gub-dev-koha-1527-alphabetical-sorting-of-accounts', # Ersätts av nedanstående
+  'gub-dev-filtering-and-sorting-of-accounts',
   'gub-dev-koha-1545-set-permanent-location',
   'gub-dev-remove-tabs-from-make-payment',
   'gub-bug-27859-marc-export-search-result',
