@@ -132,6 +132,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-patron-smser',
   'gub-dev-pnr-as-login-identifier-in-sip',
   'gub-bug-40658-use-local-number-sort',
+  'gub-dev-disable-analytics-link',
 
   # Security patches
   #'gub-sec-38969-reflected-xss-vulnerability-in-tags', # Med i master
