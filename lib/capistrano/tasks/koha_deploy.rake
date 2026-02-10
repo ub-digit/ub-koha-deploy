@@ -870,7 +870,7 @@ namespace :deploy do
   # Enable maintenance mode
   after :publishing, 'koha:disable'
   after :publishing, 'koha:clear-cache'
-###  after :publishing, 'koha:updatedb'
+  after :publishing, 'koha:updatedb'
   after :publishing, 'koha:koha-deploy-migrate'
   after :publishing, 'koha:install-swedish-language'
   # This is probably not needed, and could perhaps be removed
