@@ -81,7 +81,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-36350-add-caching-at-koha-objects-level',
   #'gub-bug-31856-serials-search-performance', # Utred om denna går att ta bort
   #'gub-dev-make-extended-attributes-hidable-and-not-editable', # Denna har implementerats på annat sätt och ersätts av nedanstående
-  'gub-bug-39453-add-attribute-type-settings-for-restricting-access-to-extended-attributes',
+  #'gub-bug-39453-add-attribute-type-settings-for-restricting-access-to-extended-attributes', # Ska med men behöver ses över
   'gub-bug-36303-add-hook-circulation-return-no-issue',
   'gub-dev-remove-welcome-email-option',
   'gub-bug-32092-circulation-rules-cache',
