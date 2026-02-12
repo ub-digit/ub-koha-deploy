@@ -25,7 +25,6 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-29597-add-tomarcplugin-option-to-bulkmarcimport',
   'gub-bug-29654-add-option-to-bulkmarimport-for-matching-on-original-id',
   'gub-dev-remove-lost-item-refund-msg',
-  'gub-dev-koha-svc',
   'gub-dev-simplified-messaging',
   'gub-bug-30515-move-overdue-transports-to-patron-messaging-preferences',
   'gub-dev-acquisitions-uncertain-price-on-importing',
@@ -136,6 +135,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-disable-analytics-link',
   'gub-dev-bug-fix-in-booksellers',
   'gub-dev-cardnumber-generator',
+  'gub-dev-koha-svc',
 
   # Security patches
   #'gub-sec-38969-reflected-xss-vulnerability-in-tags', # Med i master
