@@ -78,8 +78,8 @@ set :koha_deploy_rebase_branches, [
   #'gub-bug-32476-add-patron-caching', # Utred om denna går att ta bort
   'gub-bug-31897-new-hook-when-indexing-with-elasticsearch', # Finns likande lösning i 36433 med vi använder vår patch
   'gub-dev-disable-stats',
-  'gub-bug-36350-add-caching-at-koha-objects-level',
-  #'gub-bug-31856-serials-search-performance', # Utred om denna går att ta bort
+  #'gub-bug-36350-add-caching-at-koha-objects-level', # Denna är med i nedanstående branch
+  'gub-bug-31856-serials-search-performance', # Denna har ett beroende till 36350 vilken är med i denna branch
   #'gub-dev-make-extended-attributes-hidable-and-not-editable', # Denna har implementerats på annat sätt och ersätts av nedanstående
   'gub-bug-39453-add-attribute-type-settings-for-restricting-access-to-extended-attributes',
   'gub-bug-36303-add-hook-circulation-return-no-issue',
