@@ -135,6 +135,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-disable-analytics-link',
   'gub-dev-bug-fix-in-booksellers',
   'gub-dev-cardnumber-generator',
+  'gub-dev-patron-identity-check-button',
   'gub-dev-koha-svc',
 
   # Security patches
