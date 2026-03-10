@@ -137,6 +137,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-cardnumber-generator',
   'gub-dev-patron-identity-check-button',
   'gub-dev-hooks-on-status-changes',
+  'gub-dev-shortcut-links-to-vendors',
 
   'gub-dev-koha-svc',
 
