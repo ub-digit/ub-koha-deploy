@@ -102,7 +102,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-library-properties-template-plugin',
   'gub-dev-reserve-template-plugin',
   'gub-dev-do-not-show-patron-data-at-check-in', # Fler saker som kommit till i master ska döljas, se 39642
-  'gub-dev-add-edi-message-button-to-basket-view', # Kanske kan levereras
+  #'gub-dev-add-edi-message-button-to-basket-view', # Finns en liknande lösning i Koha
   'gub-dev-alert-messages-for-other-applications',
   #'gub-dev-publisher-number-delimiter', # Denna är delvis löst i master (exemplarvisningen men inte i resultatlistan), ersätts av nedanstående
   'gub-dev-fix-publisher-number-separator-in-item-results-view', # Kanske kan levereras
@@ -138,6 +138,7 @@ set :koha_deploy_rebase_branches, [
   'gub-dev-patron-identity-check-button',
   'gub-dev-hooks-on-status-changes',
   'gub-dev-shortcut-links-to-vendors',
+  'gub-dev-digcopy-barcode-plugin',
 
   'gub-dev-koha-svc',
 
