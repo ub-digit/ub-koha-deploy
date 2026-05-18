@@ -144,6 +144,8 @@ set :koha_deploy_rebase_branches, [
 
   # Security patches
   #'gub-sec-38969-reflected-xss-vulnerability-in-tags', # Med i master
+  'gub-sec-42048-reflected-xss-in-patron-search-saved-link',
+  'gub-sec-42366-fix-debug-mode-test-for-koha-conf-xml',
 
   'koha-deploy'
 ]
