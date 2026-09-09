@@ -29,7 +29,7 @@ set :koha_deploy_rebase_branches, [
   'gub-bug-30515-move-overdue-transports-to-patron-messaging-preferences',
   'gub-dev-acquisitions-uncertain-price-on-importing',
   'gub-dev-acquisitions-recalculate-price',
-  'gub-dev-css-for-slip-prints',  # Bör flyttas till statisk fil vid tillfälle
+  'gub-dev-slip-prints',
   'gub-dev-set-focus-on-return-buttons',
   'gub-dev-advanced-search-customizations',
   'gub-dev-auto-add-001',
